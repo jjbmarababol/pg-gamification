@@ -1,12 +1,19 @@
 import React, { FunctionComponent } from 'react';
-import { MatchPage } from '../match';
-import { GameStartPage } from '../start';
+import { Switch, Route } from 'react-router-dom';
+import {
+	StartMenuPage,
+	PlayerNamePage,
+	MatchPage
+} from '../pages';
+
 interface IBasePage {}
 
 export const BasePage:FunctionComponent<IBasePage> = (props) => {
 	return (<>
-		
-		<GameStartPage/>
-		{/* <MatchPage/> */}
+		<Switch>
+			<Route exact path='/' component={StartMenuPage}/>
+			<Route exact path='/player-name' component={PlayerNamePage}/>
+			<Route exact path='/match' component={MatchPage}/>
+		</Switch>
 	</>);
 };

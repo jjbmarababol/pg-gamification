@@ -1,2 +1,2 @@
-export * from './match-page';
 export * from './match-timer';
+export * from './match-player-status';
