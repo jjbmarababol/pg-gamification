@@ -7,7 +7,7 @@ interface INavbar {}
 
 const MatchHeader = styled(PageHeader)`
 	padding: 30px 50px;
-	background: #3F6844;
+	background: #012250;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	
 	.ant-page-header-heading-title {
@@ -37,7 +37,7 @@ export const Navbar:FunctionComponent<INavbar> = (props) => {
 	return (<>
 		<MatchHeader
 			title="Jig James"
-			avatar={{ icon: 'user', size: 'large', style: { backgroundColor: '#5DAA68'}}}
+			avatar={{ icon: 'user', size: 'large', style: { backgroundColor: 'rgba(37, 107, 203, 1)'}}}
 			extra={
 				<Row justify='center' align='middle'>
 					<Col xs={24} sm={10}>

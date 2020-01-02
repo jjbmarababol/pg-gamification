@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { Navbar } from '../navbar';
 import { MatchPage } from '../match';
+import { GameStartPage } from '../start';
 interface IBasePage {}
 
 export const BasePage:FunctionComponent<IBasePage> = (props) => {
 	return (<>
-		<Navbar />
-		<MatchPage/>
+		
+		<GameStartPage/>
+		{/* <MatchPage/> */}
 	</>);
 };
