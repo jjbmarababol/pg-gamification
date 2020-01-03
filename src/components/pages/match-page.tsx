@@ -1,40 +1,33 @@
-import React, { FunctionComponent } from 'react';
-import { Row, Col } from 'antd';
-import styled from 'styled-components';
+import React, { FunctionComponent, useState } from 'react';
+import { Typography, Button, Row, Col } from 'antd';
 import { MatchActionButtons } from '../buttons';
 import { MatchTimer } from '../match';
 import { Navbar } from '../navbar';
 import MatchBackground from '../ui/images/bg-home.jpg';
+import '../match/match.css';
 interface IMatchPage{}
 
-const PageLayout = styled.div`
-  min-height: 100vh;
-  background-image: url(${MatchBackground});
-	background-size: cover;
-	animation: gradient-bg 60s linear infinite;
-
-  @keyframes gradient-bg {
-	0% {
-		background-position: 0% 0%;
-	}
-  50% {
-		background-position: 100% 0%;
-	}
-	100% {
-		background-position: 0% 0%;
-	}
-}`;
-
+const { Text } = Typography;
 export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
+
+  const [hasStarted, setHasStarted] = useState<boolean>(false);
+
   return (
-    <PageLayout>
-		<Navbar />
-    <Row style={{minHeight: '50vh'}} type='flex' justify='center' align='middle'>
-      <Col span={20}>
-        <MatchTimer/>
-        <MatchActionButtons />
-      </Col>
-    </Row>
-    </PageLayout>
+    <div className='row--moving-background' style={{ backgroundImage: `url(${MatchBackground})`}}>
+      <Navbar />
+      <Row gutter={[24, 24]} style={{minHeight: '50vh'}} type='flex' justify='center' align='middle'>
+        { !hasStarted && <Col span={20} lg={12} className='col--match-action-question'>
+            <Text className='text--timer' style={{padding: '20px 0'}}>Round 1</Text>
+            <Button className='button--match-action' type='primary' icon='heart' size='large' onClick={()=>setHasStarted(true)} block>Start</Button>
+          </Col> 
+        }
+        {
+          hasStarted && <Col span={20} lg={12}>
+            <MatchTimer/>
+            <MatchActionButtons />
+          </Col>
+        }
+      </Row>
+    </div>
   );
 }

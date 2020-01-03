@@ -15,14 +15,14 @@ export const MatchActionButtons:FunctionComponent<IMatchActionButtons> = (props)
   return (
     <Row gutter={[20, 24]} justify='center' align='middle'>
       <Col xs={24} sm={12}>
-        <ActionButton type='primary' size="large" block>
+        <Button className='button--match-action' type='primary' size="large" block>
           <Icon type="check"/> Yes, I will.
-        </ActionButton>
+        </Button>
       </Col>
       <Col xs={24} sm={12}>
-        <ActionButton type='danger' size="large" block>
+        <Button className='button--match-action' type='danger' size="large" block>
           <Icon type="close"/> No, I won't.
-        </ActionButton>
+        </Button>
       </Col>  
     </Row>
   );

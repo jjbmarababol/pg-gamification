@@ -1,0 +1,26 @@
+.text--timer {
+  display: block;
+  text-align: center;
+  font-weight: bolder;
+  line-height: 1;
+  font-size: 80px;
+  padding: 20px;
+}
+
+.text--question {
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.col--match-action-question {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 25px 0;
+  margin-bottom: 15px;
+}
+
+.button--match-action {
+  height: 50px;
+  font-size: 18px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}

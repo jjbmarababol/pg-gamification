@@ -1,26 +1,9 @@
-import { Typography, Row, Col } from 'antd';
+import { Typography, Row, Col, Button } from 'antd';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-interface IMatchTimer {
-  size?: 'small' | 'medium' | 'large';
-}
+interface IMatchTimer {}
 
 const { Text } = Typography;
-
-const TimerText = styled(Text)`
-  display: block;
-  text-align: center;
-  line-height: 1;
-  font-size: 80px;
-  font-weight: bolder;
-  padding: 20px;
-`;
-
-const QuestionText = styled(TimerText)`
-  font-size: 20px;
-  line-height: 24px;
-`;
 
 export const MatchTimer: FunctionComponent<IMatchTimer> = (props) => {
 
@@ -35,13 +18,14 @@ export const MatchTimer: FunctionComponent<IMatchTimer> = (props) => {
   },[timer]);
 
   return (
-    <Row align="middle" justify="center">
-      <Col span={24}>
+    <Row type='flex' align="middle" justify="center">
+      <Col span={24} className='col--match-action-question'>
         { timer !== 0 && <>
-          <TimerText>{timer}</TimerText>
-          <QuestionText>Will you contribute to the public pool?</QuestionText>
+          <Text className='text--timer'>{timer}</Text>
+          <Text className='text--timer text--question'>Will you contribute to the public pool?</Text>
         </> }
-        { timer === 0 && <TimerText>Time is up!</TimerText> }
+        { timer === 0 && <Text className='text--timer'>Time is up!</Text> }
+        
       </Col>
     </Row>
   );
