@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Row, Col, Typography, Button, Icon, Input } from 'antd';
-import homeBackground from '../ui/images/bg.gif';
+import homeBackground from '../ui/images/bg.jpg';
 import { Link } from 'react-router-dom';
 
 
@@ -12,7 +12,7 @@ export const PlayerNamePage:FunctionComponent<IPlayerNamePage> = (props) => {
 
   return (
     <Row className='row--moving-background' style={{ backgroundImage: `url(${homeBackground})` }} type='flex' justify='center' align='middle'>
-      <Col xs={22} md={10}>
+      <Col xs={20} md={10}>
         <div className='card--transluscent'>
           <Title level={3} style={{ textAlign: 'center' }}>Player Name</Title>
           <Row gutter={[16, 16]}>

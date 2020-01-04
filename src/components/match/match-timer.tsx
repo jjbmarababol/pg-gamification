@@ -25,7 +25,6 @@ export const MatchTimer: FunctionComponent<IMatchTimer> = (props) => {
           <Text className='text--timer text--question'>Will you contribute to the public pool?</Text>
         </> }
         { timer === 0 && <Text className='text--timer'>Time is up!</Text> }
-        
       </Col>
     </Row>
   );

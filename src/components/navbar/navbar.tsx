@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import { Icon, PageHeader, Typography, Row, Col } from 'antd';
 import './navbar.css';
 

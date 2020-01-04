@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Typography, Button, Row, Col } from 'antd';
 import { MatchActionButtons } from '../buttons';
-import { MatchTimer } from '../match';
+import { MatchTimer, MatchResults } from '../match';
 import { Navbar } from '../navbar';
-import MatchBackground from '../ui/images/bg-home.jpg';
+import MatchBackground from '../ui/images/bg.jpg';
 import '../match/match.css';
 interface IMatchPage{}
 
@@ -15,10 +15,15 @@ export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
   return (
     <div className='row--moving-background' style={{ backgroundImage: `url(${MatchBackground})`}}>
       <Navbar />
-      <Row gutter={[24, 24]} style={{minHeight: '50vh'}} type='flex' justify='center' align='middle'>
-        { !hasStarted && <Col span={20} lg={12} className='col--match-action-question'>
-            <Text className='text--timer' style={{padding: '20px 0'}}>Round 1</Text>
-            <Button className='button--match-action' type='primary' icon='heart' size='large' onClick={()=>setHasStarted(true)} block>Start</Button>
+      <Row style={{minHeight: '50vh'}} type='flex' justify='center' align='middle'>
+        { !hasStarted && <Col span={20} lg={12}>
+            <Row type='flex' justify='center' align='middle'>
+              <Col xs={22} md={16}>
+                <Text className='text--timer' style={{ color: 'rgba(255, 255, 255, 1)' }}>Round 1</Text>
+                <Button className='button--match-action' type='primary' icon='heart' size='large' onClick={()=>setHasStarted(true)} block>Start</Button>
+                <MatchResults/>
+              </Col>
+            </Row>
           </Col> 
         }
         {
