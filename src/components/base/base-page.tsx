@@ -1,17 +1,19 @@
 import React, { FunctionComponent } from 'react';
-import { Row, Col } from 'antd';
-import { Navbar } from '../navbar';
-import { MatchActionButtons } from '../buttons';
+import { Switch, Route } from 'react-router-dom';
+import {
+	StartMenuPage,
+	PlayerNamePage,
+	MatchPage
+} from '../pages';
 
 interface IBasePage {}
 
 export const BasePage:FunctionComponent<IBasePage> = (props) => {
 	return (<>
-		<Navbar />
-		<Row justify='center' align='middle'>
-			<Col offset={2}>
-				<MatchActionButtons />
-			</Col>
-		</Row>
+		<Switch>
+			<Route exact path='/' component={StartMenuPage}/>
+			<Route exact path='/player-name' component={PlayerNamePage}/>
+			<Route exact path='/match' component={MatchPage}/>
+		</Switch>
 	</>);
 };
