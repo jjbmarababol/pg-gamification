@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Row, Col, Typography, Button, Icon } from 'antd';
 import companyLogo from '../ui/images/images.png';
-import homeBackground from '../ui/images/bg.jpg';
 import { Link } from 'react-router-dom';
 
 
@@ -12,7 +11,7 @@ interface IStartMenuPage {}
 export const StartMenuPage:FunctionComponent<IStartMenuPage> = (props) => {
 
   return (
-    <Row className='row--moving-background' style={{ backgroundImage: `url(${homeBackground})` }} type='flex' justify='center' align='middle'>
+    <Row className='row--moving-background' type='flex' justify='center' align='middle'>
       <Col xs={20} md={10}>
         <div className='card--transluscent'>
           <div className='company-logo' style={{ backgroundImage: `url(${companyLogo})`}}/>

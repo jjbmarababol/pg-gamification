@@ -1,4 +1,4 @@
-import { Typography, Row, Col, Button } from 'antd';
+import { Typography, Row, Col } from 'antd';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 interface IMatchTimer {}
