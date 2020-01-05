@@ -1,15 +1,18 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Icon, PageHeader, Typography, Row, Col } from 'antd';
-import './navbar.css';
+import { PlayerContext } from '../../contexts';
 
 const { Text } = Typography;
 
 interface INavbar {}
 
 export const Navbar:FunctionComponent<INavbar> = (props) => {
+
+	const { playerName, money } = useContext(PlayerContext);
+
 	return (<>
 		<PageHeader
-			title="Jig James"
+			title={playerName}
 			className='header--match'
 			avatar={{ icon: 'user', size: 'large', style: { backgroundColor: 'rgba(37, 107, 203, 1)'}}}
 			extra={
@@ -18,7 +21,7 @@ export const Navbar:FunctionComponent<INavbar> = (props) => {
 						<Text className="text--status">Round: <span>1</span> <Icon type='trophy' theme='outlined'/></Text>,
 					</Col>
 					<Col xs={24} sm={14}>
-						<Text className="text--status">Money: <span>10,000</span> <Icon type='gold' theme='outlined'/></Text>,
+						<Text className="text--status">Money: <span>{ money }</span> <Icon type='gold' theme='outlined'/></Text>,
 					</Col>
 				</Row>
 			}
