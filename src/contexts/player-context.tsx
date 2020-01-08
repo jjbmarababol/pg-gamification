@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { Component, createContext } from 'react';
 
 interface IPlayer {
   playerName: string;
@@ -18,12 +18,12 @@ export const PlayerContext = createContext({
   setMoney: (money: number): void => {},
 });
 
-export class Player extends React.Component<{}, IPlayer> {
+export class Player extends Component<{}, IPlayer> {
 
   constructor(props: IPlayerContext){
     super(props);
     this.state = {
-      playerName: 'Player',
+      playerName: '',
       money: 0,
     }
   }
