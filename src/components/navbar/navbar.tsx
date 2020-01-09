@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Icon, Typography, Avatar, Row, Col } from 'antd';
-import { PlayerContext, MatchContext } from '../../contexts';
+import { PlayerContext, MatchContext, IMatchState } from '../../contexts';
 
 const { Text } = Typography;
 interface INavbar {}
@@ -9,7 +9,7 @@ export const Navbar:FunctionComponent<INavbar> = (props) => {
 
 	const { playerName, coins } = useContext(PlayerContext);
 	const { round } = useContext(MatchContext);
-	
+
 	return (<>
 		<nav>
 			<Row className='navbar--match' type='flex' align='middle' justify='center'>

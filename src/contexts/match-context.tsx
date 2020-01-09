@@ -1,6 +1,6 @@
 import React, { Component, createContext } from 'react';
 
-interface IMatch {
+export interface IMatchState {
   round: number;
   hasStarted: boolean;
   players: number;
@@ -15,13 +15,16 @@ interface IContribution {
   [key: string]: number;
 }
 
-interface IMatchContext extends IMatch {
+interface IMatchContextAPI extends IMatchState {
   setRound: () => void;
   setHasStarted: (hasStarted: boolean) => void;
   setPlayers: (players: number) => void;
   setPoolAmount: (amount: number) => void;
   setContributions: (contributions: IContribution[]) => void;
+  clearRoundResults:() => void;
 }
+
+interface IMatchContextProps {}
 
 export const MatchContext = createContext({
   round: 1,
@@ -37,46 +40,26 @@ export const MatchContext = createContext({
   setPlayers: (players: number) => {},
   setPoolAmount: (amount: number) => {},
   setContributions: (contributions: IContribution[]) => {},
+  clearRoundResults:() => {},
 });
 
-export class Match extends Component<{}, IMatch> {
+export class Match extends Component<{}, IMatchState> {
+
+  constructor(props: IMatchContextProps) {
+    super(props);
+    this.state = {
+      round: 1,
+      hasStarted: false,
+      players: 6,
+      poolAmount: 0,
+      poolMultiplier: 2,
+      totalAmount: 0,
+      roundReward: 0,
+      contributions: [{}],
+    }
+  }
 
   render() {
-    const setRound = () => {
-      let {round} = this.state;
-      round = round < 6 ? round++: round;
-      return this.setState({
-        round,
-      });
-    };
-
-    const setHasStarted = (hasStarted: boolean) => {
-      return this.setState({
-        hasStarted
-      });
-    };
-
-    const setPlayers = (players: number) => {
-      return this.setState({
-        players
-      });
-    };
-
-    const setPoolAmount = (poolAmount: number) => {
-      this.setState({
-        poolAmount
-      });
-      return calcRoundRewards();
-    };
-
-    const setContributions = (contributions: IContribution[]) => {
-      return this.setState({
-        contributions: [
-          ...[...this.state.contributions],
-          ...contributions,
-        ]
-      })
-    };
 
     const calcRoundRewards = () => {
       const { poolAmount, poolMultiplier, players } = this.state;
@@ -88,21 +71,57 @@ export class Match extends Component<{}, IMatch> {
       });
     };
 
-    const MatchContextAPI:IMatchContext = {
-      round: 1,
-      hasStarted: false,
-      players: 6,
-      poolAmount: 0,
-      poolMultiplier: 2,
-      totalAmount: 0,
-      roundReward: 0,
-      contributions: [{}],
-      setRound,
-      setHasStarted,
-      setPlayers,
-      setPoolAmount,
-      setContributions,
+    const MatchContextAPI:IMatchContextAPI = {
+
+      ...this.state,
+
+      clearRoundResults: () => {
+        this.setState({
+          poolAmount: 0,
+          totalAmount: 0,
+          roundReward: 0,
+          contributions: [{}]
+        })
+      },
+
+      setRound: () => {
+        let {round} = this.state;
+        round = round < 6 ? round++: round;
+        this.setState({
+          round,
+        });
+      },
+
+      setContributions: (contributions: IContribution[]) => {
+        this.setState({
+          contributions: [
+            ...[...this.state.contributions],
+            ...contributions,
+          ]
+        })
+      },
+
+      setPoolAmount: (poolAmount: number) => {
+        this.setState({
+          poolAmount
+        });
+        calcRoundRewards();
+      },
+
+      setPlayers: (players: number) => {
+        this.setState({
+          players
+        });
+      },
+
+      setHasStarted: (hasStarted: boolean) => {
+        this.setState({
+          hasStarted
+        });
+      },
     };
+
+    
 
     return <MatchContext.Provider value={MatchContextAPI}>
       {this.props.children}

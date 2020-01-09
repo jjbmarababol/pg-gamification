@@ -1,32 +1,35 @@
-import React, { FunctionComponent} from 'react';
+import React, { FunctionComponent, useContext} from 'react';
 import { List, Card, Typography } from 'antd';
+import { MatchContext } from '../../contexts';
 
 const { Text } = Typography;
 interface IMatchResults {}
 
-const data = [
 
-  {
-    description: 'Round',
-    value: '1',
-  },
-  {
-    description: 'Pool Amount',
-    value: '70',
-  },
-  {
-    description: 'Total Amount',
-    value: '140',
-  },
-  {
-    description: 'You received',
-    value: '20',
-  },
-
-];
 
 export const MatchResults: FunctionComponent<IMatchResults> = (prop) => {
   
+  const { round, poolAmount, totalAmount, roundReward } = useContext(MatchContext);
+  
+  const data = [
+    {
+      description: 'Round',
+      value: round,
+    },
+    {
+      description: 'Pool Amount',
+      value: poolAmount,
+    },
+    {
+      description: 'Total Amount',
+      value: totalAmount,
+    },
+    {
+      description: 'You received',
+      value: roundReward,
+    },
+  ];
+
   return (
     <Card bordered={false}>
       <List
