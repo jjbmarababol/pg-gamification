@@ -12,7 +12,7 @@ interface IMatch {
 }
 
 interface IContribution {
-  [key:string]: string;
+  [key: string]: number;
 }
 
 interface IMatchContext extends IMatch {
@@ -31,7 +31,7 @@ export const MatchContext = createContext({
   poolMultiplier: 0,
   totalAmount: 0,
   roundReward: 0,
-  contributions: Array(),
+  contributions: {},
   setRound: () => {},
   setHasStarted: (hasStarted: boolean) => {},
   setPlayers: (players: number) => {},
@@ -41,12 +41,7 @@ export const MatchContext = createContext({
 
 export class Match extends Component<{}, IMatch> {
 
-  constructor(props: IMatchContext) {
-    super(props);
-  }
-
   render() {
-
     const setRound = () => {
       let {round} = this.state;
       round = round < 6 ? round++: round;
@@ -77,7 +72,7 @@ export class Match extends Component<{}, IMatch> {
     const setContributions = (contributions: IContribution[]) => {
       return this.setState({
         contributions: [
-          ...this.state.contributions,
+          ...[...this.state.contributions],
           ...contributions,
         ]
       })
@@ -101,7 +96,7 @@ export class Match extends Component<{}, IMatch> {
       poolMultiplier: 2,
       totalAmount: 0,
       roundReward: 0,
-      contributions: [],
+      contributions: [{}],
       setRound,
       setHasStarted,
       setPlayers,

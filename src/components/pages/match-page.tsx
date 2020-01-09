@@ -14,7 +14,7 @@ export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
   return (
     <div className='row--moving-background'>
       <Navbar />
-      <Row style={{minHeight: '50vh'}} type='flex' justify='center' align='middle'>
+      <Row style={{minHeight: '80vh'}} type='flex' justify='center' align='middle'>
         { !hasStarted && <Col span={20} lg={12}>
             <Row type='flex' justify='center' align='middle'>
               <Col xs={22} md={16}>
