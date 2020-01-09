@@ -1,0 +1,31 @@
+.navbar--match {
+  padding: 0 20px;
+  background: #012250;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  min-height: 80px;
+  position: fixed;
+  z-index: 1000;
+  width: 100% !important;
+}
+
+.navbar--player-name {
+  font-size: 18px;
+  font-weight: lighter;
+  color: #FFF;
+  margin-left: 10px;
+}
+
+.navbar--text-status {
+  font-size: 18px;
+  line-height: 26px;
+	color: #FFF;
+	text-shadow: 0 3px 6px rgba(0,0,0,0.3), 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.navbar--icon-left {
+  margin-right: 10px;
+}
+
+.navbar--clearfix {
+  height: 80px;
+}

@@ -1,28 +1,34 @@
-import React, { FunctionComponent } from 'react';
-import { Icon, PageHeader, Typography, Row, Col } from 'antd';
-import './navbar.css';
+import React, { FunctionComponent, useContext } from 'react';
+import { Icon, Typography, Avatar, Row, Col } from 'antd';
+import { PlayerContext, MatchContext, IMatchState } from '../../contexts';
 
 const { Text } = Typography;
-
 interface INavbar {}
 
 export const Navbar:FunctionComponent<INavbar> = (props) => {
+
+	const { playerName, coins } = useContext(PlayerContext);
+	const { round } = useContext(MatchContext);
+
 	return (<>
-		<PageHeader
-			title="Jig James"
-			className='header--match'
-			avatar={{ icon: 'user', size: 'large', style: { backgroundColor: 'rgba(37, 107, 203, 1)'}}}
-			extra={
-				<Row justify='center' align='middle'>
-					<Col xs={24} sm={10}>
-						<Text className="text--status">Round: <span>1</span> <Icon type='trophy' theme='outlined'/></Text>,
-					</Col>
-					<Col xs={24} sm={14}>
-						<Text className="text--status">Money: <span>10,000</span> <Icon type='gold' theme='outlined'/></Text>,
-					</Col>
-				</Row>
-			}
-		/>
-		<div className='navbar--clearfix' />
+		<nav>
+			<Row className='navbar--match' type='flex' align='middle' justify='center'>
+				<Col span={12}>
+					<Avatar icon='user' size='large'/>
+					<Text className='navbar--player-name'>{playerName}</Text>
+				</Col>
+				<Col span={12}>
+					<Row type='flex' justify='center' align='middle'>
+						<Col xs={24} sm={10}>
+							<Text className="navbar--text-status"><Icon type='trophy' className='navbar--icon-left' theme='outlined'/> Round: <span>{ round }</span></Text>,
+						</Col>
+						<Col xs={24} sm={14}>
+							<Text className="navbar--text-status"><Icon type='dollar' className='navbar--icon-left' theme='outlined'/> Coins: <span>{ coins }</span></Text>,
+						</Col>
+					</Row>
+				</Col>
+			</Row>
+		</nav>
+		<div className='navbar--clearfix'/>
 	</>);
 };
