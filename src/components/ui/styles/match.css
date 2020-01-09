@@ -26,3 +26,15 @@
   margin-bottom: 15px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
+.text--round-reward-desc {
+  line-height: 0px;
+}
+
+.text--round-reward-value {
+  line-height: 14px;
+}
+
+.text--round-timers-up {
+  font-size: 32px;
+}

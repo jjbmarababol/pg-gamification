@@ -24,7 +24,13 @@ export const MatchTimer: FunctionComponent<IMatchTimer> = (props) => {
           <Text className='text--timer'>{timer}</Text>
           <Text className='text--timer text--question'>Will you contribute to the public pool?</Text>
         </> }
-        { timer === 0 && <Text className='text--timer'>Time is up!</Text> }
+        { timer === 0 && <>
+            <Text className='text--timer text--round-timers-up'>Time is up!</Text>
+            <Text className='text--timer text--question text--round-reward-desc'>You earned</Text>
+            <Text className='text--timer text--round-reward-value'>12</Text>
+            <Text className='text--timer text--question text--round-reward-desc'>coins</Text>
+            
+          </> }
       </Col>
     </Row>
   );
