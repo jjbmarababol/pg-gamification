@@ -30,14 +30,14 @@ export class Player extends Component<{}, IPlayer> {
 
   public render() {
     const setPlayerName = (playerName: string) => {
-      return this.setState({
+      this.setState({
         playerName
       })
     };
 
-    const setCoins = (coins: number) => {
-      return this.setState({
-        coins
+    const setCoins = (roundReward: number) => {
+      this.setState({
+        coins: Math.round( ( (this.state.coins + roundReward) + Number.EPSILON ) * 100 ) / 100,
       })
     };
 

@@ -27,5 +27,13 @@
 }
 
 .navbar--clearfix {
-  height: 80px;
+  height: 100px;
+}
+
+.text--ellipses {
+    max-width: 55%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
 }
