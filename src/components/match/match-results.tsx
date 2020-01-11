@@ -3,11 +3,10 @@ import { List, Card, Typography } from 'antd';
 import { MatchContext } from '../../contexts';
 
 const { Text } = Typography;
+
 interface IMatchResults {}
 
-
-
-export const MatchResults: FunctionComponent<IMatchResults> = (prop) => {
+export const MatchResults: FunctionComponent<IMatchResults> = (props) => {
   
   const { round, poolAmount, totalAmount, roundReward } = useContext(MatchContext);
   
@@ -31,7 +30,7 @@ export const MatchResults: FunctionComponent<IMatchResults> = (prop) => {
   ];
 
   return (
-    <Card bordered={false}>
+    <Card bordered={false} style={{marginBottom: '15px'}}>
       <List
         itemLayout="horizontal"
         dataSource={data}
