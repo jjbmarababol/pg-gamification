@@ -1,11 +1,10 @@
 .text--timer {
   display: block;
   text-align: center;
-  font-weight: bolder;
-  line-height: 1;
+  font-weight: lighter;
+  line-height: 70px;
   font-size: 60px;
   padding: 20px 0;
-
 }
 
 .text--question {

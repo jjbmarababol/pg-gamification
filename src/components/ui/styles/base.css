@@ -16,11 +16,21 @@ body {
 	animation: gradient-bg 60s linear infinite;
 }
 
-.card--transluscent {
-	background-color: rgba(255, 255, 255, 0.8);
+.card--transluscent.card--transluscent {
+	background-color: rgba(255, 255, 255, 0.65);
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-  padding: 50px 20px 25px;
-  border-radius: 5px;
+  padding: 30px 20px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+}
+
+.centered {
+	text-align: center;
+}
+
+.text--transluscent-slim.text--transluscent-slim {
+	font-weight: lighter;
+	color: rgba(0, 0, 0, 0.65);
 }
 
 .company-logo {

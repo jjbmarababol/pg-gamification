@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { PlayerContext } from '../../contexts';
 
 
-const { Title} = Typography;
+const { Title } = Typography;
 
 interface IPlayerNamePage {}
 
@@ -25,7 +25,7 @@ export const PlayerNamePage:FunctionComponent<IPlayerNamePage> = (props) => {
     <Row className='row--moving-background' type='flex' justify='center' align='middle'>
       <Col xs={20} md={10}>
         <div className='card--transluscent'>
-          <Title level={3} style={{ textAlign: 'center' }}>Player Name</Title>
+          <Title level={3} className='centered text--transluscent-slim'>Player Name</Title>
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Input

@@ -1,46 +1,30 @@
 import React, { FunctionComponent, useContext} from 'react';
 import { List, Card, Typography } from 'antd';
-import { MatchContext } from '../../contexts';
+import { MatchContext, IContribution } from '../../contexts';
 
 const { Text } = Typography;
+
 interface IMatchResults {}
 
-
-
-export const MatchResults: FunctionComponent<IMatchResults> = (prop) => {
+export const MatchResults: FunctionComponent<IMatchResults> = (props) => {
   
-  const { round, poolAmount, totalAmount, roundReward } = useContext(MatchContext);
-  
-  const data = [
-    {
-      description: 'Round',
-      value: round,
-    },
-    {
-      description: 'Pool Amount',
-      value: poolAmount,
-    },
-    {
-      description: 'Total Amount',
-      value: totalAmount,
-    },
-    {
-      description: 'You received',
-      value: roundReward,
-    },
-  ];
+  const { ranking } = useContext(MatchContext);
+
+  const player = (object: IContribution) => {
+    return Object.keys(object)[0];
+  };
 
   return (
-    <Card bordered={false}>
+    <Card bordered={false} title="Total Contributions" style={{marginBottom: '15px'}} className='card--transluscent'>
       <List
         itemLayout="horizontal"
-        dataSource={data}
-        renderItem={item => (
+        dataSource={ranking}
+        renderItem={rank => (
           <List.Item
-            actions={[<Text>{item.value}</Text>]}
+            actions={[<Text style={{ fontWeight: 'bolder'}}>{player(rank)}</Text>]}
           >
             <List.Item.Meta
-              title={<span style={{ fontWeight: 'lighter'}}>{item.description}</span>}
+              title={<span>{rank[player(rank)]}</span>}
             />
           </List.Item>
         )}
