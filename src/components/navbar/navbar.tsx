@@ -15,7 +15,7 @@ export const Navbar:FunctionComponent<INavbar> = (props) => {
 			<Row className='navbar--match' type='flex' align='middle' justify='center'>
 				<Col span={12}>
 					<Avatar icon='user' size='large'/>
-					<Text className='navbar--player-name text--ellipses'>{playerName}</Text>
+					<Text className='navbar--player-name text--ellipses' style={{lineHeight: '24px',}}>{playerName}</Text>
 				</Col>
 				<Col span={12}>
 					<Row type='flex' justify='center' align='middle'>
