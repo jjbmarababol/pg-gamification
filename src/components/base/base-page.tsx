@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import {
+	ChannelsPage,
 	StartMenuPage,
 	PlayerNamePage,
 	MatchPage
@@ -14,6 +15,7 @@ export const BasePage:FunctionComponent<IBasePage> = (props) => {
 		<Switch>
 			<Route exact path='/' component={StartMenuPage}/>
 			<Route exact path='/player-name' component={PlayerNamePage}/>
+			<Route exact path='/channels' component={ChannelsPage}/>
 			<Route exact path='/match' component={MatchPage}/>
 		</Switch>
 	</div>);
