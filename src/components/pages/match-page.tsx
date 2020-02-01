@@ -1,17 +1,16 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { Typography, Button, Row, Col } from 'antd';
+import { Typography, Button, Row, Col, Avatar } from 'antd';
 import { MatchTimer, MatchResults } from '../match';
 import { Navbar } from '../navbar';
 import { MatchContext, PlayerContext } from '../../contexts';
 
 interface IMatchPage{}
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
 
   const { setHasStarted, isFinished, hasStarted, round, randomizeContribution } = useContext(MatchContext);
-
-  const { setCoins } = useContext(PlayerContext);
+  const { setCoins, coins } = useContext(PlayerContext);
   const readyAndStarted = () => {
     setCoins(10);
     randomizeContribution();
@@ -28,6 +27,8 @@ export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
                 <Row type='flex' justify='center' align='middle'>
                   <Col xs={22} md={16} className='card--transluscent'>
                     <Text className='text--timer' style={{letterSpacing: '-5px'}}>Round { round }</Text>
+                    <Text style={{display: 'block', textAlign: 'center'}}>You currently have</Text>
+                    <Title style={{display: 'block', textAlign: 'center', marginTop: 0}}>{coins} <Avatar icon='copyright' size="large" className="status-icon--coins"/></Title>
                     <Button className='button--match-action' type='primary' icon='heart' size='large' onClick={()=>readyAndStarted()} block>Ready</Button>
                   </Col>
                 </Row>
