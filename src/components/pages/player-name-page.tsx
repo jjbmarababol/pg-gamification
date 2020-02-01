@@ -39,7 +39,7 @@ export const PlayerNamePage:FunctionComponent<IPlayerNamePage> = (props) => {
           </Row>
           <Row gutter={[16, 16]}>
             <Col xs={24}>
-              <Link to='/match'>
+              <Link to='/channels'>
                 <Button type="primary" size="large" block onClick={()=>setPlayerName(player)}>
                   <Icon type="save" />
                   Save
