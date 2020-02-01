@@ -71,9 +71,9 @@ export const Match = (props: IMatchContextProps) => {
   const [ players, setPlayers ] = useState<number>(6);
   
   const opponents = [
-    'John',
-    'Nathaniel',
-    'Kleve',
+    'Clyffa',
+    'Nathalie',
+    'Rosie',
     'Joshua',
     'Steve',
   ];

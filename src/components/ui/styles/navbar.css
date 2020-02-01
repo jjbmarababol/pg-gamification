@@ -9,14 +9,14 @@
 }
 
 .navbar--player-name {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: lighter;
   color: #FFF;
   margin-left: 10px;
 }
 
 .navbar--text-status {
-  font-size: 18px;
+  font-size: 30px;
   line-height: 26px;
 	color: #FFF;
 	text-shadow: 0 3px 6px rgba(0,0,0,0.3), 0 3px 6px rgba(0,0,0,0.3);
@@ -36,4 +36,12 @@
     text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
+}
+
+.status-icon--coins.status-icon--coins {
+  line-height: 35px;
+  font-size: 40px;
+  background: rgb(255, 213, 0);
+  color: #af770e;
+  border-radius: 150px;
 }
