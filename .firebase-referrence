@@ -1,0 +1,56 @@
+document.addEventListener("DOMContentLoaded", event =>{
+  const app = firebase.app();
+  // getRealtimePlayerInfo('KLQTrmjs5qDyxC1JlQIP');
+  getPlayers();
+});
+
+function getPlayers() {
+  const db = firebase.firestore();
+  const playersRef = db.collection('players');
+
+  const query = playersRef.where('isPlaying','==', false);
+  query.get()
+    .then(players=>{
+      players.forEach(player=>{
+        const data = player.data();
+        console.log(data.name);
+      });
+    });
+}
+
+function getPlayer(playerID) {
+  const db = firebase.firestore();
+  const players = db.collection('players').doc(playerID);
+  players.get()
+    .then(player => {
+      const data = player.data();
+      console.log(data.name);
+    });
+}
+
+function getRealtimePlayerInfo(playerID) {
+  const db = firebase.firestore();
+  const players = db.collection('players').doc(playerID);
+  players.onSnapshot(player => {
+      const data = player.data();
+      document.getElementById('playerName').innerHTML = data.name;
+  });
+
+}
+
+function updateName(e) {
+  const db = firebase.firestore();
+  const players = db.collection('players').doc('KLQTrmjs5qDyxC1JlQIP');
+  players.update({ name: e.target.value });
+}
+
+function googleLogin() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase.auth().signInWithPopup(provider)
+    .then(result =>{
+      console.log(result);
+      const { displayName: name } = result.user;
+      document.write(`Hello ${name}`);
+    });
+}
