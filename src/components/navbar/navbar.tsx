@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { Icon, Typography, Avatar, Row, Col } from 'antd';
-import { PlayerContext, MatchContext } from '../../contexts';
+import { Typography, Avatar, Row, Col } from 'antd';
+import { PlayerContext } from '../../contexts';
 
 const { Text } = Typography;
 interface INavbar {}
@@ -8,24 +8,17 @@ interface INavbar {}
 export const Navbar:FunctionComponent<INavbar> = (props) => {
 
 	const { playerName, coins } = useContext(PlayerContext);
-	const { round } = useContext(MatchContext);
 
 	return (<>
 		<nav>
 			<Row className='navbar--match' type='flex' align='middle' justify='center'>
 				<Col span={12}>
-					<Avatar icon='user' size='large'/>
-					<Text className='navbar--player-name text--ellipses' style={{lineHeight: '24px',}}>{playerName}</Text>
+					<Avatar icon='user' size='large' style={{fontSize: 36, background: '#1944a8'}}/>
+					<Text className='navbar--player-name text--ellipses' style={{lineHeight: '26px', position: 'relative', top: 6}}>{playerName}</Text>
 				</Col>
 				<Col span={12}>
-					<Row type='flex' justify='center' align='middle'>
-						<Col xs={24} sm={10}>
-							<Text className="navbar--text-status"><Icon type='trophy' className='navbar--icon-left' theme='outlined'/>:  { round }</Text>,
-						</Col>
-						<Col xs={24} sm={14}>
-							<Text className="navbar--text-status"><Icon type='dollar' className='navbar--icon-left' theme='outlined'/>: { coins }</Text>,
-						</Col>
-					</Row>
+					<Avatar icon='copyright' size="large" className="status-icon--coins"/>
+					<Text className='navbar--player-name text--ellipses' style={{lineHeight: '26px', position: 'relative', top: 6}}>{coins}</Text>
 				</Col>
 			</Row>
 		</nav>
