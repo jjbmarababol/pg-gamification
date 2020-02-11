@@ -8,8 +8,8 @@ interface IPlayer {
 }
 
 interface IPlayerContextAPI extends IPlayer {
-  setChannelId: (id: string) => void;
   setPlayerId: (id: string) => void;
+  setChannelId: (id: string) => void;
   setPlayerName: (name: string) => void;
   updateCoins: (coins: number) => void;
 }
@@ -21,6 +21,7 @@ export const PlayerContext = createContext({
   channelId: "",
   coins: 0,
   setPlayerId: (id: string) => {},
+  setChannelId: (id: string) => {},
   setPlayerName: (name: string): void => {},
   updateCoins: (coins: number): void => {}
 });
