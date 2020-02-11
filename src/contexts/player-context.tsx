@@ -28,7 +28,7 @@ export class Player extends Component<{}, IPlayer> {
     super(props);
     this.state = {
       playerName: 'Jigs',
-      playerId: '0km6agVzHnVXnkuy1PDN',
+      playerId: 'bp2RBACn2lSJ58tNfBMp',
       coins: 0,
     }
   }
