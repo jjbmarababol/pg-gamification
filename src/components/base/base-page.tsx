@@ -11,6 +11,7 @@ import homeBackground from '../ui/images/bg.jpg';
 interface IBasePage {}
 
 export const BasePage:FunctionComponent<IBasePage> = (props) => {
+	
 	return (<div className='row--moving-background' style={{ backgroundImage: `url(${homeBackground})`}}>
 		<Switch>
 			<Route exact path='/' component={StartMenuPage}/>

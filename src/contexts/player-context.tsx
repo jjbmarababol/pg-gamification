@@ -2,10 +2,12 @@ import React, { Component, createContext } from 'react';
 
 interface IPlayer {
   playerName: string;
+  playerId: string;
   coins: number,
 }
 
 interface IPlayerContext extends IPlayer {
+  setPlayerId: (id: string) => void;
   setPlayerName: (name: string) => void;
   setCoins: (coins: number) => void;
 }
@@ -13,7 +15,9 @@ interface IPlayerContext extends IPlayer {
 // Initialized Value
 export const PlayerContext = createContext({
   playerName: '',
+  playerId: '',
   coins: 0,
+  setPlayerId: (id: string) => {},
   setPlayerName: (name: string): void => {},
   setCoins: (coins: number): void => {},
 });
@@ -23,7 +27,8 @@ export class Player extends Component<{}, IPlayer> {
   constructor(props: IPlayerContext){
     super(props);
     this.state = {
-      playerName: 'Player',
+      playerName: 'Jigs',
+      playerId: 'bp2RBACn2lSJ58tNfBMp',
       coins: 0,
     }
   }
@@ -35,6 +40,12 @@ export class Player extends Component<{}, IPlayer> {
       })
     };
 
+    const setPlayerId = (playerId: string) => {
+      this.setState({
+        playerId
+      })
+    };
+
     const setCoins = (roundReward: number) => {
       this.setState({
         coins: Math.round( ( (this.state.coins + roundReward) + Number.EPSILON ) * 100 ) / 100,
@@ -43,8 +54,10 @@ export class Player extends Component<{}, IPlayer> {
 
     const PlayerContextAPI: IPlayerContext = {
       playerName: this.state.playerName,
+      playerId: this.state.playerId,
       coins: this.state.coins,
       setPlayerName,
+      setPlayerId,
       setCoins,
     };
 
