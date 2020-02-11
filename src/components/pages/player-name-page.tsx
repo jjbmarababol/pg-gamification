@@ -1,25 +1,50 @@
 import React, { FunctionComponent, useContext, useState, ChangeEvent, useEffect } from 'react';
-import { Row, Col, Typography, Button, Icon, Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { Row, Col, Typography, Button, Icon, Input, notification } from 'antd';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { PlayerContext } from '../../contexts';
-
+import { addPlayer, usePlayers } from '../../hooks';
 
 const { Title } = Typography;
 
-interface IPlayerNamePage {}
+interface IPlayerNamePage extends RouteComponentProps {}
 
 export const PlayerNamePage:FunctionComponent<IPlayerNamePage> = (props) => {
 
+  const { history } = props;
   const { playerName, setPlayerName } = useContext(PlayerContext);
-  const [ player, setPlayer ] = useState<string>('Player');
+  const { players } = usePlayers();
+  const [ player, setPlayer ] = useState<string>('');
+
+  useEffect(()=> {
+    if(playerName){
+      setPlayer(playerName);
+    }
+  },[playerName]);
 
   const onPlayerNameFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPlayer(e.target.value);
   };
 
-  useEffect(()=> {
-    setPlayer(playerName);
-  },[playerName]);
+  const savePlayer = (playerName: string) => {
+      
+      if(!players || !playerName.length) {
+        return;
+      }
+      
+      const existingPlayers = players.map(player=>player.name);
+        
+      if(existingPlayers.includes(playerName)) {
+        return notification.error({
+          message: 'Player Creation Failed',
+          description: 'Name already exists, please try another name instead.',
+        });
+      }
+
+      setPlayerName(playerName);
+      addPlayer(playerName).then(()=>{
+        history.push('/channels');
+      });
+  };
 
   return (
     <Row className='row--moving-background' type='flex' justify='center' align='middle'>
@@ -30,7 +55,7 @@ export const PlayerNamePage:FunctionComponent<IPlayerNamePage> = (props) => {
             <Col span={24}>
               <Input
                 size='large'
-                placeholder="Enter your name here"
+                placeholder="Player name here"
                 value={player}
                 prefix={<Icon type="user" />}
                 onChange={onPlayerNameFieldChange}
@@ -39,12 +64,9 @@ export const PlayerNamePage:FunctionComponent<IPlayerNamePage> = (props) => {
           </Row>
           <Row gutter={[16, 16]}>
             <Col xs={24}>
-              <Link to='/channels'>
-                <Button type="primary" size="large" block onClick={()=>setPlayerName(player)}>
-                  <Icon type="save" />
-                  Save
-                </Button>
-              </Link>
+              <Button type="primary" icon='save' loading={!players} size="large" block onClick={ ()=> players ? savePlayer(player) : null}>
+                Save
+              </Button>
             </Col>
             <Col xs={24}>
               <Link to='/'>
