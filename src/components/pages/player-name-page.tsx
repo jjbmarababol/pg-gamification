@@ -16,7 +16,7 @@ interface IPlayerNamePage extends RouteComponentProps {}
 
 export const PlayerNamePage: FunctionComponent<IPlayerNamePage> = props => {
   const { history } = props;
-  const { playerName, setPlayerName } = useContext(PlayerContext);
+  const { playerName = '', setPlayerName, setPlayerId } = useContext(PlayerContext);
   const { players } = usePlayers();
   const [player, setPlayer] = useState<string>(playerName);
 
