@@ -1,23 +1,23 @@
 import { Channel } from "../hooks";
 
 const defaultChannelValues: Channel = {
-  name: '',
-  docId: '',
+  name: "",
+  docId: "",
   hasStarted: false,
-  players: [],
+  players: []
 };
 
 export const defaultChannels: Channel[] = [
   {
     ...defaultChannelValues,
-    name: 'Atlantic Cod',
-    docId: 'atlantic-cod',
+    name: "Atlantic Cod",
+    docId: "atlantic-cod"
   },
   {
     ...defaultChannelValues,
-    name: 'Blue Shark',
-    docId: 'blue-shark'
-  },
+    name: "Blue Shark",
+    docId: "blue-shark"
+  }
   // {
   //   ...defaultChannelValues,
   //   name: 'Crab',

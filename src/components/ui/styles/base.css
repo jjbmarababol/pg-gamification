@@ -1,40 +1,40 @@
 @font-face {
-	font-family: 'Muli';
-	src: url(../fonts/Muli-Light.ttf);
+  font-family: "Muli";
+  src: url(../fonts/Muli-Light.ttf);
 }
 
 body {
-	background-color: rgb(232, 234, 241) !important;
-	font: 14px/19px 'Muli','Helvetica Neue', Helvetica, Arial, sans-serif !important;
-	-webkit-font-smoothing: antialiased;
+  background-color: rgb(232, 234, 241) !important;
+  font: 14px/19px "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
 }
 
 .row--moving-background {
-	min-height: 100vh;
-	background-attachment: fixed;
-	background-size: cover;
-	animation: gradient-bg 60s linear infinite;
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  animation: gradient-bg 60s linear infinite;
 }
 
 .card--transluscent.card--transluscent {
-	background-color: rgba(255, 255, 255, 0.65);
-  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  background-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   padding: 30px 20px;
-	border-radius: 5px;
-	margin-bottom: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
 }
 
 .centered {
-	text-align: center;
+  text-align: center;
 }
 
 .text--transluscent-slim.text--transluscent-slim {
-	font-weight: lighter;
-	color: rgba(0, 0, 0, 0.65);
+  font-weight: lighter;
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .company-logo {
-	width: 150px;
+  width: 150px;
   height: 150px;
   background-size: cover;
   margin: 0 auto;
@@ -42,19 +42,19 @@ body {
 }
 
 @keyframes gradient-bg {
-	0% {
-		background-position: 0% 0%;
-	}
+  0% {
+    background-position: 0% 0%;
+  }
   25% {
-		background-position: 50% 0%;
-	}
+    background-position: 50% 0%;
+  }
   50% {
-		background-position: 100% 0%;
-	}
+    background-position: 100% 0%;
+  }
   75% {
-		background-position: 50% 0%;
-	}
-	100% {
-		background-position: 0% 0%;
-	}
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }

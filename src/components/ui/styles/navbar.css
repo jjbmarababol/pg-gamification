@@ -1,7 +1,7 @@
 .navbar--match {
   padding: 0 20px;
   background: #012250;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   min-height: 80px;
   position: fixed;
   z-index: 1000;
@@ -11,15 +11,15 @@
 .navbar--player-name {
   font-size: 20px;
   font-weight: lighter;
-  color: #FFF;
+  color: #fff;
   margin-left: 10px;
 }
 
 .navbar--text-status {
   font-size: 30px;
   line-height: 26px;
-	color: #FFF;
-	text-shadow: 0 3px 6px rgba(0,0,0,0.3), 0 3px 6px rgba(0,0,0,0.3);
+  color: #fff;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .navbar--icon-left {
@@ -31,11 +31,11 @@
 }
 
 .text--ellipses {
-    max-width: 55%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
+  max-width: 55%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
 }
 
 .status-icon--coins.status-icon--coins {

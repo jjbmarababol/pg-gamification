@@ -1,57 +1,56 @@
-import { useState, useEffect } from 'react';
-import { firebase } from '../firebase';
-import { defaultChannels } from '../constants';
-import * as admin from 'firebase/app';
+import { useState, useEffect } from "react";
+import { firebase } from "../firebase";
+import { defaultChannels } from "../constants";
+import * as admin from "firebase/app";
 
 export interface RawChannel {
   name: string;
   hasStarted: boolean;
   players: string[];
-
 }
 export interface Channel extends RawChannel {
   docId: string;
 }
 
 export const useChannels = () => {
-
-  const [ channels, setChannels ] = useState<Channel[]>();
-  useEffect(()=> {
-    firebase
+  const [channels, setChannels] = useState<Channel[]>();
+  useEffect(() => {
+    const unsubscribe = firebase
       .firestore()
-      .collection('channels')
-      .orderBy('name')
-      .onSnapshot( snapshot => {
-        const allChannels = snapshot.docs.map(channel=> {
+      .collection("channels")
+      .orderBy("name")
+      .onSnapshot(snapshot => {
+        const allChannels = snapshot.docs.map(channel => {
           const { name, hasStarted = false, players = [] } = channel.data();
-          return ({
+          return {
             name,
             hasStarted,
             players,
-            docId: channel.id,
-          });
+            docId: channel.id
+          };
         });
-      
-        if(JSON.stringify(allChannels) !== JSON.stringify(channels)){
+
+        if (JSON.stringify(allChannels) !== JSON.stringify(channels)) {
           setChannels(allChannels);
         }
       });
+
+    return () => {
+      unsubscribe();
+    };
   });
 
   return { channels, setChannels };
 };
 
-const addChannels = () => {
-
+const addChannels = async () => {
   const db = firebase.firestore();
   const batch = db.batch();
 
-  defaultChannels.forEach(channel=>{
+  defaultChannels.forEach(channel => {
     const { name, docId } = channel;
-    const docRef = db
-      .collection('channels')
-      .doc(docId);
-    batch.set(docRef, { name }, {merge: true});
+    const docRef = db.collection("channels").doc(docId);
+    batch.set(docRef, { name }, { merge: true });
   });
 
   return batch.commit();
@@ -59,35 +58,34 @@ const addChannels = () => {
 
 const joinChannel = async (channelId: string, playerId: string) => {
   const db = firebase.firestore();
-  const channelRef = db.collection('channels').doc(channelId);
-  const playerRef = db.collection('players').doc(playerId);
+  const channelRef = db.collection("channels").doc(channelId);
+  const playerRef = db.collection("players").doc(playerId);
 
   await playerRef.update({
-    isPlaying: true,
+    channelId
   });
 
   return await channelRef.update({
-    players: admin.firestore.FieldValue.arrayUnion(playerId),
+    players: admin.firestore.FieldValue.arrayUnion(playerId)
   });
 };
 
 const leaveChannel = async (channelId: string, playerId: string) => {
   const db = firebase.firestore();
-  const channelRef = db.collection('channels').doc(channelId);
-  const playerRef = db.collection('players').doc(playerId);
+  const channelRef = db.collection("channels").doc(channelId);
+  const playerRef = db.collection("players").doc(playerId);
 
   await playerRef.update({
-    isPlaying: false,
+    channelId: ""
   });
 
   return await channelRef.update({
-    players: admin.firestore.FieldValue.arrayRemove(playerId),
-  })
-  
+    players: admin.firestore.FieldValue.arrayRemove(playerId)
+  });
 };
 
 export const channelAPI = {
   addChannels,
   leaveChannel,
-  joinChannel,
-}
+  joinChannel
+};

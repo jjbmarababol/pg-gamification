@@ -1,69 +1,70 @@
-import { useState, useEffect } from 'react';
-import { firebase } from '../firebase';
+import { useState, useEffect } from "react";
+import { firebase } from "../firebase";
 
 export interface Player {
   name: string;
   docId: string;
-  isPlaying: boolean;
+  channelId: string;
   coins: number;
   contributions: number;
 }
 
 export const usePlayers = () => {
+  const [players, setPlayers] = useState<Player[]>();
 
-  const [ players, setPlayers ] = useState<Player[]>();
-
-  useEffect(()=> {
-    
-    firebase
+  useEffect(() => {
+    const unsubscribe = firebase
       .firestore()
-      .collection('players')
-      .where('isPlaying', '==', false)
-      .orderBy('name')
+      .collection("players")
+      .where("channelId", "==", "")
+      .orderBy("name")
       .onSnapshot(snapshot => {
-        const allPlayers = snapshot.docs.map(channel=> {
-          const { name, isPlaying, coins, contributions } = channel.data();
-          return ({
+        const allPlayers = snapshot.docs.map(channel => {
+          const { name, channelId, coins, contributions } = channel.data();
+          return {
             name,
-            isPlaying,
+            channelId,
             coins,
             contributions,
-            docId: channel.id,
-          });
+            docId: channel.id
+          };
         });
-        
-        if(JSON.stringify(allPlayers) !== JSON.stringify(players)){
+
+        if (JSON.stringify(allPlayers) !== JSON.stringify(players)) {
           setPlayers(allPlayers);
         }
       });
+
+    return () => {
+      unsubscribe();
+    };
   });
 
   return { players, setPlayers };
 };
 
-export const addPlayer = (playerName: string) => {
-
-  return firebase
+export const addPlayer = async (playerName: string) => {
+  return await firebase
     .firestore()
-    .collection('players')
+    .collection("players")
     .add({
       name: playerName,
       coins: 0,
       contributions: 0,
-      isPlaying: false,
+      channelId: ""
     });
 };
 
-export const deletePlayer = (playerId: string) => {
-
-  return firebase
+export const deletePlayer = async (playerId: string) => {
+  return await firebase
     .firestore()
-    .collection('players')
+    .collection("players")
     .doc(playerId)
     .delete()
-    .then(()=>{
-      console.log('Deleted Successfully');
-    }).catch(e=>{
-      console.error('Error: ', e);
+    .then(() => {
+      console.log("Deleted Successfully");
+    })
+    .catch(e => {
+      console.error("Error: ", e);
     });
 };
