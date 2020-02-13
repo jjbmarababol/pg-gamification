@@ -1,57 +1,62 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext, useState } from "react";
 
-interface IPlayer {
-  playerName: string;
-  coins: number,
+interface IPlayerState {
+	playerName: string;
+	playerId: string;
+	channelId: string;
+	coins: number;
 }
 
-interface IPlayerContext extends IPlayer {
-  setPlayerName: (name: string) => void;
-  setCoins: (coins: number) => void;
+interface IPlayerContextAPI extends IPlayerState {
+	setPlayerId: (id: string) => void;
+	setChannelId: (id: string) => void;
+	setPlayerName: (name: string) => void;
+	updateCoins: (coins: number) => void;
 }
 
 // Initialized Value
 export const PlayerContext = createContext({
-  playerName: '',
-  coins: 0,
-  setPlayerName: (name: string): void => {},
-  setCoins: (coins: number): void => {},
+	playerName: "",
+	playerId: "",
+	channelId: "",
+	coins: 0,
+	setPlayerId: (id: string) => {},
+	setChannelId: (id: string) => {},
+	setPlayerName: (name: string): void => {},
+	updateCoins: (coins: number): void => {},
 });
 
-export class Player extends Component<{}, IPlayer> {
-
-  constructor(props: IPlayerContext){
-    super(props);
-    this.state = {
-      playerName: 'Player',
-      coins: 0,
-    }
-  }
-
-  public render() {
-    const setPlayerName = (playerName: string) => {
-      this.setState({
-        playerName
-      })
-    };
-
-    const setCoins = (roundReward: number) => {
-      this.setState({
-        coins: Math.round( ( (this.state.coins + roundReward) + Number.EPSILON ) * 100 ) / 100,
-      })
-    };
-
-    const PlayerContextAPI: IPlayerContext = {
-      playerName: this.state.playerName,
-      coins: this.state.coins,
-      setPlayerName,
-      setCoins,
-    };
-
-    return (
-      <PlayerContext.Provider value={PlayerContextAPI}>
-        {this.props.children}
-      </PlayerContext.Provider>
-    );
-  }
+export interface IPlayerContextProps {
+	children: React.ReactNode;
 }
+
+export const Player = (props: IPlayerContextProps) => {
+	const [playerName, setPlayerName] = useState<string>("");
+	const [playerId, setPlayerId] = useState<string>("");
+	const [channelId, setChannelId] = useState<string>("");
+	const [coins, setCoins] = useState<number>(0);
+
+	const updateCoins = (acquired: number) => {
+		setCoins(
+			(prevState) =>
+				Math.round((prevState + acquired + Number.EPSILON) * 100) / 100
+		);
+	};
+
+	const PlayerContextAPI: IPlayerContextAPI = {
+		playerId,
+		playerName,
+		channelId,
+		coins,
+		setPlayerId,
+		setPlayerName,
+		setChannelId,
+		updateCoins,
+	};
+
+	return (
+		<PlayerContext.Provider value={PlayerContextAPI}>
+			{props.children}
+		</PlayerContext.Provider>
+	);
+};
