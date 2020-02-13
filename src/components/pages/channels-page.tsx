@@ -10,7 +10,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = props => {
   const { history } = props;
   const { addChannels, joinChannel } = channelAPI;
   const { channels } = useChannels();
-  const { playerId } = useContext(PlayerContext);
+  const { playerId, setChannelId } = useContext(PlayerContext);
 
   useEffect(() => {
     (async () => {

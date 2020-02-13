@@ -14,7 +14,6 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = props 
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const { contributions, setContributions } = useContext(MatchContext);
   const { playerName, updateCoins } = useContext(PlayerContext);
-
   const setSelectedContribution = (contribution: number) => {
     setHasSelected(true);
     setSelectedOption(contribution);
