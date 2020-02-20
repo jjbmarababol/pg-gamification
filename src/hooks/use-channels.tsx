@@ -19,14 +19,14 @@ export const useChannels = () => {
       .firestore()
       .collection("channels")
       .orderBy("name")
-      .onSnapshot(snapshot => {
-        const allChannels = snapshot.docs.map(channel => {
+      .onSnapshot((snapshot) => {
+        const allChannels = snapshot.docs.map((channel) => {
           const { name, hasStarted = false, players = [] } = channel.data();
           return {
             name,
             hasStarted,
             players,
-            docId: channel.id
+            docId: channel.id,
           };
         });
         if (JSON.stringify(allChannels) !== JSON.stringify(channels)) {
@@ -46,7 +46,7 @@ const addChannels = async () => {
   const db = firebase.firestore();
   const batch = db.batch();
 
-  defaultChannels.forEach(channel => {
+  defaultChannels.forEach((channel) => {
     const { name, docId } = channel;
     const docRef = db.collection("channels").doc(docId);
     batch.set(docRef, { name }, { merge: true });
@@ -61,11 +61,11 @@ const joinChannel = async (channelId: string, playerId: string) => {
   const playerRef = db.collection("players").doc(playerId);
 
   await playerRef.update({
-    channelId
+    channelId,
   });
 
   return await channelRef.update({
-    players: admin.firestore.FieldValue.arrayUnion(playerId)
+    players: admin.firestore.FieldValue.arrayUnion(playerId),
   });
 };
 
@@ -75,16 +75,16 @@ const leaveChannel = async (channelId: string, playerId: string) => {
   const playerRef = db.collection("players").doc(playerId);
 
   await playerRef.update({
-    channelId: ""
+    channelId: "",
   });
 
   return await channelRef.update({
-    players: admin.firestore.FieldValue.arrayRemove(playerId)
+    players: admin.firestore.FieldValue.arrayRemove(playerId),
   });
 };
 
 export const channelAPI = {
   addChannels,
   leaveChannel,
-  joinChannel
+  joinChannel,
 };

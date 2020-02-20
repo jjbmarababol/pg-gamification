@@ -3,7 +3,7 @@ import React, {
   FunctionComponent,
   useEffect,
   useState,
-  useContext
+  useContext,
 } from "react";
 import { MatchContext, PlayerContext, IContribution } from "../../contexts";
 import { MatchActionButtons } from "../buttons";
@@ -15,7 +15,7 @@ interface IMatchTimer {}
 
 const { Text } = Typography;
 
-export const MatchTimer: FunctionComponent<IMatchTimer> = props => {
+export const MatchTimer: FunctionComponent<IMatchTimer> = (props) => {
   const [timer, setTimer] = useState<number>(10);
   const [roundContributions, setRoundCountributions] = useState<
     IContribution[]
@@ -29,7 +29,7 @@ export const MatchTimer: FunctionComponent<IMatchTimer> = props => {
     round,
     contributions,
     matchContributions,
-    setMatchContributions
+    setMatchContributions,
   } = useContext(MatchContext);
 
   useEffect(() => {

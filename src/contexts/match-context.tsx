@@ -53,7 +53,7 @@ export const MatchContext = createContext<IMatchContextAPI>({
   setPoolAmount: (amount: number) => {},
   setContributions: (contributions: IContribution[]) => {},
   setMatchContributions: (contributions: IContribution[]) => {},
-  randomizeContribution: () => {}
+  randomizeContribution: () => {},
 });
 
 export const Match = (props: IMatchContextProps) => {
@@ -64,7 +64,7 @@ export const Match = (props: IMatchContextProps) => {
   const [poolMultiplier] = useState<number>(2);
   const [contributions, setContributions] = useState<IContribution[]>([]);
   const [matchContributions, setMatchContributions] = useState<IContribution[]>(
-    []
+    [],
   );
   const [ranking, setRanking] = useState<IContribution[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -81,9 +81,9 @@ export const Match = (props: IMatchContextProps) => {
     let opponentContributions: IContribution[] = [];
     const contributionOptions = [0, 10];
 
-    opponents.forEach(opponent => {
+    opponents.forEach((opponent) => {
       opponentContributions.push({
-        [opponent]: Number(_.sample(contributionOptions))
+        [opponent]: Number(_.sample(contributionOptions)),
       });
     });
 
@@ -93,7 +93,7 @@ export const Match = (props: IMatchContextProps) => {
   useEffect(() => {
     const totalContributions = (contributions: IContribution[]) => {
       let totalContributions: number = 0;
-      contributions.forEach(contribution => {
+      contributions.forEach((contribution) => {
         totalContributions += contribution[Object.keys(contribution)[0]];
       });
       setPoolAmount(totalContributions);
@@ -115,10 +115,10 @@ export const Match = (props: IMatchContextProps) => {
         .groupBy(function(arr) {
           return getPlayerName(arr);
         })
-        .map(obj => {
+        .map((obj) => {
           let value = 0;
           let player = "";
-          obj.forEach(ob => {
+          obj.forEach((ob) => {
             player = getPlayerName(ob);
             value += ob[player];
           });
@@ -160,7 +160,7 @@ export const Match = (props: IMatchContextProps) => {
     setPoolAmount,
     setContributions,
     setMatchContributions,
-    randomizeContribution
+    randomizeContribution,
   };
 
   return (

@@ -6,7 +6,7 @@ import { PlayerContext } from "../../contexts";
 
 interface IMatchResults extends RouteComponentProps {}
 
-export const ChannelsPage: FunctionComponent<IMatchResults> = props => {
+export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
   const { history } = props;
   const { addChannels, joinChannel } = channelAPI;
   const { channels } = useChannels();
@@ -19,7 +19,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = props => {
   }, [addChannels]);
 
   const selectChannel = async (channelId: string) => {
-    if (!channels || !channelId.length) {
+    if (!channels || playerId.length === 0) {
       return;
     }
 
@@ -41,12 +41,12 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = props => {
           bordered={false}
           title="Select Channel"
           style={{ marginBottom: "15px" }}
-          className="card--transluscent channel__list"
+          className="channel__list"
         >
           <List
             itemLayout="horizontal"
             dataSource={channels}
-            renderItem={channel => (
+            renderItem={(channel) => (
               <List.Item
                 actions={[
                   <>
@@ -62,7 +62,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = props => {
                           Enter
                         </Button>
                       )}
-                  </>
+                  </>,
                 ]}
               >
                 <List.Item.Meta

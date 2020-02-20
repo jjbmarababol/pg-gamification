@@ -23,7 +23,7 @@ export const PlayerContext = createContext({
   setPlayerId: (id: string) => {},
   setChannelId: (id: string) => {},
   setPlayerName: (name: string): void => {},
-  updateCoins: (coins: number): void => {}
+  updateCoins: (coins: number): void => {},
 });
 
 export interface IPlayerContextProps {
@@ -38,8 +38,8 @@ export const Player = (props: IPlayerContextProps) => {
 
   const updateCoins = (acquired: number) => {
     setCoins(
-      prevState =>
-        Math.round((prevState + acquired + Number.EPSILON) * 100) / 100
+      (prevState) =>
+        Math.round((prevState + acquired + Number.EPSILON) * 100) / 100,
     );
   };
 
@@ -51,7 +51,7 @@ export const Player = (props: IPlayerContextProps) => {
     setPlayerId,
     setPlayerName,
     setChannelId,
-    updateCoins
+    updateCoins,
   };
 
   return (

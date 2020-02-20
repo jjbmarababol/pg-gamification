@@ -7,13 +7,13 @@ import { MatchContext, PlayerContext } from "../../contexts";
 interface IMatchPage {}
 
 const { Text, Title } = Typography;
-export const MatchPage: FunctionComponent<IMatchPage> = props => {
+export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
   const {
     setHasStarted,
     isFinished,
     hasStarted,
     round,
-    randomizeContribution
+    randomizeContribution,
   } = useContext(MatchContext);
   const { updateCoins, coins } = useContext(PlayerContext);
   const readyAndStarted = () => {
@@ -50,7 +50,7 @@ export const MatchPage: FunctionComponent<IMatchPage> = props => {
                       style={{
                         display: "block",
                         textAlign: "center",
-                        marginTop: 0
+                        marginTop: 0,
                       }}
                     >
                       {coins}{" "}

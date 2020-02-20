@@ -1,10 +1,6 @@
 .channel__members {
   margin-bottom: 5px;
   min-width: 68px;
-  font-weight: bolder;
-  color: #1890ff;
-}
-
-.channel__list .ant-card-body {
-  padding: 5px 5px;
+  font-size: 24px;
+  padding: 10px 0;
 }

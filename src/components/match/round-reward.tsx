@@ -7,7 +7,7 @@ interface IRoundRewards {
   reward: number;
 }
 
-export const RoundReward: FunctionComponent<IRoundRewards> = props => {
+export const RoundReward: FunctionComponent<IRoundRewards> = (props) => {
   const { reward } = props;
   return (
     <>

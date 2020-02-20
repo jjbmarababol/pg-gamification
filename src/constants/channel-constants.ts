@@ -4,20 +4,20 @@ const defaultChannelValues: Channel = {
   name: "",
   docId: "",
   hasStarted: false,
-  players: []
+  players: [],
 };
 
 export const defaultChannels: Channel[] = [
   {
     ...defaultChannelValues,
     name: "Atlantic Cod",
-    docId: "atlantic-cod"
+    docId: "atlantic-cod",
   },
   {
     ...defaultChannelValues,
     name: "Blue Shark",
-    docId: "blue-shark"
-  }
+    docId: "blue-shark",
+  },
   // {
   //   ...defaultChannelValues,
   //   name: 'Crab',

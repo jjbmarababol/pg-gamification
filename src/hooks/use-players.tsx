@@ -18,15 +18,15 @@ export const usePlayers = () => {
       .collection("players")
       .where("channelId", "==", "")
       .orderBy("name")
-      .onSnapshot(snapshot => {
-        const allPlayers = snapshot.docs.map(channel => {
+      .onSnapshot((snapshot) => {
+        const allPlayers = snapshot.docs.map((channel) => {
           const { name, channelId, coins, contributions } = channel.data();
           return {
             name,
             channelId,
             coins,
             contributions,
-            docId: channel.id
+            docId: channel.id,
           };
         });
 
@@ -51,7 +51,7 @@ export const addPlayer = async (playerName: string) => {
       name: playerName,
       coins: 0,
       contributions: 0,
-      channelId: ""
+      channelId: "",
     });
 };
 
@@ -64,7 +64,7 @@ export const deletePlayer = async (playerId: string) => {
     .then(() => {
       console.log("Deleted Successfully");
     })
-    .catch(e => {
+    .catch((e) => {
       console.error("Error: ", e);
     });
 };

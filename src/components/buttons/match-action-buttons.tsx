@@ -2,14 +2,16 @@ import React, {
   FunctionComponent,
   useState,
   useContext,
-  useEffect
+  useEffect,
 } from "react";
 import { Button, Icon, Row, Col } from "antd";
 import { MatchContext, PlayerContext } from "../../contexts";
 
 interface IMatchActionButtons {}
 
-export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = props => {
+export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
+  props,
+) => {
   const [hasSelected, setHasSelected] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const { contributions, setContributions } = useContext(MatchContext);
@@ -21,11 +23,11 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = props 
 
   useEffect(() => {
     const requestContributions = contributions.filter(
-      contribution => Object.keys(contribution)[0] !== playerName
+      (contribution) => Object.keys(contribution)[0] !== playerName,
     );
     setContributions([
       ...requestContributions,
-      { [playerName]: selectedOption }
+      { [playerName]: selectedOption },
     ]);
     updateCoins(-selectedOption);
     // eslint-disable-next-line

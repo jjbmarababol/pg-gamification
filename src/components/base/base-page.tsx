@@ -4,13 +4,13 @@ import {
   ChannelsPage,
   StartMenuPage,
   PlayerNamePage,
-  MatchPage
+  MatchPage,
 } from "../pages";
 import homeBackground from "../ui/images/bg.jpg";
 
 interface IBasePage {}
 
-export const BasePage: FunctionComponent<IBasePage> = props => {
+export const BasePage: FunctionComponent<IBasePage> = (props) => {
   return (
     <div
       className="row--moving-background"
