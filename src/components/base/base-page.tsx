@@ -5,6 +5,7 @@ import {
   StartMenuPage,
   PlayerNamePage,
   MatchPage,
+  WaitingPage,
 } from "../pages";
 import homeBackground from "../ui/images/bg.jpg";
 
@@ -16,12 +17,12 @@ export const BasePage: FunctionComponent<IBasePage> = (props) => {
       className="row--moving-background"
       style={{ backgroundImage: `url(${homeBackground})` }}
     >
-      {/* return (<div className='row--moving-background'> */}
       <Switch>
         <Route exact path="/" component={StartMenuPage} />
         <Route exact path="/player-name" component={PlayerNamePage} />
         <Route exact path="/channels" component={ChannelsPage} />
-        <Route exact path="/match" component={MatchPage} />
+        <Route path="/match/:id" component={MatchPage} />
+        <Route path="/room/:id" component={WaitingPage} />
       </Switch>
     </div>
   );
