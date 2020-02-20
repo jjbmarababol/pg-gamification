@@ -6,7 +6,7 @@ const { Text } = Typography;
 
 interface IMatchResults {}
 
-export const MatchResults: FunctionComponent<IMatchResults> = props => {
+export const MatchResults: FunctionComponent<IMatchResults> = (props) => {
   const { ranking } = useContext(MatchContext);
 
   const player = (object: IContribution) => {
@@ -23,10 +23,10 @@ export const MatchResults: FunctionComponent<IMatchResults> = props => {
       <List
         itemLayout="horizontal"
         dataSource={ranking}
-        renderItem={rank => (
+        renderItem={(rank) => (
           <List.Item
             actions={[
-              <Text style={{ fontWeight: "bolder" }}>{player(rank)}</Text>
+              <Text style={{ fontWeight: "bolder" }}>{player(rank)}</Text>,
             ]}
           >
             <List.Item.Meta title={<span>{rank[player(rank)]}</span>} />

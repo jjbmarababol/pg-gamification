@@ -5,7 +5,7 @@ import { PlayerContext } from "../../contexts";
 const { Text } = Typography;
 interface INavbar {}
 
-export const Navbar: FunctionComponent<INavbar> = props => {
+export const Navbar: FunctionComponent<INavbar> = (props) => {
   const { playerName, coins } = useContext(PlayerContext);
 
   return (

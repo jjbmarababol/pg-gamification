@@ -8,7 +8,7 @@ const firebaseConfig = firebase.initializeApp({
   projectId: "pg-gamification",
   storageBucket: "pg-gamification.appspot.com",
   messagingSenderId: "159004737280",
-  appId: "1:159004737280:web:b2285ca084ec9158997de5"
+  appId: "1:159004737280:web:b2285ca084ec9158997de5",
 });
 
 export { firebaseConfig as firebase };

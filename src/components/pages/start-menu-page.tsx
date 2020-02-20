@@ -7,7 +7,7 @@ const { Title } = Typography;
 
 interface IStartMenuPage {}
 
-export const StartMenuPage: FunctionComponent<IStartMenuPage> = props => {
+export const StartMenuPage: FunctionComponent<IStartMenuPage> = (props) => {
   return (
     <Row
       className="row--moving-background"
@@ -27,7 +27,7 @@ export const StartMenuPage: FunctionComponent<IStartMenuPage> = props => {
               textAlign: "center",
               color: "rgb(98, 114, 123)",
               fontWeight: 100,
-              marginBottom: 25
+              marginBottom: 25,
             }}
           >
             Public Goods Game

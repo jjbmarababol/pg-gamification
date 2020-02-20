@@ -1,0 +1,10 @@
+.loading__background {
+	height: 100vh;
+	background: linear-gradient(to top, #015871, transparent);
+}
+
+.loading__icon {
+	text-align: center;
+	font-size: 10rem;
+	color: aliceblue;
+}

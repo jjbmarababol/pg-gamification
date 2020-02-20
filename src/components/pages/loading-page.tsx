@@ -1,10 +1,21 @@
 import React, { FunctionComponent } from "react";
-import loading from "../ui/images/loading-whale.gif";
+import { Row, Col, Icon } from "antd";
 
 interface ILoadingPage {}
 
-export const LoadingPage: FunctionComponent<ILoadingPage> = props => {
+export const LoadingPage: FunctionComponent<ILoadingPage> = (props) => {
   return (
-    <div style={{ backgroundImage: `url(${loading})`, height: "100vh" }}></div>
+    <Row
+      className="row--moving-background"
+      type="flex"
+      justify="center"
+      align="middle"
+    >
+      <Col xs={20} md={10}>
+        <div className="loading__icon">
+          <Icon type="loading" theme="outlined" />
+        </div>
+      </Col>
+    </Row>
   );
 };

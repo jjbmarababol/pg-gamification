@@ -6,28 +6,28 @@ const { Text } = Typography;
 
 interface IRoundResults {}
 
-export const RoundResults: FunctionComponent<IRoundResults> = props => {
+export const RoundResults: FunctionComponent<IRoundResults> = (props) => {
   const { round, poolAmount, totalAmount, roundReward } = useContext(
-    MatchContext
+    MatchContext,
   );
 
   const data = [
     {
       description: "Round",
-      value: round
+      value: round,
     },
     {
       description: "Pool Amount",
-      value: poolAmount
+      value: poolAmount,
     },
     {
       description: "Total Amount",
-      value: totalAmount
+      value: totalAmount,
     },
     {
       description: "You received",
-      value: roundReward
-    }
+      value: roundReward,
+    },
   ];
 
   return (
@@ -35,7 +35,7 @@ export const RoundResults: FunctionComponent<IRoundResults> = props => {
       <List
         itemLayout="horizontal"
         dataSource={data}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item actions={[<Text>{item.value}</Text>]}>
             <List.Item.Meta
               title={
