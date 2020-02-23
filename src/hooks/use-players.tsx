@@ -9,24 +9,25 @@ export interface Player {
   contributions: number;
 }
 
-export const usePlayers = () => {
+export const usePlayers = (id?: string) => {
+  const channelId = id ? id : "";
   const [players, setPlayers] = useState<Player[]>();
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
       .collection("players")
-      .where("channelId", "==", "")
+      .where("channelId", "==", channelId)
       .orderBy("name")
       .onSnapshot((snapshot) => {
-        const allPlayers = snapshot.docs.map((channel) => {
-          const { name, channelId, coins, contributions } = channel.data();
+        const allPlayers = snapshot.docs.map((player) => {
+          const { name, channelId, coins, contributions } = player.data();
           return {
             name,
             channelId,
             coins,
             contributions,
-            docId: channel.id,
+            docId: player.id,
           };
         });
 
@@ -41,6 +42,26 @@ export const usePlayers = () => {
   });
 
   return { players, setPlayers };
+};
+
+export const getPlayersByChannel = async (channelId: string) => {
+  let allPlayers;
+
+  firebase
+    .firestore()
+    .collection("players")
+    .where("channelId", "==", channelId)
+    .orderBy("name")
+    .onSnapshot((snapshot) => {
+      allPlayers = snapshot.docs.map((player) => {
+        const { name } = player.data();
+        return {
+          name,
+          docId: player.id,
+        };
+      });
+    });
+  return allPlayers;
 };
 
 export const addPlayer = async (playerName: string) => {
