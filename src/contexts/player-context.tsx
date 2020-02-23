@@ -31,9 +31,9 @@ export interface IPlayerContextProps {
 }
 
 export const Player = (props: IPlayerContextProps) => {
-  const [playerName, setPlayerName] = useState<string>("");
-  const [playerId, setPlayerId] = useState<string>("");
-  const [channelId, setChannelId] = useState<string>("");
+  const [playerName, setPlayerName] = useState<string>("Jigs");
+  const [playerId, setPlayerId] = useState<string>("Z1saX25Py2kskFKyMUaj");
+  const [channelId, setChannelId] = useState<string>("blue-shark");
   const [coins, setCoins] = useState<number>(0);
 
   const updateCoins = (acquired: number) => {

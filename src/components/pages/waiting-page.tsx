@@ -1,38 +1,29 @@
 import React, {
   FunctionComponent,
   useEffect,
-  useContext,
   useState,
+  useContext,
 } from "react";
 import { List, Card, Col, Row, Button } from "antd";
 import { RouteComponentProps, useParams, Link } from "react-router-dom";
-import { getPlayersByChannel, usePlayers } from "../../hooks";
-import { PlayerContext } from "../../contexts";
+import { usePlayers } from "../../hooks";
 import { isUndefined } from "util";
 import { LoadingPage } from "./loading-page";
+import { PlayerContext } from "../../contexts";
 
 interface IWaitingPageProps extends RouteComponentProps {}
 
 export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
   const { channelId = "blue-shark" } = useParams();
-  const { history } = props;
   const { players } = usePlayers(channelId);
+  const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!players) {
       setIsLoading(true);
     }
-    console.log(players);
   }, [players]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!channelId) {
-  //       return;
-  //     }
-  //   })();
-  // }, [channelId]);
 
   let Page = <></>;
 
@@ -52,7 +43,9 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
           <Card
             bordered={false}
             style={{ marginBottom: "15px" }}
-            title={`${isUndefined(players) ? 0 : players.length}/6 Waiting.. `}
+            title={`${isUndefined(players) ? 0 : players.length}/6 ${
+              players.length === 6 ? "Game Ready!" : "Waiting.."
+            } `}
             className="channel__list"
           >
             <List
@@ -63,7 +56,9 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
                   <List.Item.Meta
                     title={
                       <span style={{ fontWeight: "bolder" }}>
-                        {player.name}
+                        {`${player.name} ${
+                          player.docId === playerId ? "(You)" : ""
+                        }`}
                       </span>
                     }
                   />
@@ -71,9 +66,11 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
               )}
             />
           </Card>
-          {players.length !== 6 && (
+          {players.length === 6 && (
             <Link to={`/match/${channelId}`}>
-              <Button>Enter</Button>
+              <Button type="primary" size="large" icon="heart" block>
+                Enter
+              </Button>
             </Link>
           )}
         </Col>
