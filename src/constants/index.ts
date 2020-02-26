@@ -1,1 +1,1 @@
-export * from "./channel-constants";
+export * from './channel-constants';

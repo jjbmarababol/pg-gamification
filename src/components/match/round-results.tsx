@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useContext } from "react";
-import { List, Card, Typography } from "antd";
-import { MatchContext } from "../../contexts";
+import React, { FunctionComponent, useContext } from 'react';
+import { List, Card, Typography } from 'antd';
+import { MatchContext } from '../../contexts';
 
 const { Text } = Typography;
 
@@ -13,19 +13,19 @@ export const RoundResults: FunctionComponent<IRoundResults> = (props) => {
 
   const data = [
     {
-      description: "Round",
+      description: 'Round',
       value: round,
     },
     {
-      description: "Pool Amount",
+      description: 'Pool Amount',
       value: poolAmount,
     },
     {
-      description: "Total Amount",
+      description: 'Total Amount',
       value: totalAmount,
     },
     {
-      description: "You received",
+      description: 'You received',
       value: roundReward,
     },
   ];
@@ -39,7 +39,7 @@ export const RoundResults: FunctionComponent<IRoundResults> = (props) => {
           <List.Item actions={[<Text>{item.value}</Text>]}>
             <List.Item.Meta
               title={
-                <span style={{ fontWeight: "bolder" }}>{item.description}</span>
+                <span style={{ fontWeight: 'bolder' }}>{item.description}</span>
               }
             />
           </List.Item>

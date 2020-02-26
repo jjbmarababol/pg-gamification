@@ -3,18 +3,18 @@ import React, {
   useEffect,
   useState,
   useContext,
-} from "react";
-import { List, Card, Col, Row, Button } from "antd";
-import { RouteComponentProps, useParams, Link } from "react-router-dom";
-import { usePlayers } from "../../hooks";
-import { isUndefined } from "util";
-import { LoadingPage } from "./loading-page";
-import { PlayerContext } from "../../contexts";
+} from 'react';
+import { List, Card, Col, Row, Button } from 'antd';
+import { RouteComponentProps, useParams, Link } from 'react-router-dom';
+import { usePlayers } from '../../hooks';
+import { isUndefined } from 'util';
+import { LoadingPage } from './loading-page';
+import { PlayerContext } from '../../contexts';
 
 interface IWaitingPageProps extends RouteComponentProps {}
 
 export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
-  const { channelId = "blue-shark" } = useParams();
+  const { channelId = 'blue-shark' } = useParams();
   const { players } = usePlayers(channelId);
   const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,9 +42,9 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
         <Col xs={20} md={10}>
           <Card
             bordered={false}
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: '15px' }}
             title={`${isUndefined(players) ? 0 : players.length}/6 ${
-              players.length === 6 ? "Game Ready!" : "Waiting.."
+              players.length === 6 ? 'Game Ready!' : 'Waiting..'
             } `}
             className="channel__list"
           >
@@ -52,10 +52,24 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
               itemLayout="horizontal"
               dataSource={players}
               renderItem={(player) => (
-                <List.Item actions={[<p className={player.docId === playerId ? 'room__player-self': ''}>Ready</p>]}>
+                <List.Item
+                  actions={[
+                    <p
+                      className={
+                        player.docId === playerId ? 'room__player-self' : ''
+                      }
+                    >
+                      Ready
+                    </p>,
+                  ]}
+                >
                   <List.Item.Meta
                     title={
-                      <span className={player.docId === playerId ? 'room__player-self': ''}>
+                      <span
+                        className={
+                          player.docId === playerId ? 'room__player-self' : ''
+                        }
+                      >
                         {player.name}
                       </span>
                     }

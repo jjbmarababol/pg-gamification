@@ -3,17 +3,17 @@
   "name": "Public Goods Gamification",
   "icons": [
     {
-      "src": "rare-icon.ico",
+      "src": "money-bag.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "rare-icon.ico",
+      "src": "rare-icon.svg",
       "type": "image/x-icon",
       "sizes": "192x192"
     },
     {
-      "src": "rare-icon.ico",
+      "src": "rare-icon.svg",
       "type": "image/x-icon",
       "sizes": "512x512"
     }

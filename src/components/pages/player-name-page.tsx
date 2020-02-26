@@ -3,12 +3,12 @@ import React, {
   useContext,
   useState,
   ChangeEvent,
-} from "react";
-import { Row, Col, Typography, Button, Icon, Input, notification } from "antd";
-import { Link, RouteComponentProps } from "react-router-dom";
-import { PlayerContext } from "../../contexts";
-import { addPlayer, usePlayers } from "../../hooks";
-import { LoadingPage } from "../pages";
+} from 'react';
+import { Row, Col, Typography, Button, Icon, Input, notification } from 'antd';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { PlayerContext } from '../../contexts';
+import { addPlayer, usePlayers } from '../../hooks';
+import { LoadingPage } from '../pages';
 
 const { Title } = Typography;
 
@@ -34,15 +34,15 @@ export const PlayerNamePage: FunctionComponent<IPlayerNamePage> = (props) => {
     if (existingPlayers.includes(playerName)) {
       setIsLoading(false);
       return notification.error({
-        message: "Player Creation Failed",
-        description: "Name already exists, please try another name instead.",
+        message: 'Player Creation Failed',
+        description: 'Name already exists, please try another name instead.',
       });
     }
     setPlayerName(playerName);
     addPlayer(playerName).then((result) => {
       setPlayerId(result.id);
       setIsLoading(false);
-      history.push("/channels");
+      history.push('/channels');
     });
   };
 

@@ -1,5 +1,5 @@
-import { Typography } from "antd";
-import React, { FunctionComponent } from "react";
+import { Typography } from 'antd';
+import React, { FunctionComponent } from 'react';
 
 const { Text } = Typography;
 

@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from "react";
-import _ from "lodash";
+import React, { createContext, useState, useEffect } from 'react';
+import _ from 'lodash';
 
 export interface IMatchState {
   round: number;
@@ -71,7 +71,7 @@ export const Match = (props: IMatchContextProps) => {
   const [roundReward, setRoundReward] = useState<number>(0);
   const [players, setPlayers] = useState<number>(6);
 
-  const opponents = ["Clyffa", "Nathalie", "Rosie", "Joshua", "Steve"];
+  const opponents = ['Clyffa', 'Nathalie', 'Rosie', 'Joshua', 'Steve'];
 
   const getPlayerName = (object: IContribution) => {
     return Object.keys(object)[0];
@@ -117,7 +117,7 @@ export const Match = (props: IMatchContextProps) => {
         })
         .map((obj) => {
           let value = 0;
-          let player = "";
+          let player = '';
           obj.forEach((ob) => {
             player = getPlayerName(ob);
             value += ob[player];

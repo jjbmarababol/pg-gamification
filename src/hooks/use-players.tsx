@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { firebase } from "../firebase";
+import { useState, useEffect } from 'react';
+import { firebase } from '../firebase';
 
 export interface Player {
   name: string;
@@ -10,15 +10,15 @@ export interface Player {
 }
 
 export const usePlayers = (id?: string) => {
-  const channelId = id ? id : "";
+  const channelId = id ? id : '';
   const [players, setPlayers] = useState<Player[]>();
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
-      .collection("players")
-      .where("channelId", "==", channelId)
-      .orderBy("name")
+      .collection('players')
+      .where('channelId', '==', channelId)
+      .orderBy('name')
       .onSnapshot((snapshot) => {
         const allPlayers = snapshot.docs.map((player) => {
           const { name, channelId, coins, profileImage } = player.data();
@@ -49,9 +49,9 @@ export const getPlayersByChannel = async (channelId: string) => {
 
   firebase
     .firestore()
-    .collection("players")
-    .where("channelId", "==", channelId)
-    .orderBy("name")
+    .collection('players')
+    .where('channelId', '==', channelId)
+    .orderBy('name')
     .onSnapshot((snapshot) => {
       allPlayers = snapshot.docs.map((player) => {
         const { name } = player.data();
@@ -67,25 +67,25 @@ export const getPlayersByChannel = async (channelId: string) => {
 export const addPlayer = async (playerName: string) => {
   return await firebase
     .firestore()
-    .collection("players")
+    .collection('players')
     .add({
       name: playerName,
       coins: 0,
       contributions: 0,
-      channelId: "",
+      channelId: '',
     });
 };
 
 export const deletePlayer = async (playerId: string) => {
   return await firebase
     .firestore()
-    .collection("players")
+    .collection('players')
     .doc(playerId)
     .delete()
     .then(() => {
-      console.log("Deleted Successfully");
+      console.log('Deleted Successfully');
     })
     .catch((e) => {
-      console.error("Error: ", e);
+      console.error('Error: ', e);
     });
 };

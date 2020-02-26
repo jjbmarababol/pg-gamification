@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import { Row, Col, Icon } from "antd";
+import React, { FunctionComponent } from 'react';
+import { Row, Col, Icon } from 'antd';
 
 interface ILoadingPage {}
 

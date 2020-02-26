@@ -1,15 +1,15 @@
-import { Typography, Row, Col, Button } from "antd";
+import { Typography, Row, Col, Button } from 'antd';
 import React, {
   FunctionComponent,
   useEffect,
   useState,
   useContext,
-} from "react";
-import { MatchContext, PlayerContext, IContribution } from "../../contexts";
-import { MatchActionButtons } from "../buttons";
-import { RoundReward } from "./round-reward";
-import { RoundResults } from "./round-results";
-import _ from "lodash";
+} from 'react';
+import { MatchContext, PlayerContext, IContribution } from '../../contexts';
+import { MatchActionButtons } from '../buttons';
+import { RoundReward } from './round-reward';
+import { RoundResults } from './round-results';
+import _ from 'lodash';
 
 interface IMatchTimer {}
 

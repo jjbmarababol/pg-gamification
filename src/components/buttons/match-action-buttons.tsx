@@ -3,9 +3,9 @@ import React, {
   useState,
   useContext,
   useEffect,
-} from "react";
-import { Button, Icon, Row, Col } from "antd";
-import { MatchContext, PlayerContext } from "../../contexts";
+} from 'react';
+import { Button, Icon, Row, Col } from 'antd';
+import { MatchContext, PlayerContext } from '../../contexts';
 
 interface IMatchActionButtons {}
 
@@ -38,9 +38,10 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
       gutter={[20, 0]}
       justify="center"
       align="middle"
-      style={{ marginTop: "15px" }}
+      style={{ marginTop: '15px' }}
     >
       <Col xs={24} sm={12}>
+        {/* TODO: ADD FIREBASE ACTION TO SEND CONTRIBUTION, after timer is adds up all contributions then divide to 6 then add to coins */}
         <Button
           className="button--match-action"
           type="primary"

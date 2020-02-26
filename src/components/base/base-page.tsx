@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { FunctionComponent } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import {
   ChannelsPage,
   StartMenuPage,
   PlayerNamePage,
   MatchPage,
   WaitingPage,
-} from "../pages";
-import homeBackground from "../ui/images/bg.jpg";
+} from '../pages';
+import homeBackground from '../ui/images/bg.jpg';
 
 interface IBasePage {}
 

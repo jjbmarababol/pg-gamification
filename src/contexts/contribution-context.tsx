@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react';
 
 interface IContributionState {
   round: number;
@@ -19,8 +19,8 @@ interface IContributionContextAPI extends IContributionState {
 export const ContributionContext = createContext({
   round: 0,
   amount: 0,
-  playerId: "",
-  channelId: "",
+  playerId: '',
+  channelId: '',
   setRound: (round: number) => {},
   setChannelId: (id: string) => {},
   setPlayerId: (id: string) => {},
@@ -33,19 +33,19 @@ export interface IContributionContextProps {
 
 export const Contribution = (props: IContributionContextProps) => {
   const [round, setRound] = useState<number>(0);
-  const [playerId, setPlayerId] = useState<string>("Z1saX25Py2kskFKyMUaj");
-  const [channelId, setChannelId] = useState<string>("blue-shark");
+  const [playerId, setPlayerId] = useState<string>('Z1saX25Py2kskFKyMUaj');
+  const [channelId, setChannelId] = useState<string>('blue-shark');
   const [amount, setContributions] = useState<number>(0);
 
   const ContributionContextAPI: IContributionContextAPI = {
-  round,
-  playerId,
-  channelId,
-  amount,
-  setRound,
-  setChannelId,
-  setPlayerId,
-  setContributions,
+    round,
+    playerId,
+    channelId,
+    amount,
+    setRound,
+    setChannelId,
+    setPlayerId,
+    setContributions,
   };
 
   return (

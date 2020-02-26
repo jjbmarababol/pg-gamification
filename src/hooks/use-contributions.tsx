@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { firebase } from "../firebase";
+import { useState, useEffect } from 'react';
+import { firebase } from '../firebase';
 
 export interface ContributionCore {
   round: number;
@@ -14,18 +14,24 @@ export interface Contribution extends ContributionCore {
 }
 
 export const useContributions = (id?: string) => {
-  const channelId = id ? id : "";
+  const channelId = id ? id : '';
   const [contributions, setContributions] = useState<Contribution[]>();
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
-      .collection("contributions")
-      .where("channelId", "==", channelId)
-      .orderBy("round")
+      .collection('contributions')
+      .where('channelId', '==', channelId)
+      .orderBy('round')
       .onSnapshot((snapshot) => {
         const allContributions = snapshot.docs.map((contribution) => {
-          const { round, channelId, playerId, amount, contributedAt } = contribution.data();
+          const {
+            round,
+            channelId,
+            playerId,
+            amount,
+            contributedAt,
+          } = contribution.data();
           return {
             round,
             amount,
@@ -36,7 +42,9 @@ export const useContributions = (id?: string) => {
           };
         });
 
-        if (JSON.stringify(allContributions) !== JSON.stringify(contributions)) {
+        if (
+          JSON.stringify(allContributions) !== JSON.stringify(contributions)
+        ) {
           setContributions(allContributions);
         }
       });
@@ -54,9 +62,9 @@ export const getContributionsByPlayer = async (playerId: string) => {
 
   firebase
     .firestore()
-    .collection("contributions")
-    .where("playerId", "==", playerId)
-    .orderBy("round")
+    .collection('contributions')
+    .where('playerId', '==', playerId)
+    .orderBy('round')
     .onSnapshot((snapshot) => {
       allContributions = snapshot.docs.map((contribution) => {
         const { name } = contribution.data();
@@ -73,7 +81,7 @@ export const addContribution = async (contributionObject: ContributionCore) => {
   const { playerId, channelId, amount, round } = contributionObject;
   return await firebase
     .firestore()
-    .collection("contributions")
+    .collection('contributions')
     .add({
       playerId,
       amount,
@@ -85,13 +93,13 @@ export const addContribution = async (contributionObject: ContributionCore) => {
 export const deleteContribution = async (contributionId: string) => {
   return await firebase
     .firestore()
-    .collection("contributions")
+    .collection('contributions')
     .doc(contributionId)
     .delete()
     .then(() => {
-      console.log("Deleted Successfully");
+      console.log('Deleted Successfully');
     })
     .catch((e) => {
-      console.error("Error: ", e);
+      console.error('Error: ', e);
     });
 };

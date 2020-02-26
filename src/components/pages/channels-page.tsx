@@ -3,12 +3,12 @@ import React, {
   useEffect,
   useContext,
   useState,
-} from "react";
-import { List, Card, Col, Row, Button } from "antd";
-import { RouteComponentProps } from "react-router-dom";
-import { useChannels, channelAPI } from "../../hooks";
-import { PlayerContext } from "../../contexts";
-import { LoadingPage } from "../pages";
+} from 'react';
+import { List, Card, Col, Row, Button } from 'antd';
+import { RouteComponentProps } from 'react-router-dom';
+import { useChannels, channelAPI } from '../../hooks';
+import { PlayerContext } from '../../contexts';
+import { LoadingPage } from '../pages';
 
 interface IMatchResults extends RouteComponentProps {}
 
@@ -53,7 +53,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
           <Card
             bordered={false}
             title="Select Channel"
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: '15px' }}
             className="channel__list"
           >
             <List
@@ -80,7 +80,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
                 >
                   <List.Item.Meta
                     title={
-                      <span style={{ fontWeight: "bolder" }}>
+                      <span style={{ fontWeight: 'bolder' }}>
                         {channel.name}
                       </span>
                     }

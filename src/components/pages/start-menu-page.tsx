@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from "react";
-import { Row, Col, Typography, Button, Icon } from "antd";
-import companyLogo from "../ui/images/logo.png";
-import { Link } from "react-router-dom";
+import React, { FunctionComponent } from 'react';
+import { Row, Col, Typography, Button, Icon } from 'antd';
+import companyLogo from '../ui/images/logo.png';
+import { Link } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -24,8 +24,8 @@ export const StartMenuPage: FunctionComponent<IStartMenuPage> = (props) => {
           <Title
             level={2}
             style={{
-              textAlign: "center",
-              color: "rgb(98, 114, 123)",
+              textAlign: 'center',
+              color: 'rgb(98, 114, 123)',
               fontWeight: 100,
               marginBottom: 25,
             }}

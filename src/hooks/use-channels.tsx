@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { firebase } from "../firebase";
-import { defaultChannels } from "../constants";
-import admin from "firebase/app";
+import { useState, useEffect } from 'react';
+import { firebase } from '../firebase';
+import { defaultChannels } from '../constants';
+import admin from 'firebase/app';
 
 interface PooledAmount {
   round: number;
@@ -23,11 +23,16 @@ export const useChannels = () => {
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
-      .collection("channels")
-      .orderBy("name")
+      .collection('channels')
+      .orderBy('name')
       .onSnapshot((snapshot) => {
         const allChannels = snapshot.docs.map((channel) => {
-          const { name, hasStarted = false, players = [], totalPooledAmount = [] } = channel.data();
+          const {
+            name,
+            hasStarted = false,
+            players = [],
+            totalPooledAmount = [],
+          } = channel.data();
           return {
             name,
             hasStarted,
@@ -55,7 +60,7 @@ const addChannels = async () => {
 
   defaultChannels.forEach((channel) => {
     const { name, docId } = channel;
-    const docRef = db.collection("channels").doc(docId);
+    const docRef = db.collection('channels').doc(docId);
     batch.set(docRef, { name }, { merge: true });
   });
 
@@ -64,8 +69,8 @@ const addChannels = async () => {
 
 const joinChannel = async (channelId: string, playerId: string) => {
   const db = firebase.firestore();
-  const channelRef = db.collection("channels").doc(channelId);
-  const playerRef = db.collection("players").doc(playerId);
+  const channelRef = db.collection('channels').doc(channelId);
+  const playerRef = db.collection('players').doc(playerId);
 
   await playerRef.update({
     channelId,
@@ -78,11 +83,11 @@ const joinChannel = async (channelId: string, playerId: string) => {
 
 const leaveChannel = async (channelId: string, playerId: string) => {
   const db = firebase.firestore();
-  const channelRef = db.collection("channels").doc(channelId);
-  const playerRef = db.collection("players").doc(playerId);
+  const channelRef = db.collection('channels').doc(channelId);
+  const playerRef = db.collection('players').doc(playerId);
 
   await playerRef.update({
-    channelId: "",
+    channelId: '',
   });
 
   return await channelRef.update({

@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useContext } from "react";
-import { Typography, Avatar, Row, Col } from "antd";
-import { PlayerContext } from "../../contexts";
+import React, { FunctionComponent, useContext } from 'react';
+import { Typography, Avatar, Row, Col } from 'antd';
+import { PlayerContext } from '../../contexts';
 
 const { Text } = Typography;
 interface INavbar {}
@@ -21,11 +21,11 @@ export const Navbar: FunctionComponent<INavbar> = (props) => {
             <Avatar
               icon="user"
               size="large"
-              style={{ fontSize: 36, background: "#1944a8" }}
+              style={{ fontSize: 36, background: '#1944a8' }}
             />
             <Text
               className="navbar--player-name text--ellipses"
-              style={{ lineHeight: "26px", position: "relative", top: 6 }}
+              style={{ lineHeight: '26px', position: 'relative', top: 6 }}
             >
               {playerName}
             </Text>
@@ -38,7 +38,7 @@ export const Navbar: FunctionComponent<INavbar> = (props) => {
             />
             <Text
               className="navbar--player-name text--ellipses"
-              style={{ lineHeight: "26px", position: "relative", top: 6 }}
+              style={{ lineHeight: '26px', position: 'relative', top: 6 }}
             >
               {coins}
             </Text>
