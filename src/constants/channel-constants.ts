@@ -5,6 +5,7 @@ const defaultChannelValues: Channel = {
   docId: "",
   hasStarted: false,
   players: [],
+  totalPooledAmount: [],
 };
 
 export const defaultChannels: Channel[] = [

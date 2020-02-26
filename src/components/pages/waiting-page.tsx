@@ -52,13 +52,11 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
               itemLayout="horizontal"
               dataSource={players}
               renderItem={(player) => (
-                <List.Item actions={[<p>Ready</p>]}>
+                <List.Item actions={[<p className={player.docId === playerId ? 'room__player-self': ''}>Ready</p>]}>
                   <List.Item.Meta
                     title={
-                      <span style={{ fontWeight: "bolder" }}>
-                        {`${player.name} ${
-                          player.docId === playerId ? "(You)" : ""
-                        }`}
+                      <span className={player.docId === playerId ? 'room__player-self': ''}>
+                        {player.name}
                       </span>
                     }
                   />

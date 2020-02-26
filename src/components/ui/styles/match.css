@@ -1,3 +1,8 @@
+.room__player-self {
+  font-weight: bolder;
+  color: #1890ff;
+}
+
 .text--timer {
   display: block;
   text-align: center;

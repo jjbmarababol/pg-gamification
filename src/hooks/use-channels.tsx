@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
 import { firebase } from "../firebase";
 import { defaultChannels } from "../constants";
-import * as admin from "firebase/app";
+import admin from "firebase/app";
 
+interface PooledAmount {
+  round: number;
+  amount: number;
+}
 export interface RawChannel {
   name: string;
   hasStarted: boolean;
+  totalPooledAmount: PooledAmount[];
   players: string[];
 }
+
 export interface Channel extends RawChannel {
   docId: string;
 }
@@ -21,11 +27,12 @@ export const useChannels = () => {
       .orderBy("name")
       .onSnapshot((snapshot) => {
         const allChannels = snapshot.docs.map((channel) => {
-          const { name, hasStarted = false, players = [] } = channel.data();
+          const { name, hasStarted = false, players = [], totalPooledAmount = [] } = channel.data();
           return {
             name,
             hasStarted,
             players,
+            totalPooledAmount,
             docId: channel.id,
           };
         });

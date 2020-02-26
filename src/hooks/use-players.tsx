@@ -6,7 +6,7 @@ export interface Player {
   docId: string;
   channelId: string;
   coins: number;
-  contributions: number;
+  profileImage: string;
 }
 
 export const usePlayers = (id?: string) => {
@@ -21,12 +21,12 @@ export const usePlayers = (id?: string) => {
       .orderBy("name")
       .onSnapshot((snapshot) => {
         const allPlayers = snapshot.docs.map((player) => {
-          const { name, channelId, coins, contributions } = player.data();
+          const { name, channelId, coins, profileImage } = player.data();
           return {
             name,
             channelId,
             coins,
-            contributions,
+            profileImage,
             docId: player.id,
           };
         });
