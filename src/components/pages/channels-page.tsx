@@ -1,4 +1,5 @@
 import { Button, Card, Col, List, Row } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -7,6 +8,7 @@ import React, {
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
+import { defaultMaxChannels } from '../../constants';
 import { PlayerContext } from '../../contexts';
 import { channelAPI, useChannels } from '../../hooks';
 import { LoadingPage } from '../pages';
@@ -67,17 +69,20 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
                   actions={[
                     <>
                       <div className="channel__members">
-                        {channel.players?.length} / 2
+                        {_.isUndefined(channel.players)
+                          ? 0
+                          : channel.players.length}
+                        / {defaultMaxChannels}
                       </div>
-                      {channel.players !== undefined &&
-                        channel.players?.length < 100 && (
-                          <Button
-                            type="primary"
-                            onClick={() => selectChannel(channel.docId)}
-                          >
-                            Enter
-                          </Button>
-                        )}
+                      {(channel.players ? channel.players.length : 0) <
+                        defaultMaxChannels && (
+                        <Button
+                          type="primary"
+                          onClick={() => selectChannel(channel.docId)}
+                        >
+                          Enter
+                        </Button>
+                      )}
                     </>,
                   ]}
                 >

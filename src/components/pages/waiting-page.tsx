@@ -1,4 +1,5 @@
 import { Avatar, Button, Card, Col, List, Row } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -6,8 +7,8 @@ import React, {
   useState,
 } from 'react';
 import { Link, RouteComponentProps, useParams } from 'react-router-dom';
-import { isUndefined } from 'util';
 
+import { defaultMaxChannels } from '../../constants';
 import { PlayerContext } from '../../contexts';
 import { channelAPI, usePlayers } from '../../hooks';
 import { LoadingPage } from './loading-page';
@@ -22,6 +23,19 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
   const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [channel, setChannel] = useState<string>('');
+
+  const createTitle = (): string => {
+    const status =
+      players?.length === defaultMaxChannels
+        ? 'Game Ready!'
+        : 'Waiting for players..';
+
+    const playerCount = `${
+      _.isUndefined(players) ? 0 : players.length
+    }/${defaultMaxChannels}`;
+
+    return `${playerCount} ${status} `;
+  };
 
   useEffect(() => {
     if (!players) {
@@ -54,9 +68,7 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
         <Col xs={20} md={10}>
           <Card
             bordered={false}
-            title={`${isUndefined(players) ? 0 : players.length}/6 ${
-              players.length === 6 ? 'Game Ready!' : 'Waiting for players..'
-            } `}
+            title={createTitle()}
             className="card--transluscent no-padding"
           >
             <List
