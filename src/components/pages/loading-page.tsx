@@ -1,9 +1,7 @@
-import React, { FunctionComponent } from "react";
-import { Row, Col, Icon } from "antd";
+import { Col, Icon, Row } from 'antd';
+import React, { FunctionComponent } from 'react';
 
-interface ILoadingPage {}
-
-export const LoadingPage: FunctionComponent<ILoadingPage> = (props) => {
+export const LoadingPage: FunctionComponent = () => {
   return (
     <Row
       className="row--moving-background"

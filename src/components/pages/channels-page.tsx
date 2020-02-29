@@ -1,18 +1,19 @@
+import { Button, Card, Col, List, Row } from 'antd';
 import React, {
   FunctionComponent,
-  useEffect,
   useContext,
+  useEffect,
   useState,
-} from "react";
-import { List, Card, Col, Row, Button } from "antd";
-import { RouteComponentProps } from "react-router-dom";
-import { useChannels, channelAPI } from "../../hooks";
-import { PlayerContext } from "../../contexts";
-import { LoadingPage } from "../pages";
+} from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface IMatchResults extends RouteComponentProps {}
+import { PlayerContext } from '../../contexts';
+import { channelAPI, useChannels } from '../../hooks';
+import { LoadingPage } from '../pages';
 
-export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
+type MatchResults = RouteComponentProps;
+
+export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
   const { history } = props;
   const { addChannels, joinChannel } = channelAPI;
   const { channels } = useChannels();
@@ -53,8 +54,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
           <Card
             bordered={false}
             title="Select Channel"
-            style={{ marginBottom: "15px" }}
-            className="channel__list"
+            className="card--transluscent no-padding"
           >
             <List
               itemLayout="horizontal"
@@ -64,10 +64,10 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
                   actions={[
                     <>
                       <div className="channel__members">
-                        {channel.players.length} / 6
+                        {channel.players?.length} / 6
                       </div>
                       {channel.players !== undefined &&
-                        channel.players.length < 6 && (
+                        channel.players?.length < 6 && (
                           <Button
                             type="primary"
                             onClick={() => selectChannel(channel.docId)}
@@ -80,7 +80,7 @@ export const ChannelsPage: FunctionComponent<IMatchResults> = (props) => {
                 >
                   <List.Item.Meta
                     title={
-                      <span style={{ fontWeight: "bolder" }}>
+                      <span style={{ fontWeight: 'bolder' }}>
                         {channel.name}
                       </span>
                     }

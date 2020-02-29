@@ -1,25 +1,24 @@
-import { Typography, Row, Col, Button } from "antd";
+import { Button, Col, Row, Typography } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
+  useContext,
   useEffect,
   useState,
-  useContext,
-} from "react";
-import { MatchContext, PlayerContext, IContribution } from "../../contexts";
-import { MatchActionButtons } from "../buttons";
-import { RoundReward } from "./round-reward";
-import { RoundResults } from "./round-results";
-import _ from "lodash";
+} from 'react';
 
-interface IMatchTimer {}
+import { Contribution, MatchContext, PlayerContext } from '../../contexts';
+import { MatchActionButtons } from '../buttons';
+import { RoundResults } from './round-results';
+import { RoundReward } from './round-reward';
 
 const { Text } = Typography;
 
-export const MatchTimer: FunctionComponent<IMatchTimer> = (props) => {
+export const MatchTimer: FunctionComponent = () => {
   const [timer, setTimer] = useState<number>(10);
-  const [roundContributions, setRoundCountributions] = useState<
-    IContribution[]
-  >([]);
+  const [roundContributions, setRoundCountributions] = useState<Contribution[]>(
+    [],
+  );
   const { updateCoins } = useContext(PlayerContext);
   const {
     roundReward,

@@ -1,17 +1,15 @@
+import { Button, Col, Icon, Row } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
-  useState,
   useContext,
   useEffect,
-} from "react";
-import { Button, Icon, Row, Col } from "antd";
-import { MatchContext, PlayerContext } from "../../contexts";
+  useState,
+} from 'react';
 
-interface IMatchActionButtons {}
+import { MatchContext, PlayerContext } from '../../contexts';
 
-export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
-  props,
-) => {
+export const MatchActionButtons: FunctionComponent = () => {
   const [hasSelected, setHasSelected] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const { contributions, setContributions } = useContext(MatchContext);
@@ -38,9 +36,10 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
       gutter={[20, 0]}
       justify="center"
       align="middle"
-      style={{ marginTop: "15px" }}
+      style={{ marginTop: '15px' }}
     >
       <Col xs={24} sm={12}>
+        {/* TODO: ADD FIREBASE ACTION TO SEND CONTRIBUTION, after timer is adds up all contributions then divide to 6 then add to coins */}
         <Button
           className="button--match-action"
           type="primary"
@@ -62,7 +61,7 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
           onClick={() => setSelectedContribution(0)}
           disabled={hasSelected && selectedOption === 10}
         >
-          <Icon type="close" /> No, I won't.
+          <Icon type="close" /> No, I {_.escape("won't")}.
         </Button>
       </Col>
     </Row>

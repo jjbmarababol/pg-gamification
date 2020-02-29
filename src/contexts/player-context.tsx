@@ -1,39 +1,44 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react';
 
-interface IPlayerState {
+interface PlayerState {
   playerName: string;
   playerId: string;
   channelId: string;
+  profileImage: string;
   coins: number;
 }
 
-interface IPlayerContextAPI extends IPlayerState {
+interface PlayerContextAPI extends PlayerState {
   setPlayerId: (id: string) => void;
   setChannelId: (id: string) => void;
+  setProfileImage: (image: string) => void;
   setPlayerName: (name: string) => void;
   updateCoins: (coins: number) => void;
 }
 
 // Initialized Value
-export const PlayerContext = createContext({
-  playerName: "",
-  playerId: "",
-  channelId: "",
+export const PlayerContext = createContext<PlayerContextAPI>({
+  playerName: '',
+  playerId: '',
+  channelId: '',
+  profileImage: '',
   coins: 0,
-  setPlayerId: (id: string) => {},
-  setChannelId: (id: string) => {},
-  setPlayerName: (name: string): void => {},
-  updateCoins: (coins: number): void => {},
+  setPlayerId: (id: string) => ({ id }),
+  setChannelId: (id: string) => ({ id }),
+  setProfileImage: (image: string) => ({ image }),
+  setPlayerName: (name: string) => ({ name }),
+  updateCoins: (coins: number) => ({ coins }),
 });
 
-export interface IPlayerContextProps {
+export interface PlayerContextProps {
   children: React.ReactNode;
 }
 
-export const Player = (props: IPlayerContextProps) => {
-  const [playerName, setPlayerName] = useState<string>("Jigs");
-  const [playerId, setPlayerId] = useState<string>("Z1saX25Py2kskFKyMUaj");
-  const [channelId, setChannelId] = useState<string>("blue-shark");
+export const Player = (props: PlayerContextProps) => {
+  const [playerName, setPlayerName] = useState<string>('');
+  const [playerId, setPlayerId] = useState<string>('');
+  const [channelId, setChannelId] = useState<string>('');
+  const [profileImage, setProfileImage] = useState<string>('fish-1.svg');
   const [coins, setCoins] = useState<number>(0);
 
   const updateCoins = (acquired: number) => {
@@ -43,14 +48,16 @@ export const Player = (props: IPlayerContextProps) => {
     );
   };
 
-  const PlayerContextAPI: IPlayerContextAPI = {
+  const PlayerContextAPI = {
     playerId,
     playerName,
     channelId,
+    profileImage,
     coins,
     setPlayerId,
     setPlayerName,
     setChannelId,
+    setProfileImage,
     updateCoins,
   };
 

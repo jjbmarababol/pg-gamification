@@ -1,15 +1,14 @@
-import React, { FunctionComponent, useContext } from "react";
-import { List, Card, Typography } from "antd";
-import { MatchContext, IContribution } from "../../contexts";
+import { Card, List, Typography } from 'antd';
+import React, { FunctionComponent, useContext } from 'react';
+
+import { Contribution, MatchContext } from '../../contexts';
 
 const { Text } = Typography;
 
-interface IMatchResults {}
-
-export const MatchResults: FunctionComponent<IMatchResults> = (props) => {
+export const MatchResults: FunctionComponent = () => {
   const { ranking } = useContext(MatchContext);
 
-  const player = (object: IContribution) => {
+  const player = (object: Contribution) => {
     return Object.keys(object)[0];
   };
 
@@ -17,7 +16,7 @@ export const MatchResults: FunctionComponent<IMatchResults> = (props) => {
     <Card
       bordered={false}
       title="Total Contributions"
-      style={{ marginBottom: "15px" }}
+      style={{ marginBottom: '15px' }}
       className="card--transluscent"
     >
       <List
@@ -26,7 +25,9 @@ export const MatchResults: FunctionComponent<IMatchResults> = (props) => {
         renderItem={(rank) => (
           <List.Item
             actions={[
-              <Text style={{ fontWeight: "bolder" }}>{player(rank)}</Text>,
+              <Text key={rank.docId} style={{ fontWeight: 'bolder' }}>
+                {player(rank)}
+              </Text>,
             ]}
           >
             <List.Item.Meta title={<span>{rank[player(rank)]}</span>} />

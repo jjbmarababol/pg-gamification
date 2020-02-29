@@ -1,22 +1,29 @@
+import { Button, Col, Icon, Input, notification, Row, Typography } from 'antd';
+import _ from 'lodash';
 import React, {
+  ChangeEvent,
   FunctionComponent,
   useContext,
   useState,
-  ChangeEvent,
-} from "react";
-import { Row, Col, Typography, Button, Icon, Input, notification } from "antd";
-import { Link, RouteComponentProps } from "react-router-dom";
-import { PlayerContext } from "../../contexts";
-import { addPlayer, usePlayers } from "../../hooks";
-import { LoadingPage } from "../pages";
+} from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
+
+import { PlayerContext } from '../../contexts';
+import { addPlayer, usePlayers } from '../../hooks';
+import { LoadingPage } from '../pages';
 
 const { Title } = Typography;
 
-interface IPlayerNamePage extends RouteComponentProps {}
+type PlayerNamePage = RouteComponentProps;
 
-export const PlayerNamePage: FunctionComponent<IPlayerNamePage> = (props) => {
+export const PlayerNamePage: FunctionComponent<PlayerNamePage> = (props) => {
   const { history } = props;
-  const { playerName, setPlayerName, setPlayerId } = useContext(PlayerContext);
+  const {
+    playerName,
+    setPlayerName,
+    setPlayerId,
+    setProfileImage,
+  } = useContext(PlayerContext);
   const { players } = usePlayers();
   const [player, setPlayer] = useState<string>(playerName);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -30,19 +37,24 @@ export const PlayerNamePage: FunctionComponent<IPlayerNamePage> = (props) => {
       return;
     }
     setIsLoading(true);
+    const profileImage = `fish-${_.random(1, 6)}.svg`;
+
     const existingPlayers = players.map((player) => player.name);
     if (existingPlayers.includes(playerName)) {
       setIsLoading(false);
       return notification.error({
-        message: "Player Creation Failed",
-        description: "Name already exists, please try another name instead.",
+        message: 'Player Creation Failed',
+        description: 'Name already exists, please try another name instead.',
       });
     }
+
     setPlayerName(playerName);
-    addPlayer(playerName).then((result) => {
+    setProfileImage(profileImage);
+
+    addPlayer(playerName, profileImage).then((result) => {
       setPlayerId(result.id);
       setIsLoading(false);
-      history.push("/channels");
+      history.push('/channels');
     });
   };
 

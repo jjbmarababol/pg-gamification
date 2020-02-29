@@ -1,13 +1,12 @@
-import React, { FunctionComponent, useContext } from "react";
-import { Typography, Button, Row, Col, Avatar } from "antd";
-import { MatchTimer, MatchResults } from "../match";
-import { Navbar } from "../navbar";
-import { MatchContext, PlayerContext } from "../../contexts";
+import { Avatar, Button, Col, Row, Typography } from 'antd';
+import React, { FunctionComponent, useContext } from 'react';
 
-interface IMatchPage {}
+import { MatchContext, PlayerContext } from '../../contexts';
+import { MatchResults, MatchTimer } from '../match';
+import { Navbar } from '../navbar';
 
 const { Text, Title } = Typography;
-export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
+export const MatchPage: FunctionComponent = () => {
   const {
     setHasStarted,
     isFinished,
@@ -26,7 +25,7 @@ export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
     <div className="row--moving-background">
       <Navbar />
       <Row
-        style={{ minHeight: "80vh" }}
+        style={{ minHeight: '80vh' }}
         type="flex"
         justify="center"
         align="middle"
@@ -39,21 +38,21 @@ export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
                   <Col xs={22} md={16} className="card--transluscent">
                     <Text
                       className="text--timer"
-                      style={{ letterSpacing: "-5px" }}
+                      style={{ letterSpacing: '-5px' }}
                     >
                       Round {round}
                     </Text>
-                    <Text style={{ display: "block", textAlign: "center" }}>
+                    <Text style={{ display: 'block', textAlign: 'center' }}>
                       You currently have
                     </Text>
                     <Title
                       style={{
-                        display: "block",
-                        textAlign: "center",
+                        display: 'block',
+                        textAlign: 'center',
                         marginTop: 0,
                       }}
                     >
-                      {coins}{" "}
+                      {coins}{' '}
                       <Avatar
                         icon="copyright"
                         size="large"

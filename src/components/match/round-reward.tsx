@@ -1,13 +1,13 @@
-import { Typography } from "antd";
-import React, { FunctionComponent } from "react";
+import { Typography } from 'antd';
+import React, { FunctionComponent } from 'react';
 
 const { Text } = Typography;
 
-interface IRoundRewards {
+interface RoundRewards {
   reward: number;
 }
 
-export const RoundReward: FunctionComponent<IRoundRewards> = (props) => {
+export const RoundReward: FunctionComponent<RoundRewards> = (props) => {
   const { reward } = props;
   return (
     <>

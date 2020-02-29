@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useContext } from "react";
-import { Typography, Avatar, Row, Col } from "antd";
-import { PlayerContext } from "../../contexts";
+import { Avatar, Col, Row, Typography } from 'antd';
+import React, { FunctionComponent, useContext } from 'react';
+
+import { PlayerContext } from '../../contexts';
 
 const { Text } = Typography;
-interface INavbar {}
 
-export const Navbar: FunctionComponent<INavbar> = (props) => {
-  const { playerName, coins } = useContext(PlayerContext);
+export const Navbar: FunctionComponent = () => {
+  const { playerName, coins, profileImage } = useContext(PlayerContext);
 
   return (
     <>
@@ -18,14 +18,10 @@ export const Navbar: FunctionComponent<INavbar> = (props) => {
           justify="center"
         >
           <Col span={12}>
-            <Avatar
-              icon="user"
-              size="large"
-              style={{ fontSize: 36, background: "#1944a8" }}
-            />
+            <Avatar src={require(`../ui/images/profile/${profileImage}`)} />
             <Text
               className="navbar--player-name text--ellipses"
-              style={{ lineHeight: "26px", position: "relative", top: 6 }}
+              style={{ lineHeight: '26px', position: 'relative', top: 6 }}
             >
               {playerName}
             </Text>
@@ -38,7 +34,7 @@ export const Navbar: FunctionComponent<INavbar> = (props) => {
             />
             <Text
               className="navbar--player-name text--ellipses"
-              style={{ lineHeight: "26px", position: "relative", top: 6 }}
+              style={{ lineHeight: '26px', position: 'relative', top: 6 }}
             >
               {coins}
             </Text>
