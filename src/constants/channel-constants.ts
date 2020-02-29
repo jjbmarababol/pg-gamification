@@ -4,6 +4,7 @@ const defaultChannelValues: Channel = {
   name: '',
   docId: '',
   hasStarted: false,
+  currentRound: 1,
   players: [],
   totalPooledAmount: [],
 };

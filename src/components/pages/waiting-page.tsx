@@ -1,29 +1,41 @@
+import { Avatar, Button, Card, Col, List, Row } from 'antd';
 import React, {
   FunctionComponent,
+  useContext,
   useEffect,
   useState,
-  useContext,
 } from 'react';
-import { List, Card, Col, Row, Button } from 'antd';
-import { RouteComponentProps, useParams, Link } from 'react-router-dom';
-import { usePlayers } from '../../hooks';
+import { Link, RouteComponentProps, useParams } from 'react-router-dom';
 import { isUndefined } from 'util';
-import { LoadingPage } from './loading-page';
+
 import { PlayerContext } from '../../contexts';
+import { channelAPI, usePlayers } from '../../hooks';
+import { LoadingPage } from './loading-page';
 
-interface IWaitingPageProps extends RouteComponentProps {}
+type WaitingPageProps = RouteComponentProps;
 
-export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
-  const { channelId = 'blue-shark' } = useParams();
+export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
+  const { channelId } = useParams();
   const { players } = usePlayers(channelId);
+  const { updateChannel } = channelAPI;
+
   const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [channel, setChannel] = useState<string>('');
 
   useEffect(() => {
     if (!players) {
       setIsLoading(true);
     }
   }, [players]);
+
+  useEffect(() => {
+    if (!channelId) {
+      return;
+    }
+
+    setChannel(channelId);
+  }, [channelId]);
 
   let Page = <></>;
 
@@ -42,11 +54,10 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
         <Col xs={20} md={10}>
           <Card
             bordered={false}
-            style={{ marginBottom: '15px' }}
             title={`${isUndefined(players) ? 0 : players.length}/6 ${
-              players.length === 6 ? 'Game Ready!' : 'Waiting..'
+              players.length === 6 ? 'Game Ready!' : 'Waiting for players..'
             } `}
-            className="channel__list"
+            className="card--transluscent no-padding"
           >
             <List
               itemLayout="horizontal"
@@ -54,13 +65,10 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
               renderItem={(player) => (
                 <List.Item
                   actions={[
-                    <p
-                      className={
-                        player.docId === playerId ? 'room__player-self' : ''
-                      }
-                    >
-                      Ready
-                    </p>,
+                    <Avatar
+                      key={player.docId}
+                      src={require(`../ui/images/profile/${player.profileImage}`)}
+                    />,
                   ]}
                 >
                   <List.Item.Meta
@@ -80,7 +88,15 @@ export const WaitingPage: FunctionComponent<IWaitingPageProps> = (props) => {
           </Card>
           {players.length === 6 && (
             <Link to={`/match/${channelId}`}>
-              <Button type="primary" size="large" icon="heart" block>
+              <Button
+                type="primary"
+                size="large"
+                icon="heart"
+                block
+                onClick={() => {
+                  updateChannel({ docId: channel });
+                }}
+              >
                 Enter
               </Button>
             </Link>

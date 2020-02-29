@@ -1,13 +1,14 @@
+import { Button, Col, Icon, Row, Typography } from 'antd';
 import React, { FunctionComponent } from 'react';
-import { Row, Col, Typography, Button, Icon } from 'antd';
-import companyLogo from '../ui/images/logo.png';
 import { Link } from 'react-router-dom';
+
+import companyLogo from '../ui/images/logo.png';
 
 const { Title } = Typography;
 
-interface IStartMenuPage {}
+interface StartMenuPage {}
 
-export const StartMenuPage: FunctionComponent<IStartMenuPage> = (props) => {
+export const StartMenuPage: FunctionComponent<StartMenuPage> = (props) => {
   return (
     <Row
       className="row--moving-background"

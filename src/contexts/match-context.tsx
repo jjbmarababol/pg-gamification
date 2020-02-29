@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
 import _ from 'lodash';
+import React, { createContext, useEffect, useState } from 'react';
 
-export interface IMatchState {
+export interface MatchState {
   round: number;
   hasStarted: boolean;
   isFinished: boolean;
@@ -10,31 +10,31 @@ export interface IMatchState {
   poolMultiplier: number;
   totalAmount: number;
   roundReward: number;
-  contributions: IContribution[];
-  matchContributions: IContribution[];
-  ranking: IContribution[];
+  contributions: Contribution[];
+  matchContributions: Contribution[];
+  ranking: Contribution[];
 }
 
-export interface IContribution {
+export interface Contribution {
   [key: string]: number;
 }
 
-interface IMatchContextAPI extends IMatchState {
+interface MatchContextAPI extends MatchState {
   setRound: (round: number) => void;
   setHasStarted: (hasStarted: boolean) => void;
   setIsFinished: (isFinished: boolean) => void;
   setPlayers: (players: number) => void;
   setPoolAmount: (amount: number) => void;
-  setContributions: (contributions: IContribution[]) => void;
-  setMatchContributions: (contributions: IContribution[]) => void;
+  setContributions: (contributions: Contribution[]) => void;
+  setMatchContributions: (contributions: Contribution[]) => void;
   randomizeContribution: () => void;
 }
 
-interface IMatchContextProps {
-  children: any;
+interface MatchContextProps {
+  children: React.ReactNode;
 }
 
-export const MatchContext = createContext<IMatchContextAPI>({
+export const MatchContext = createContext<MatchContextAPI>({
   round: 1,
   hasStarted: false,
   isFinished: false,
@@ -46,39 +46,39 @@ export const MatchContext = createContext<IMatchContextAPI>({
   contributions: [],
   matchContributions: [],
   ranking: [],
-  setRound: (round: number) => {},
-  setHasStarted: (hasStarted: boolean) => {},
-  setIsFinished: (isFinished: boolean) => {},
-  setPlayers: (players: number) => {},
-  setPoolAmount: (amount: number) => {},
-  setContributions: (contributions: IContribution[]) => {},
-  setMatchContributions: (contributions: IContribution[]) => {},
-  randomizeContribution: () => {},
+  setRound: () => null,
+  setHasStarted: () => null,
+  setIsFinished: () => null,
+  setPlayers: () => null,
+  setPoolAmount: () => null,
+  setContributions: () => null,
+  setMatchContributions: () => null,
+  randomizeContribution: () => null,
 });
 
-export const Match = (props: IMatchContextProps) => {
+export const Match = (props: MatchContextProps) => {
   const [round, setRound] = useState<number>(1);
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [poolAmount, setPoolAmount] = useState<number>(0);
   const [poolMultiplier] = useState<number>(2);
-  const [contributions, setContributions] = useState<IContribution[]>([]);
-  const [matchContributions, setMatchContributions] = useState<IContribution[]>(
+  const [contributions, setContributions] = useState<Contribution[]>([]);
+  const [matchContributions, setMatchContributions] = useState<Contribution[]>(
     [],
   );
-  const [ranking, setRanking] = useState<IContribution[]>([]);
+  const [ranking, setRanking] = useState<Contribution[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [roundReward, setRoundReward] = useState<number>(0);
   const [players, setPlayers] = useState<number>(6);
 
   const opponents = ['Clyffa', 'Nathalie', 'Rosie', 'Joshua', 'Steve'];
 
-  const getPlayerName = (object: IContribution) => {
+  const getPlayerName = (object: Contribution) => {
     return Object.keys(object)[0];
   };
 
   const randomizeContribution = () => {
-    let opponentContributions: IContribution[] = [];
+    const opponentContributions: Contribution[] = [];
     const contributionOptions = [0, 10];
 
     opponents.forEach((opponent) => {
@@ -91,8 +91,8 @@ export const Match = (props: IMatchContextProps) => {
   };
 
   useEffect(() => {
-    const totalContributions = (contributions: IContribution[]) => {
-      let totalContributions: number = 0;
+    const totalContributions = (contributions: Contribution[]) => {
+      let totalContributions = 0;
       contributions.forEach((contribution) => {
         totalContributions += contribution[Object.keys(contribution)[0]];
       });
@@ -110,7 +110,7 @@ export const Match = (props: IMatchContextProps) => {
   }, [round]);
 
   useEffect(() => {
-    const matchRanking = (contributions: IContribution[]) => {
+    const matchRanking = (contributions: Contribution[]) => {
       const summation = _(contributions)
         .groupBy(function(arr) {
           return getPlayerName(arr);
@@ -141,7 +141,7 @@ export const Match = (props: IMatchContextProps) => {
     calcRoundRewards();
   }, [poolAmount, poolMultiplier, players]);
 
-  const MatchContextAPI: IMatchContextAPI = {
+  const MatchContextAPI: MatchContextAPI = {
     round,
     hasStarted,
     isFinished,

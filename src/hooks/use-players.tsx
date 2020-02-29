@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import { firebase } from '../firebase';
 
 export interface Player {
@@ -21,7 +22,12 @@ export const usePlayers = (id?: string) => {
       .orderBy('name')
       .onSnapshot((snapshot) => {
         const allPlayers = snapshot.docs.map((player) => {
-          const { name, channelId, coins, profileImage } = player.data();
+          const {
+            name,
+            channelId,
+            coins,
+            profileImage = 'fish-1.svg',
+          } = player.data();
           return {
             name,
             channelId,
@@ -54,9 +60,10 @@ export const getPlayersByChannel = async (channelId: string) => {
     .orderBy('name')
     .onSnapshot((snapshot) => {
       allPlayers = snapshot.docs.map((player) => {
-        const { name } = player.data();
+        const { name, profileImage = 'fish-1.svg' } = player.data();
         return {
           name,
+          profileImage,
           docId: player.id,
         };
       });
@@ -64,12 +71,13 @@ export const getPlayersByChannel = async (channelId: string) => {
   return allPlayers;
 };
 
-export const addPlayer = async (playerName: string) => {
+export const addPlayer = async (playerName: string, profileImage: string) => {
   return await firebase
     .firestore()
     .collection('players')
     .add({
       name: playerName,
+      profileImage,
       coins: 0,
       contributions: 0,
       channelId: '',

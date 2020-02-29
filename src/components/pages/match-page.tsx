@@ -1,13 +1,12 @@
+import { Avatar, Button, Col, Row, Typography } from 'antd';
 import React, { FunctionComponent, useContext } from 'react';
-import { Typography, Button, Row, Col, Avatar } from 'antd';
-import { MatchTimer, MatchResults } from '../match';
-import { Navbar } from '../navbar';
-import { MatchContext, PlayerContext } from '../../contexts';
 
-interface IMatchPage {}
+import { MatchContext, PlayerContext } from '../../contexts';
+import { MatchResults, MatchTimer } from '../match';
+import { Navbar } from '../navbar';
 
 const { Text, Title } = Typography;
-export const MatchPage: FunctionComponent<IMatchPage> = (props) => {
+export const MatchPage: FunctionComponent = () => {
   const {
     setHasStarted,
     isFinished,

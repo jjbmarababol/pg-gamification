@@ -1,17 +1,15 @@
+import { Button, Col, Icon, Row } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
-  useState,
   useContext,
   useEffect,
+  useState,
 } from 'react';
-import { Button, Icon, Row, Col } from 'antd';
+
 import { MatchContext, PlayerContext } from '../../contexts';
 
-interface IMatchActionButtons {}
-
-export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
-  props,
-) => {
+export const MatchActionButtons: FunctionComponent = () => {
   const [hasSelected, setHasSelected] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const { contributions, setContributions } = useContext(MatchContext);
@@ -63,7 +61,7 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = (
           onClick={() => setSelectedContribution(0)}
           disabled={hasSelected && selectedOption === 10}
         >
-          <Icon type="close" /> No, I won't.
+          <Icon type="close" /> No, I {_.escape("won't")}.
         </Button>
       </Col>
     </Row>

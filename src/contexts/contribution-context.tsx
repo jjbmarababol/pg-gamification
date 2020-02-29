@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-interface IContributionState {
+interface ContributionState {
   round: number;
   playerId: string;
   channelId: string;
@@ -8,7 +8,7 @@ interface IContributionState {
   contributedAt?: string;
 }
 
-interface IContributionContextAPI extends IContributionState {
+interface ContributionContextAPI extends ContributionState {
   setRound: (round: number) => void;
   setChannelId: (id: string) => void;
   setPlayerId: (id: string) => void;
@@ -16,28 +16,28 @@ interface IContributionContextAPI extends IContributionState {
 }
 
 // Initialized Value
-export const ContributionContext = createContext({
+export const ContributionContext = createContext<ContributionContextAPI>({
   round: 0,
   amount: 0,
   playerId: '',
   channelId: '',
-  setRound: (round: number) => {},
-  setChannelId: (id: string) => {},
-  setPlayerId: (id: string) => {},
-  setContributions: (amount: number) => {},
+  setRound: (round: number) => ({ round }),
+  setChannelId: (id: string) => ({ id }),
+  setPlayerId: (id: string) => ({ id }),
+  setContributions: (amount: number) => ({ amount }),
 });
 
-export interface IContributionContextProps {
+export interface ContributionContextProps {
   children: React.ReactNode;
 }
 
-export const Contribution = (props: IContributionContextProps) => {
+export const Contribution = (props: ContributionContextProps) => {
   const [round, setRound] = useState<number>(0);
   const [playerId, setPlayerId] = useState<string>('Z1saX25Py2kskFKyMUaj');
   const [channelId, setChannelId] = useState<string>('blue-shark');
   const [amount, setContributions] = useState<number>(0);
 
-  const ContributionContextAPI: IContributionContextAPI = {
+  const ContributionContextAPI = {
     round,
     playerId,
     channelId,
