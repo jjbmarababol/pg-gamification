@@ -2,13 +2,24 @@ import { useEffect, useState } from 'react';
 
 import { firebase } from '../firebase';
 
-export interface Player {
+export interface RawPlayer {
   name: string;
-  docId: string;
   channelId: string;
   coins: number;
+  isReady: boolean;
   profileImage: string;
 }
+export interface Player extends RawPlayer {
+  docId: string;
+}
+
+const defaultPlayerValues: RawPlayer = {
+  name: '',
+  channelId: '',
+  isReady: false,
+  coins: 0,
+  profileImage: 'fish-1.svg',
+};
 
 export const usePlayers = (id?: string) => {
   const channelId = id ? id : '';
@@ -26,12 +37,15 @@ export const usePlayers = (id?: string) => {
             name,
             channelId,
             coins,
-            profileImage = 'fish-1.svg',
+            isReady,
+            profileImage,
           } = player.data();
           return {
+            ...defaultPlayerValues,
             name,
             channelId,
             coins,
+            isReady,
             profileImage,
             docId: player.id,
           };
@@ -50,7 +64,7 @@ export const usePlayers = (id?: string) => {
   return { players, setPlayers };
 };
 
-export const getPlayersByChannel = async (channelId: string) => {
+const getPlayersByChannel = async (channelId: string) => {
   let allPlayers;
 
   firebase
@@ -60,10 +74,15 @@ export const getPlayersByChannel = async (channelId: string) => {
     .orderBy('name')
     .onSnapshot((snapshot) => {
       allPlayers = snapshot.docs.map((player) => {
-        const { name, profileImage = 'fish-1.svg' } = player.data();
+        const {
+          name,
+          profileImage = defaultPlayerValues.profileImage,
+          isReady = defaultPlayerValues.isReady,
+        } = player.data();
         return {
           name,
           profileImage,
+          isReady,
           docId: player.id,
         };
       });
@@ -71,20 +90,18 @@ export const getPlayersByChannel = async (channelId: string) => {
   return allPlayers;
 };
 
-export const addPlayer = async (playerName: string, profileImage: string) => {
+const addPlayer = async (playerName: string, profileImage: string) => {
   return await firebase
     .firestore()
     .collection('players')
     .add({
+      ...defaultPlayerValues,
       name: playerName,
       profileImage,
-      coins: 0,
-      contributions: 0,
-      channelId: '',
     });
 };
 
-export const deletePlayer = async (playerId: string) => {
+const deletePlayer = async (playerId: string) => {
   return await firebase
     .firestore()
     .collection('players')
@@ -96,4 +113,28 @@ export const deletePlayer = async (playerId: string) => {
     .catch((e) => {
       console.error('Error: ', e);
     });
+};
+
+const updatePlayer = async (data: Player) => {
+  const db = firebase.firestore();
+  const playerRef = db.collection('players').doc(data.docId);
+  const player = (await playerRef.get()).data();
+
+  if (!player) {
+    return;
+  }
+
+  const { coins, isReady } = data || player || defaultPlayerValues;
+
+  return await playerRef.update({
+    coins,
+    isReady,
+  });
+};
+
+export const PlayerAPI = {
+  deletePlayer,
+  updatePlayer,
+  addPlayer,
+  getPlayersByChannel,
 };

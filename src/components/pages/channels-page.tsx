@@ -18,11 +18,14 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
   const { addChannels, joinChannel } = channelAPI;
   const { channels } = useChannels();
   const { playerId, setChannelId } = useContext(PlayerContext);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
       await addChannels();
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     })();
   }, [addChannels]);
 
@@ -64,10 +67,10 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
                   actions={[
                     <>
                       <div className="channel__members">
-                        {channel.players?.length} / 6
+                        {channel.players?.length} / 2
                       </div>
                       {channel.players !== undefined &&
-                        channel.players?.length < 6 && (
+                        channel.players?.length < 100 && (
                           <Button
                             type="primary"
                             onClick={() => selectChannel(channel.docId)}

@@ -20,6 +20,14 @@ export interface Channel extends RawChannel {
   docId: string;
 }
 
+const defaultChannelValues: RawChannel = {
+  name: '',
+  currentRound: 1,
+  hasStarted: false,
+  totalPooledAmount: [],
+  players: [],
+};
+
 export const useChannels = () => {
   const [channels, setChannels] = useState<Channel[]>();
   useEffect(() => {
@@ -31,12 +39,13 @@ export const useChannels = () => {
         const allChannels = snapshot.docs.map((channel) => {
           const {
             name,
-            currentRound = 1,
-            hasStarted = false,
-            players = [],
-            totalPooledAmount = [],
+            currentRound,
+            hasStarted,
+            players,
+            totalPooledAmount,
           } = channel.data();
           return {
+            ...defaultChannelValues,
             name,
             currentRound,
             hasStarted,
@@ -86,16 +95,21 @@ const joinChannel = async (channelId: string, playerId: string) => {
 };
 
 const updateChannel = async (data: Channel) => {
-  const { docId: channelId, currentRound = 1, hasStarted = false } = data;
   const db = firebase.firestore();
-  const channelRef = db.collection('channels').doc(channelId);
-
+  const channelRef = db.collection('channels').doc(data.docId);
   const channel = (await channelRef.get()).data();
 
+  if (!channel) {
+    return;
+  }
+
+  const { currentRound, hasStarted, totalPooledAmount } =
+    data || channel || defaultChannelValues;
+
   return await channelRef.update({
-    ...channel,
     currentRound,
     hasStarted,
+    totalPooledAmount,
   });
 };
 

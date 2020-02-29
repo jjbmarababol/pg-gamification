@@ -86,7 +86,7 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
               )}
             />
           </Card>
-          {players.length === 6 && (
+          {players.length > 1 && (
             <Link to={`/match/${channelId}`}>
               <Button
                 type="primary"
