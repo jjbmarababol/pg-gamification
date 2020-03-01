@@ -9,10 +9,6 @@ const defaultChannelValues: Channel = {
   totalPooledAmount: [],
 };
 
-export const defaultMaxPlayers = 1;
-
-export const defaultMaxRounds = 2;
-
 export const defaultChannels: Channel[] = [
   {
     ...defaultChannelValues,
