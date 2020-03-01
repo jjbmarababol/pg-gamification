@@ -21,7 +21,7 @@ const defaultPlayerValues: RawPlayer = {
   profileImage: 'fish-1.svg',
 };
 
-export const usePlayers = (id?: string) => {
+const usePlayers = (id?: string) => {
   const channelId = id ? id : '';
   const [players, setPlayers] = useState<Player[]>();
 
@@ -113,10 +113,6 @@ const updatePlayer = async ({ ...data }) => {
     ...data,
   };
 
-  console.log('existing: ', player.coins, player.isReady);
-  console.log('input: ', data.coins, data.isReady);
-  console.log('final: ', coins, isReady);
-
   return await playerRef.update({
     coins,
     isReady,
@@ -124,6 +120,7 @@ const updatePlayer = async ({ ...data }) => {
 };
 
 export const playerAPI = {
+  usePlayers,
   deletePlayer,
   updatePlayer,
   addPlayer,

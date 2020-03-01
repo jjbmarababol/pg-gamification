@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
 import { defaultMaxPlayers } from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
-import { channelAPI, Player, playerAPI, usePlayers } from '../../hooks';
+import { channelAPI, Player, playerAPI } from '../../hooks';
 import { MatchResults, MatchTimer } from '../match';
 import { Navbar } from '../navbar';
 import { LoadingPage } from './loading-page';
@@ -21,8 +21,8 @@ const { Text, Title } = Typography;
 export const MatchPage: FunctionComponent = () => {
   const { channelId } = useParams();
 
+  const { getPlayer, updatePlayer, usePlayers } = playerAPI;
   const { players: channelPlayers } = usePlayers(channelId);
-  const { getPlayer, updatePlayer } = playerAPI;
   const { getChannel, updateChannel } = channelAPI;
 
   const {

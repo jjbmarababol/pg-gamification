@@ -9,7 +9,7 @@ import React, {
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { PlayerContext } from '../../contexts';
-import { playerAPI, usePlayers } from '../../hooks';
+import { playerAPI } from '../../hooks';
 import { LoadingPage } from '../pages';
 
 const { Title } = Typography;
@@ -18,7 +18,7 @@ type PlayerNamePage = RouteComponentProps;
 
 export const PlayerNamePage: FunctionComponent<PlayerNamePage> = (props) => {
   const { history } = props;
-  const { addPlayer } = playerAPI;
+  const { addPlayer, usePlayers } = playerAPI;
   const {
     playerName,
     setPlayerName,

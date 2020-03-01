@@ -10,14 +10,14 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
-import { channelAPI, useChannels } from '../../hooks';
+import { channelAPI } from '../../hooks';
 import { LoadingPage } from '../pages';
 
 type MatchResults = RouteComponentProps;
 
 export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
   const { history } = props;
-  const { addChannels, joinChannel } = channelAPI;
+  const { addChannels, joinChannel, useChannels } = channelAPI;
   const { channels } = useChannels();
   const { playerId, setChannelId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);

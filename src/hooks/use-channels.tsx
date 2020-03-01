@@ -28,7 +28,7 @@ const defaultChannelValues: RawChannel = {
   players: [],
 };
 
-export const useChannels = () => {
+const useChannels = () => {
   const [channels, setChannels] = useState<Channel[]>();
   useEffect(() => {
     const unsubscribe = firebase
@@ -140,6 +140,7 @@ const leaveChannel = async (channelId: string, playerId: string) => {
 };
 
 export const channelAPI = {
+  useChannels,
   getChannel,
   addChannels,
   updateChannel,

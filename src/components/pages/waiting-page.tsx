@@ -10,13 +10,14 @@ import { Link, RouteComponentProps, useParams } from 'react-router-dom';
 
 import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
-import { usePlayers } from '../../hooks';
+import { playerAPI } from '../../hooks';
 import { LoadingPage } from './loading-page';
 
 type WaitingPageProps = RouteComponentProps;
 
 export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
   const { channelId } = useParams();
+  const { usePlayers } = playerAPI;
   const { players } = usePlayers(channelId);
 
   const { playerId } = useContext(PlayerContext);
