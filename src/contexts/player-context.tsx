@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { createContext, useState } from 'react';
 
 interface PlayerState {
@@ -42,17 +43,14 @@ export interface PlayerContextProps {
 
 export const Player = (props: PlayerContextProps) => {
   const [playerName, setPlayerName] = useState<string>('Nathaniel');
-  const [playerId, setPlayerId] = useState<string>('zpkxxPkBFwoPesnmDnJi');
-  const [channelId, setChannelId] = useState<string>('');
+  const [playerId, setPlayerId] = useState<string>('5JL6Q9LJc2v1MllJmGZK');
+  const [channelId, setChannelId] = useState<string>('antlantic-cod');
   const [profileImage, setProfileImage] = useState<string>('fish-4.svg');
   const [isReady, setIsReady] = useState<boolean>(false);
   const [coins, setCoins] = useState<number>(0);
 
   const updateCoins = (acquired: number) => {
-    setCoins(
-      (prevState) =>
-        Math.round((prevState + acquired + Number.EPSILON) * 100) / 100,
-    );
+    setCoins((prevState) => _.round(prevState + acquired));
   };
 
   const PlayerContextAPI = {

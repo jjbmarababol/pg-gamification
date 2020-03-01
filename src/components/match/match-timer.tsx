@@ -1,4 +1,4 @@
-import { Button, Col, Row, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import _ from 'lodash';
 import React, {
   FunctionComponent,
@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 
+import { defaultMaxRounds, defaultResultTimeout } from '../../constants';
 import { Contribution, MatchContext, PlayerContext } from '../../contexts';
 import { playerAPI } from '../../hooks';
 import { MatchActionButtons } from '../buttons';
@@ -33,6 +34,18 @@ export const MatchTimer: FunctionComponent = () => {
     setMatchContributions,
   } = useContext(MatchContext);
 
+  const nextRound = async () => {
+    await updatePlayer({ docId: playerId, coins, isReady: false });
+
+    setMatchContributions(_.concat(matchContributions, roundContributions));
+    if (round < defaultMaxRounds) {
+      setHasStarted(false);
+      setRound(round + 1);
+    } else if (round === defaultMaxRounds) {
+      setIsFinished(true);
+    }
+  };
+
   useEffect(() => {
     if (timer > 0) {
       setTimeout(() => {
@@ -42,6 +55,9 @@ export const MatchTimer: FunctionComponent = () => {
 
     if (timer === 0) {
       updateCoins(roundReward);
+      setTimeout(() => {
+        nextRound();
+      }, defaultResultTimeout);
     }
     // eslint-disable-next-line
   }, [timer, roundReward]);
@@ -49,18 +65,6 @@ export const MatchTimer: FunctionComponent = () => {
   useEffect(() => {
     setRoundCountributions(contributions);
   }, [contributions]);
-
-  const nextRound = async () => {
-    await updatePlayer({ docId: playerId, coins, isReady: false });
-
-    setMatchContributions(_.concat(matchContributions, roundContributions));
-    if (round < 6) {
-      setHasStarted(false);
-      setRound(round + 1);
-    } else if (round === 6) {
-      setIsFinished(true);
-    }
-  };
 
   return (
     <>
@@ -78,20 +82,7 @@ export const MatchTimer: FunctionComponent = () => {
         </Col>
       </Row>
       {timer !== 0 && <MatchActionButtons />}
-      {timer === 0 && (
-        <>
-          <Button
-            className="button--match-action"
-            type="primary"
-            size="large"
-            block
-            onClick={() => nextRound()}
-          >
-            Next Round
-          </Button>
-          <RoundResults />
-        </>
-      )}
+      {timer === 0 && <RoundResults />}
     </>
   );
 };

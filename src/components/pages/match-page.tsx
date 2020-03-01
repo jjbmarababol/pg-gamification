@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { defaultMaxPlayers } from '../../constants';
+import { defaultMaxPlayers, defaultMaxRounds } from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
 import { channelAPI, Player, playerAPI } from '../../hooks';
 import { MatchResults, MatchTimer } from '../match';
@@ -27,8 +27,10 @@ export const MatchPage: FunctionComponent = () => {
 
   const {
     isFinished,
+    setIsFinished,
     setHasStarted,
     round,
+    setRound,
     hasStarted,
     randomizeContribution,
   } = useContext(MatchContext);
@@ -69,11 +71,15 @@ export const MatchPage: FunctionComponent = () => {
       }
 
       const { coins, isReady: ready } = playerData;
-      const { hasStarted: starting } = channelData;
+      const { hasStarted: starting, currentRound } = channelData;
 
       setCoins(coins);
       setIsReady(ready);
       setHasStarted(starting);
+      setRound(currentRound);
+      if (currentRound > defaultMaxRounds) {
+        setIsFinished(true);
+      }
     })();
   }, [isReady, hasStarted]);
 
@@ -83,15 +89,24 @@ export const MatchPage: FunctionComponent = () => {
     }
     setPlayers(channelPlayers);
     const readyPlayers = countReady(channelPlayers);
+
     if (readyPlayers === defaultMaxPlayers) {
       (async () => {
         await updateChannel({ docId: channelId, hasStarted: true });
         setHasStarted(true);
       })();
     }
+
     if (readyPlayers === 0) {
       (async () => {
-        await updateChannel({ docId: channelId, hasStarted: false });
+        if (!hasStarted) {
+          return;
+        }
+        await updateChannel({
+          docId: channelId,
+          hasStarted: false,
+          currentRound: round + 1,
+        });
         setHasStarted(false);
       })();
     }
@@ -112,50 +127,52 @@ export const MatchPage: FunctionComponent = () => {
           {!isFinished && (
             <>
               {!hasStarted && (
-                <Col span={20} lg={12}>
-                  <Row type="flex" justify="center" align="middle">
-                    <Col xs={22} md={16} className="card--transluscent">
-                      <Text
-                        className="text--timer"
-                        style={{ letterSpacing: '-5px' }}
-                      >
-                        Round {round}
-                      </Text>
-                      <Text style={{ display: 'block', textAlign: 'center' }}>
-                        You currently have
-                      </Text>
-                      <Title
-                        style={{
-                          display: 'block',
-                          textAlign: 'center',
-                          marginTop: 0,
-                        }}
-                      >
-                        {coins}{' '}
-                        <Avatar
-                          icon="copyright"
+                <>
+                  <Col span={20} lg={12}>
+                    <Row type="flex" justify="center" align="middle">
+                      <Col xs={22} md={16} className="card--transluscent">
+                        <Text
+                          className="text--timer"
+                          style={{ letterSpacing: '-5px' }}
+                        >
+                          Round {round}
+                        </Text>
+                        <Text style={{ display: 'block', textAlign: 'center' }}>
+                          You currently have
+                        </Text>
+                        <Title
+                          style={{
+                            display: 'block',
+                            textAlign: 'center',
+                            marginTop: 0,
+                          }}
+                        >
+                          {coins}{' '}
+                          <Avatar
+                            icon="copyright"
+                            size="large"
+                            className="status-icon--coins"
+                          />
+                        </Title>
+                        <Button
+                          className="button--match-action"
+                          disabled={isReady}
+                          type="primary"
+                          icon="heart"
                           size="large"
-                          className="status-icon--coins"
-                        />
-                      </Title>
-                      <Button
-                        className="button--match-action"
-                        disabled={isReady}
-                        type="primary"
-                        icon="heart"
-                        size="large"
-                        onClick={async () => await readyAndStarted()}
-                        block
-                      >
-                        {isReady
-                          ? `${countReady(
-                              players,
-                            )}/${defaultMaxPlayers} players are ready`
-                          : 'Ready'}
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
+                          onClick={async () => await readyAndStarted()}
+                          block
+                        >
+                          {isReady
+                            ? `${countReady(
+                                players,
+                              )}/${defaultMaxPlayers} players are ready`
+                            : 'Ready'}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Col>
+                </>
               )}
               {hasStarted && (
                 <Col span={20} lg={12}>

@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React, { createContext, useEffect, useState } from 'react';
 
+import { defaultMaxPlayers } from '../constants';
+
 export interface MatchState {
   round: number;
   hasStarted: boolean;
@@ -35,10 +37,10 @@ interface MatchContextProps {
 }
 
 export const MatchContext = createContext<MatchContextAPI>({
-  round: 1,
+  round: 0,
   hasStarted: false,
   isFinished: false,
-  players: 0,
+  players: defaultMaxPlayers,
   poolAmount: 0,
   poolMultiplier: 0,
   totalAmount: 0,
@@ -69,7 +71,7 @@ export const Match = (props: MatchContextProps) => {
   const [ranking, setRanking] = useState<Contribution[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [roundReward, setRoundReward] = useState<number>(0);
-  const [players, setPlayers] = useState<number>(6);
+  const [players, setPlayers] = useState<number>(defaultMaxPlayers);
 
   const opponents = ['Clyffa', 'Nathalie', 'Rosie', 'Joshua', 'Steve'];
 
@@ -133,9 +135,9 @@ export const Match = (props: MatchContextProps) => {
   useEffect(() => {
     const calcRoundRewards = () => {
       const totalAmount = poolAmount * poolMultiplier;
-      const roundReward = totalAmount / players;
+      const roundReward = _.round(totalAmount / defaultMaxPlayers, 2);
       setTotalAmount(totalAmount);
-      setRoundReward(Math.round((roundReward + Number.EPSILON) * 100) / 100);
+      setRoundReward(roundReward);
     };
 
     calcRoundRewards();
