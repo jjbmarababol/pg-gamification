@@ -64,30 +64,13 @@ export const usePlayers = (id?: string) => {
   return { players, setPlayers };
 };
 
-const getPlayersByChannel = async (channelId: string) => {
-  let allPlayers;
-
-  firebase
+const getPlayer = async (playerId: string) => {
+  const playerRef = firebase
     .firestore()
     .collection('players')
-    .where('channelId', '==', channelId)
-    .orderBy('name')
-    .onSnapshot((snapshot) => {
-      allPlayers = snapshot.docs.map((player) => {
-        const {
-          name,
-          profileImage = defaultPlayerValues.profileImage,
-          isReady = defaultPlayerValues.isReady,
-        } = player.data();
-        return {
-          name,
-          profileImage,
-          isReady,
-          docId: player.id,
-        };
-      });
-    });
-  return allPlayers;
+    .doc(playerId);
+
+  return (await playerRef.get()).data();
 };
 
 const addPlayer = async (playerName: string, profileImage: string) => {
@@ -115,7 +98,7 @@ const deletePlayer = async (playerId: string) => {
     });
 };
 
-const updatePlayer = async (data: Player) => {
+const updatePlayer = async ({ ...data }) => {
   const db = firebase.firestore();
   const playerRef = db.collection('players').doc(data.docId);
   const player = (await playerRef.get()).data();
@@ -124,7 +107,15 @@ const updatePlayer = async (data: Player) => {
     return;
   }
 
-  const { coins, isReady } = data || player || defaultPlayerValues;
+  const { coins, isReady } = {
+    ...defaultPlayerValues,
+    ...player,
+    ...data,
+  };
+
+  console.log('existing: ', player.coins, player.isReady);
+  console.log('input: ', data.coins, data.isReady);
+  console.log('final: ', coins, isReady);
 
   return await playerRef.update({
     coins,
@@ -132,9 +123,9 @@ const updatePlayer = async (data: Player) => {
   });
 };
 
-export const PlayerAPI = {
+export const playerAPI = {
   deletePlayer,
   updatePlayer,
   addPlayer,
-  getPlayersByChannel,
+  getPlayer,
 };

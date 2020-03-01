@@ -1,91 +1,175 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Avatar, Button, Col, Row, Typography } from 'antd';
-import React, { FunctionComponent, useContext } from 'react';
+import _ from 'lodash';
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useParams } from 'react-router-dom';
 
+import { defaultMaxPlayers } from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
+import { channelAPI, Player, playerAPI, usePlayers } from '../../hooks';
 import { MatchResults, MatchTimer } from '../match';
 import { Navbar } from '../navbar';
+import { LoadingPage } from './loading-page';
 
 const { Text, Title } = Typography;
+
 export const MatchPage: FunctionComponent = () => {
+  const { channelId } = useParams();
+
+  const { players: channelPlayers } = usePlayers(channelId);
+  const { getPlayer, updatePlayer } = playerAPI;
+  const { getChannel, updateChannel } = channelAPI;
+
   const {
-    setHasStarted,
     isFinished,
-    hasStarted,
+    setHasStarted,
     round,
+    hasStarted,
     randomizeContribution,
   } = useContext(MatchContext);
-  const { updateCoins, coins } = useContext(PlayerContext);
-  const readyAndStarted = () => {
-    updateCoins(10);
-    randomizeContribution();
-    setHasStarted(true);
+  const {
+    playerId,
+    updateCoins,
+    coins,
+    setIsReady,
+    isReady,
+    setCoins,
+  } = useContext(PlayerContext);
+  const [players, setPlayers] = useState<Player[]>();
+
+  const countReady = (channelPlayers: Player[]): number => {
+    return _.filter(channelPlayers, (player) => {
+      return player.isReady;
+    }).length;
   };
 
-  return (
-    <div className="row--moving-background">
-      <Navbar />
-      <Row
-        style={{ minHeight: '80vh' }}
-        type="flex"
-        justify="center"
-        align="middle"
-      >
-        {!isFinished && (
-          <>
-            {!hasStarted && (
-              <Col span={20} lg={12}>
-                <Row type="flex" justify="center" align="middle">
-                  <Col xs={22} md={16} className="card--transluscent">
-                    <Text
-                      className="text--timer"
-                      style={{ letterSpacing: '-5px' }}
-                    >
-                      Round {round}
-                    </Text>
-                    <Text style={{ display: 'block', textAlign: 'center' }}>
-                      You currently have
-                    </Text>
-                    <Title
-                      style={{
-                        display: 'block',
-                        textAlign: 'center',
-                        marginTop: 0,
-                      }}
-                    >
-                      {coins}{' '}
-                      <Avatar
-                        icon="copyright"
+  const readyAndStarted = async (): Promise<void> => {
+    await updatePlayer({ docId: playerId, isReady: true, coins: coins + 10 });
+    updateCoins(10);
+    randomizeContribution();
+    setIsReady(true);
+  };
+
+  useEffect(() => {
+    if (!playerId || !channelId) {
+      return;
+    }
+
+    (async (): Promise<void> => {
+      const playerData = await getPlayer(playerId);
+      const channelData = await getChannel(channelId);
+
+      if (!playerData || !channelData) {
+        return;
+      }
+
+      const { coins, isReady: ready } = playerData;
+      const { hasStarted: starting } = channelData;
+
+      setCoins(coins);
+      setIsReady(ready);
+      setHasStarted(starting);
+    })();
+  }, [isReady, hasStarted]);
+
+  useEffect(() => {
+    if (!channelPlayers) {
+      return;
+    }
+    setPlayers(channelPlayers);
+    const readyPlayers = countReady(channelPlayers);
+    if (readyPlayers === defaultMaxPlayers) {
+      (async () => {
+        await updateChannel({ docId: channelId, hasStarted: true });
+        setHasStarted(true);
+      })();
+    }
+    if (readyPlayers === 0) {
+      (async () => {
+        await updateChannel({ docId: channelId, hasStarted: false });
+        setHasStarted(false);
+      })();
+    }
+  }, [channelPlayers]);
+
+  if (!players) {
+    return <LoadingPage />;
+  } else
+    return (
+      <div className="row--moving-background">
+        <Navbar />
+        <Row
+          style={{ minHeight: '80vh' }}
+          type="flex"
+          justify="center"
+          align="middle"
+        >
+          {!isFinished && (
+            <>
+              {!hasStarted && (
+                <Col span={20} lg={12}>
+                  <Row type="flex" justify="center" align="middle">
+                    <Col xs={22} md={16} className="card--transluscent">
+                      <Text
+                        className="text--timer"
+                        style={{ letterSpacing: '-5px' }}
+                      >
+                        Round {round}
+                      </Text>
+                      <Text style={{ display: 'block', textAlign: 'center' }}>
+                        You currently have
+                      </Text>
+                      <Title
+                        style={{
+                          display: 'block',
+                          textAlign: 'center',
+                          marginTop: 0,
+                        }}
+                      >
+                        {coins}{' '}
+                        <Avatar
+                          icon="copyright"
+                          size="large"
+                          className="status-icon--coins"
+                        />
+                      </Title>
+                      <Button
+                        className="button--match-action"
+                        disabled={isReady}
+                        type="primary"
+                        icon="heart"
                         size="large"
-                        className="status-icon--coins"
-                      />
-                    </Title>
-                    <Button
-                      className="button--match-action"
-                      type="primary"
-                      icon="heart"
-                      size="large"
-                      onClick={() => readyAndStarted()}
-                      block
-                    >
-                      Ready
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-            )}
-            {hasStarted && (
-              <Col span={20} lg={12}>
-                <MatchTimer />
-              </Col>
-            )}
-          </>
-        )}
-        {isFinished && (
-          <Col span={20} lg={12}>
-            <MatchResults />
-          </Col>
-        )}
-      </Row>
-    </div>
-  );
+                        onClick={async () => await readyAndStarted()}
+                        block
+                      >
+                        {isReady
+                          ? `${countReady(
+                              players,
+                            )}/${defaultMaxPlayers} players are ready`
+                          : 'Ready'}
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              )}
+              {hasStarted && (
+                <Col span={20} lg={12}>
+                  <MatchTimer />
+                </Col>
+              )}
+            </>
+          )}
+          {isFinished && (
+            <Col span={20} lg={12}>
+              <MatchResults />
+            </Col>
+          )}
+        </Row>
+      </div>
+    );
 };

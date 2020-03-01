@@ -9,11 +9,11 @@ interface PooledAmount {
   amount: number;
 }
 export interface RawChannel {
-  name?: string;
-  currentRound?: number;
-  hasStarted?: boolean;
-  totalPooledAmount?: PooledAmount[];
-  players?: string[];
+  name: string;
+  currentRound: number;
+  hasStarted: boolean;
+  totalPooledAmount: PooledAmount[];
+  players: string[];
 }
 
 export interface Channel extends RawChannel {
@@ -72,9 +72,9 @@ const addChannels = async () => {
   const batch = db.batch();
 
   defaultChannels.forEach((channel) => {
-    const { name, docId } = channel;
+    const { name, docId, hasStarted, currentRound } = channel;
     const docRef = db.collection('channels').doc(docId);
-    batch.set(docRef, { name }, { merge: true });
+    batch.set(docRef, { name, hasStarted, currentRound }, { merge: true });
   });
 
   return await batch.commit();
@@ -94,7 +94,16 @@ const joinChannel = async (channelId: string, playerId: string) => {
   });
 };
 
-const updateChannel = async (data: Channel) => {
+const getChannel = async (channelId: string) => {
+  const channelRef = firebase
+    .firestore()
+    .collection('channels')
+    .doc(channelId);
+
+  return (await channelRef.get()).data();
+};
+
+const updateChannel = async ({ ...data }) => {
   const db = firebase.firestore();
   const channelRef = db.collection('channels').doc(data.docId);
   const channel = (await channelRef.get()).data();
@@ -103,8 +112,11 @@ const updateChannel = async (data: Channel) => {
     return;
   }
 
-  const { currentRound, hasStarted, totalPooledAmount } =
-    data || channel || defaultChannelValues;
+  const { currentRound, hasStarted, totalPooledAmount } = {
+    ...defaultChannelValues,
+    ...channel,
+    ...data,
+  };
 
   return await channelRef.update({
     currentRound,
@@ -128,6 +140,7 @@ const leaveChannel = async (channelId: string, playerId: string) => {
 };
 
 export const channelAPI = {
+  getChannel,
   addChannels,
   updateChannel,
   leaveChannel,

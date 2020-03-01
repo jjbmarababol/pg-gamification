@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { defaultMaxChannels } from '../../constants';
+import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
 import { channelAPI, useChannels } from '../../hooks';
 import { LoadingPage } from '../pages';
@@ -72,10 +72,10 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
                         {_.isUndefined(channel.players)
                           ? 0
                           : channel.players.length}
-                        / {defaultMaxChannels}
+                        / {defaultMaxPlayers}
                       </div>
                       {(channel.players ? channel.players.length : 0) <
-                        defaultMaxChannels && (
+                        defaultMaxPlayers && (
                         <Button
                           type="primary"
                           onClick={() => selectChannel(channel.docId)}

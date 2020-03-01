@@ -8,9 +8,9 @@ import React, {
 } from 'react';
 import { Link, RouteComponentProps, useParams } from 'react-router-dom';
 
-import { defaultMaxChannels } from '../../constants';
+import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
-import { channelAPI, usePlayers } from '../../hooks';
+import { usePlayers } from '../../hooks';
 import { LoadingPage } from './loading-page';
 
 type WaitingPageProps = RouteComponentProps;
@@ -18,21 +18,19 @@ type WaitingPageProps = RouteComponentProps;
 export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
   const { channelId } = useParams();
   const { players } = usePlayers(channelId);
-  const { updateChannel } = channelAPI;
 
   const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [channel, setChannel] = useState<string>('');
 
   const createTitle = (): string => {
     const status =
-      players?.length === defaultMaxChannels
+      players?.length === defaultMaxPlayers
         ? 'Game Ready!'
         : 'Waiting for players..';
 
     const playerCount = `${
       _.isUndefined(players) ? 0 : players.length
-    }/${defaultMaxChannels}`;
+    }/${defaultMaxPlayers}`;
 
     return `${playerCount} ${status} `;
   };
@@ -42,14 +40,6 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
       setIsLoading(true);
     }
   }, [players]);
-
-  useEffect(() => {
-    if (!channelId) {
-      return;
-    }
-
-    setChannel(channelId);
-  }, [channelId]);
 
   let Page = <></>;
 
@@ -87,7 +77,9 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
                     title={
                       <span
                         className={
-                          player.docId === playerId ? 'room__player-self' : ''
+                          player.docId === playerId
+                            ? 'room__player room__player-self'
+                            : 'room__player'
                         }
                       >
                         {player.name}
@@ -98,17 +90,9 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
               )}
             />
           </Card>
-          {players.length > 1 && (
+          {players.length === defaultMaxPlayers && (
             <Link to={`/match/${channelId}`}>
-              <Button
-                type="primary"
-                size="large"
-                icon="heart"
-                block
-                onClick={() => {
-                  updateChannel({ docId: channel });
-                }}
-              >
+              <Button type="primary" size="large" icon="heart" block>
                 Enter
               </Button>
             </Link>

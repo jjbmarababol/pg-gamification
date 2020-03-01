@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 
 import { Contribution, MatchContext, PlayerContext } from '../../contexts';
+import { playerAPI } from '../../hooks';
 import { MatchActionButtons } from '../buttons';
 import { RoundResults } from './round-results';
 import { RoundReward } from './round-reward';
@@ -15,11 +16,12 @@ import { RoundReward } from './round-reward';
 const { Text } = Typography;
 
 export const MatchTimer: FunctionComponent = () => {
+  const { updatePlayer } = playerAPI;
   const [timer, setTimer] = useState<number>(10);
   const [roundContributions, setRoundCountributions] = useState<Contribution[]>(
     [],
   );
-  const { updateCoins } = useContext(PlayerContext);
+  const { updateCoins, coins, playerId } = useContext(PlayerContext);
   const {
     roundReward,
     setHasStarted,
@@ -48,7 +50,9 @@ export const MatchTimer: FunctionComponent = () => {
     setRoundCountributions(contributions);
   }, [contributions]);
 
-  const nextRound = () => {
+  const nextRound = async () => {
+    await updatePlayer({ docId: playerId, coins, isReady: false });
+
     setMatchContributions(_.concat(matchContributions, roundContributions));
     if (round < 6) {
       setHasStarted(false);
