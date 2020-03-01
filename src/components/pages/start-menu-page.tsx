@@ -6,9 +6,7 @@ import companyLogo from '../ui/images/logo.png';
 
 const { Title } = Typography;
 
-interface StartMenuPage {}
-
-export const StartMenuPage: FunctionComponent<StartMenuPage> = (props) => {
+export const StartMenuPage: FunctionComponent = () => {
   return (
     <Row
       className="row--moving-background"

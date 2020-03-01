@@ -1,4 +1,5 @@
 import { Avatar, Button, Card, Col, List, Row } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -6,36 +7,40 @@ import React, {
   useState,
 } from 'react';
 import { Link, RouteComponentProps, useParams } from 'react-router-dom';
-import { isUndefined } from 'util';
 
+import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
-import { channelAPI, usePlayers } from '../../hooks';
+import { playerAPI } from '../../hooks';
 import { LoadingPage } from './loading-page';
 
 type WaitingPageProps = RouteComponentProps;
 
 export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
   const { channelId } = useParams();
+  const { usePlayers } = playerAPI;
   const { players } = usePlayers(channelId);
-  const { updateChannel } = channelAPI;
 
   const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [channel, setChannel] = useState<string>('');
+
+  const createTitle = (): string => {
+    const status =
+      players?.length === defaultMaxPlayers
+        ? 'Game Ready!'
+        : 'Waiting for players..';
+
+    const playerCount = `${
+      _.isUndefined(players) ? 0 : players.length
+    }/${defaultMaxPlayers}`;
+
+    return `${playerCount} ${status} `;
+  };
 
   useEffect(() => {
     if (!players) {
       setIsLoading(true);
     }
   }, [players]);
-
-  useEffect(() => {
-    if (!channelId) {
-      return;
-    }
-
-    setChannel(channelId);
-  }, [channelId]);
 
   let Page = <></>;
 
@@ -54,9 +59,7 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
         <Col xs={20} md={10}>
           <Card
             bordered={false}
-            title={`${isUndefined(players) ? 0 : players.length}/6 ${
-              players.length === 6 ? 'Game Ready!' : 'Waiting for players..'
-            } `}
+            title={createTitle()}
             className="card--transluscent no-padding"
           >
             <List
@@ -75,7 +78,9 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
                     title={
                       <span
                         className={
-                          player.docId === playerId ? 'room__player-self' : ''
+                          player.docId === playerId
+                            ? 'room__player room__player-self'
+                            : 'room__player'
                         }
                       >
                         {player.name}
@@ -86,17 +91,9 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
               )}
             />
           </Card>
-          {players.length === 6 && (
+          {players.length === defaultMaxPlayers && (
             <Link to={`/match/${channelId}`}>
-              <Button
-                type="primary"
-                size="large"
-                icon="heart"
-                block
-                onClick={() => {
-                  updateChannel({ docId: channel });
-                }}
-              >
+              <Button type="primary" size="large" icon="heart" block>
                 Enter
               </Button>
             </Link>

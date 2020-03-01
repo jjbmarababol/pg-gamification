@@ -1,4 +1,5 @@
 import { Button, Card, Col, List, Row } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -7,22 +8,26 @@ import React, {
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
+import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
-import { channelAPI, useChannels } from '../../hooks';
+import { channelAPI } from '../../hooks';
 import { LoadingPage } from '../pages';
 
 type MatchResults = RouteComponentProps;
 
 export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
   const { history } = props;
-  const { addChannels, joinChannel } = channelAPI;
+  const { addChannels, joinChannel, useChannels } = channelAPI;
   const { channels } = useChannels();
   const { playerId, setChannelId } = useContext(PlayerContext);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
       await addChannels();
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     })();
   }, [addChannels]);
 
@@ -64,17 +69,20 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
                   actions={[
                     <>
                       <div className="channel__members">
-                        {channel.players?.length} / 6
+                        {_.isUndefined(channel.players)
+                          ? 0
+                          : channel.players.length}
+                        / {defaultMaxPlayers}
                       </div>
-                      {channel.players !== undefined &&
-                        channel.players?.length < 6 && (
-                          <Button
-                            type="primary"
-                            onClick={() => selectChannel(channel.docId)}
-                          >
-                            Enter
-                          </Button>
-                        )}
+                      {(channel.players ? channel.players.length : 0) <
+                        defaultMaxPlayers && (
+                        <Button
+                          type="primary"
+                          onClick={() => selectChannel(channel.docId)}
+                        >
+                          Enter
+                        </Button>
+                      )}
                     </>,
                   ]}
                 >

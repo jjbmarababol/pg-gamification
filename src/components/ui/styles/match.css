@@ -1,6 +1,10 @@
 .room__player-self {
   font-weight: bolder;
-  color: #1890ff;
+  color: #004484;;
+}
+
+.room__player {
+  font-size: 18px;
 }
 
 .text--timer {
@@ -25,10 +29,9 @@
 }
 
 .button--match-action {
-  height: 50px;
-  font-size: 18px;
+  height: 60px;
+  font-size: 20px;
   margin-bottom: 15px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .text--round-reward-desc {
@@ -41,4 +44,10 @@
 
 .text--round-timers-up {
   font-size: 32px;
+}
+
+.icon--gold-coin {
+  background: rgb(255, 213, 0);
+  color: #af770e;
+  border-radius: 150px;
 }

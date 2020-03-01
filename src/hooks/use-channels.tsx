@@ -9,18 +9,26 @@ interface PooledAmount {
   amount: number;
 }
 export interface RawChannel {
-  name?: string;
-  currentRound?: number;
-  hasStarted?: boolean;
-  totalPooledAmount?: PooledAmount[];
-  players?: string[];
+  name: string;
+  currentRound: number;
+  hasStarted: boolean;
+  totalPooledAmount: PooledAmount[];
+  players: string[];
 }
 
 export interface Channel extends RawChannel {
   docId: string;
 }
 
-export const useChannels = () => {
+const defaultChannelValues: RawChannel = {
+  name: '',
+  currentRound: 1,
+  hasStarted: false,
+  totalPooledAmount: [],
+  players: [],
+};
+
+const useChannels = () => {
   const [channels, setChannels] = useState<Channel[]>();
   useEffect(() => {
     const unsubscribe = firebase
@@ -31,12 +39,13 @@ export const useChannels = () => {
         const allChannels = snapshot.docs.map((channel) => {
           const {
             name,
-            currentRound = 1,
-            hasStarted = false,
-            players = [],
-            totalPooledAmount = [],
+            currentRound,
+            hasStarted,
+            players,
+            totalPooledAmount,
           } = channel.data();
           return {
+            ...defaultChannelValues,
             name,
             currentRound,
             hasStarted,
@@ -63,9 +72,9 @@ const addChannels = async () => {
   const batch = db.batch();
 
   defaultChannels.forEach((channel) => {
-    const { name, docId } = channel;
+    const { name, docId, hasStarted, currentRound } = channel;
     const docRef = db.collection('channels').doc(docId);
-    batch.set(docRef, { name }, { merge: true });
+    batch.set(docRef, { name, hasStarted, currentRound }, { merge: true });
   });
 
   return await batch.commit();
@@ -85,17 +94,34 @@ const joinChannel = async (channelId: string, playerId: string) => {
   });
 };
 
-const updateChannel = async (data: Channel) => {
-  const { docId: channelId, currentRound = 1, hasStarted = false } = data;
-  const db = firebase.firestore();
-  const channelRef = db.collection('channels').doc(channelId);
+const getChannel = async (channelId: string) => {
+  const channelRef = firebase
+    .firestore()
+    .collection('channels')
+    .doc(channelId);
 
+  return (await channelRef.get()).data();
+};
+
+const updateChannel = async ({ ...data }) => {
+  const db = firebase.firestore();
+  const channelRef = db.collection('channels').doc(data.docId);
   const channel = (await channelRef.get()).data();
 
-  return await channelRef.update({
+  if (!channel) {
+    return;
+  }
+
+  const { currentRound, hasStarted, totalPooledAmount } = {
+    ...defaultChannelValues,
     ...channel,
+    ...data,
+  };
+
+  return await channelRef.update({
     currentRound,
     hasStarted,
+    totalPooledAmount,
   });
 };
 
@@ -114,6 +140,8 @@ const leaveChannel = async (channelId: string, playerId: string) => {
 };
 
 export const channelAPI = {
+  useChannels,
+  getChannel,
   addChannels,
   updateChannel,
   leaveChannel,

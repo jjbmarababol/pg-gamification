@@ -9,7 +9,8 @@
   ],
   "plugins": [
     "prettier",
-    "simple-import-sort"
+    "simple-import-sort",
+    "react-hooks"
   ],
   "parserOptions": {
     "sourceType": "module",

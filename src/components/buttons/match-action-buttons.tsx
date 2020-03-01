@@ -1,5 +1,4 @@
 import { Button, Col, Icon, Row } from 'antd';
-import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -48,8 +47,8 @@ export const MatchActionButtons: FunctionComponent = () => {
           onClick={() => setSelectedContribution(10)}
           disabled={hasSelected && selectedOption === 0}
         >
-          <Icon type="check" /> Yes. (&nbsp; -10
-          <Icon type="dollar" />)
+          <Icon type="check" /> Yes.&nbsp;-10
+          <Icon type="copyright" className="icon--gold-coin" />
         </Button>
       </Col>
       <Col xs={24} sm={12}>
@@ -61,7 +60,7 @@ export const MatchActionButtons: FunctionComponent = () => {
           onClick={() => setSelectedContribution(0)}
           disabled={hasSelected && selectedOption === 10}
         >
-          <Icon type="close" /> No, I {_.escape("won't")}.
+          <Icon type="close" /> No, I won&apos;t.
         </Button>
       </Col>
     </Row>

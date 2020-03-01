@@ -62,3 +62,23 @@ body {
     background-position: 0% 0%;
   }
 }
+
+
+.ant-lg-btn {
+  height: 60px;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.ant-btn-primary {
+  background: #2856ff;
+  border: none !important;
+  background: linear-gradient(45deg,#2856ff,#18aaff);
+}
+.ant-btn-danger {
+  background: #2856ff;
+  border: none !important;
+  background: linear-gradient(45deg,#ce0000,#ff853e);
+}
