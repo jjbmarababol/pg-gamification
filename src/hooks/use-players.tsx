@@ -64,13 +64,34 @@ const usePlayers = (id?: string) => {
   return { players, setPlayers };
 };
 
-const getPlayer = async (playerId: string) => {
+const getPlayer = async (playerId: string): Promise<Player> => {
   const playerRef = firebase
     .firestore()
     .collection('players')
     .doc(playerId);
 
-  return (await playerRef.get()).data();
+  const player = (await playerRef.get()).data();
+
+  if (!player) {
+    return {
+      ...defaultPlayerValues,
+      docId: '',
+    };
+  }
+
+  const { name, channelId, coins, isReady, profileImage } = {
+    ...defaultPlayerValues,
+    ...player,
+  };
+
+  return {
+    name,
+    channelId,
+    coins,
+    isReady,
+    profileImage,
+    docId: player.id,
+  };
 };
 
 const addPlayer = async (playerName: string, profileImage: string) => {
@@ -113,6 +134,9 @@ const updatePlayer = async ({ ...data }) => {
     ...data,
   };
 
+  console.log('player: ', player.coins, player.isReady);
+  console.log('data: ', data.coins, data.isReady);
+  console.log('input: ', coins, isReady);
   return await playerRef.update({
     coins,
     isReady,

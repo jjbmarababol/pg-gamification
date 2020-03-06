@@ -12,6 +12,7 @@ export interface MatchState {
   poolMultiplier: number;
   totalAmount: number;
   roundReward: number;
+  selfContribution: number;
   contributions: Contribution[];
   matchContributions: Contribution[];
   ranking: Contribution[];
@@ -27,6 +28,7 @@ interface MatchContextAPI extends MatchState {
   setIsFinished: (isFinished: boolean) => void;
   setPlayers: (players: number) => void;
   setPoolAmount: (amount: number) => void;
+  setSelfContribution: (amount: number) => void;
   setContributions: (contributions: Contribution[]) => void;
   setMatchContributions: (contributions: Contribution[]) => void;
   randomizeContribution: () => void;
@@ -48,7 +50,10 @@ export const MatchContext = createContext<MatchContextAPI>({
   contributions: [],
   matchContributions: [],
   ranking: [],
+  selfContribution: 0,
+
   setRound: () => null,
+  setSelfContribution: () => null,
   setHasStarted: () => null,
   setIsFinished: () => null,
   setPlayers: () => null,
@@ -63,6 +68,7 @@ export const Match = (props: MatchContextProps) => {
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [poolAmount, setPoolAmount] = useState<number>(0);
+  const [selfContribution, setSelfContribution] = useState<number>(0);
   const [poolMultiplier] = useState<number>(2);
   const [contributions, setContributions] = useState<Contribution[]>([]);
   const [matchContributions, setMatchContributions] = useState<Contribution[]>(
@@ -155,6 +161,8 @@ export const Match = (props: MatchContextProps) => {
     contributions,
     matchContributions,
     ranking,
+    selfContribution,
+    setSelfContribution,
     setRound,
     setHasStarted,
     setIsFinished,

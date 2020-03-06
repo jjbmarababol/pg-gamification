@@ -2,19 +2,25 @@ import { useEffect, useState } from 'react';
 
 import { firebase } from '../firebase';
 
-export interface ContributionCore {
+export interface RawContribution {
   round: number;
   amount: number;
   channelId: string;
   playerId: string;
-  contributedAt: string;
 }
 
-export interface Contribution extends ContributionCore {
+export interface Contribution extends RawContribution {
   docId: string;
 }
 
-export const useContributions = (id?: string) => {
+const defaultContributionValues: RawContribution = {
+  round: 0,
+  amount: 0,
+  channelId: '',
+  playerId: '',
+};
+
+const useContributions = (id?: string) => {
   const channelId = id ? id : '';
   const [contributions, setContributions] = useState<Contribution[]>();
 
@@ -26,19 +32,13 @@ export const useContributions = (id?: string) => {
       .orderBy('round')
       .onSnapshot((snapshot) => {
         const allContributions = snapshot.docs.map((contribution) => {
-          const {
-            round,
-            channelId,
-            playerId,
-            amount,
-            contributedAt,
-          } = contribution.data();
+          const { round, channelId, playerId, amount } = contribution.data();
           return {
+            ...defaultContributionValues,
             round,
             amount,
             channelId,
             playerId,
-            contributedAt,
             docId: contribution.id,
           };
         });
@@ -58,9 +58,8 @@ export const useContributions = (id?: string) => {
   return { contributions, setContributions };
 };
 
-export const getContributionsByPlayer = async (playerId: string) => {
+const getContributionsByPlayer = async (playerId: string) => {
   let allContributions;
-
   firebase
     .firestore()
     .collection('contributions')
@@ -68,9 +67,12 @@ export const getContributionsByPlayer = async (playerId: string) => {
     .orderBy('round')
     .onSnapshot((snapshot) => {
       allContributions = snapshot.docs.map((contribution) => {
-        const { name } = contribution.data();
+        const { round = 1, channelId, amount = 0 } = contribution.data();
         return {
-          name,
+          ...defaultContributionValues,
+          round,
+          amount,
+          channelId,
           docId: contribution.id,
         };
       });
@@ -78,7 +80,7 @@ export const getContributionsByPlayer = async (playerId: string) => {
   return allContributions;
 };
 
-export const addContribution = async (contributionObject: ContributionCore) => {
+const addContribution = async (contributionObject: RawContribution) => {
   const { playerId, channelId, amount, round } = contributionObject;
   return await firebase
     .firestore()
@@ -91,7 +93,7 @@ export const addContribution = async (contributionObject: ContributionCore) => {
     });
 };
 
-export const deleteContribution = async (contributionId: string) => {
+const deleteContribution = async (contributionId: string) => {
   return await firebase
     .firestore()
     .collection('contributions')
@@ -103,4 +105,11 @@ export const deleteContribution = async (contributionId: string) => {
     .catch((e) => {
       console.error('Error: ', e);
     });
+};
+
+export const contributionAPI = {
+  useContributions,
+  addContribution,
+  getContributionsByPlayer,
+  deleteContribution,
 };

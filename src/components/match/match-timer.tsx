@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Col, Row, Typography } from 'antd';
-import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -8,8 +8,8 @@ import React, {
 } from 'react';
 
 import { defaultMaxRounds, defaultResultTimeout } from '../../constants';
-import { Contribution, MatchContext, PlayerContext } from '../../contexts';
-import { playerAPI } from '../../hooks';
+import { MatchContext, PlayerContext } from '../../contexts';
+import { contributionAPI, playerAPI } from '../../hooks';
 import { MatchActionButtons } from '../buttons';
 import { RoundResults } from './round-results';
 import { RoundReward } from './round-reward';
@@ -18,30 +18,40 @@ const { Text } = Typography;
 
 export const MatchTimer: FunctionComponent = () => {
   const { updatePlayer } = playerAPI;
-  const [timer, setTimer] = useState<number>(10);
-  const [roundContributions, setRoundCountributions] = useState<Contribution[]>(
-    [],
-  );
-  const { updateCoins, coins, playerId } = useContext(PlayerContext);
+  const [timer, setTimer] = useState<number>(3);
+  const { useContributions, addContribution } = contributionAPI;
+  const { updateCoins, coins, playerId, channelId } = useContext(PlayerContext);
+  const { contributions } = useContributions(channelId);
+
   const {
     roundReward,
     setHasStarted,
     setIsFinished,
     setRound,
     round,
-    contributions,
-    matchContributions,
-    setMatchContributions,
+    selfContribution,
+    setSelfContribution,
   } = useContext(MatchContext);
 
   const nextRound = async () => {
+    await addContribution({
+      round,
+      channelId,
+      playerId,
+      amount: selfContribution,
+    }).then(() => {
+      setSelfContribution(0);
+    });
+
     await updatePlayer({
       docId: playerId,
       coins: coins + roundReward,
       isReady: false,
     });
 
-    setMatchContributions(_.concat(matchContributions, roundContributions));
+    // await addtochannel for total contributions
+    console.log(contributions);
+
     if (round < defaultMaxRounds) {
       setHasStarted(false);
       setRound(round + 1);
@@ -63,12 +73,7 @@ export const MatchTimer: FunctionComponent = () => {
         nextRound();
       }, defaultResultTimeout);
     }
-    // eslint-disable-next-line
   }, [timer, roundReward]);
-
-  useEffect(() => {
-    setRoundCountributions(contributions);
-  }, [contributions]);
 
   return (
     <>
