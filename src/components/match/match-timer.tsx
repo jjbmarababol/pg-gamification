@@ -35,7 +35,11 @@ export const MatchTimer: FunctionComponent = () => {
   } = useContext(MatchContext);
 
   const nextRound = async () => {
-    await updatePlayer({ docId: playerId, coins, isReady: false });
+    await updatePlayer({
+      docId: playerId,
+      coins: coins + roundReward,
+      isReady: false,
+    });
 
     setMatchContributions(_.concat(matchContributions, roundContributions));
     if (round < defaultMaxRounds) {
