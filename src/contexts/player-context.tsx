@@ -43,8 +43,8 @@ export interface PlayerContextProps {
 
 export const Player = (props: PlayerContextProps) => {
   const [playerName, setPlayerName] = useState<string>('Nathaniel');
-  const [playerId, setPlayerId] = useState<string>('5JL6Q9LJc2v1MllJmGZK');
-  const [channelId, setChannelId] = useState<string>('antlantic-cod');
+  const [playerId, setPlayerId] = useState<string>('MFnBQhlBzzYdM6xBbSIX');
+  const [channelId, setChannelId] = useState<string>('atlantic-cod');
   const [profileImage, setProfileImage] = useState<string>('fish-4.svg');
   const [isReady, setIsReady] = useState<boolean>(false);
   const [coins, setCoins] = useState<number>(0);

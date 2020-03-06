@@ -51,7 +51,11 @@ export const MatchPage: FunctionComponent = () => {
   };
 
   const readyAndStarted = async (): Promise<void> => {
-    await updatePlayer({ docId: playerId, isReady: true, coins: coins + 10 });
+    await updatePlayer({
+      docId: playerId,
+      isReady: true,
+      coins: coins + 10,
+    });
     updateCoins(10);
     randomizeContribution();
     setIsReady(true);
@@ -77,6 +81,14 @@ export const MatchPage: FunctionComponent = () => {
       setIsReady(ready);
       setHasStarted(starting);
       setRound(currentRound);
+
+      // Promise.all([
+      //   setCoins(coins),
+      //   setIsReady(ready),
+      //   setHasStarted(starting),
+      //   setRound(currentRound),
+      // ]);
+
       if (currentRound > defaultMaxRounds) {
         setIsFinished(true);
       }

@@ -1,39 +1,86 @@
-import { Card, List, Typography } from 'antd';
-import React, { FunctionComponent, useContext } from 'react';
+import { Table } from 'antd';
+import _ from 'lodash';
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-import { Contribution, MatchContext } from '../../contexts';
+import { PlayerContext } from '../../contexts';
+import { Contribution, contributionAPI, Player, playerAPI } from '../../hooks';
+import { LoadingPage } from '../pages';
 
-const { Text } = Typography;
-
+interface MatchResult {
+  key: string;
+  name: string;
+  contribution: number;
+  coins: number;
+}
 export const MatchResults: FunctionComponent = () => {
-  const { ranking } = useContext(MatchContext);
+  const { useContributions } = contributionAPI;
+  const { usePlayers } = playerAPI;
+  const { channelId } = useContext(PlayerContext);
+  const { contributions } = useContributions(channelId);
+  const { players } = usePlayers(channelId);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const player = (object: Contribution) => {
-    return Object.keys(object)[0];
-  };
+  const [matchResults, setMatchResults] = useState<MatchResult[]>([]);
 
-  return (
-    <Card
-      bordered={false}
-      title="Total Contributions"
-      style={{ marginBottom: '15px' }}
-      className="card--transluscent"
-    >
-      <List
-        itemLayout="horizontal"
-        dataSource={ranking}
-        renderItem={(rank) => (
-          <List.Item
-            actions={[
-              <Text key={rank.docId} style={{ fontWeight: 'bolder' }}>
-                {player(rank)}
-              </Text>,
-            ]}
-          >
-            <List.Item.Meta title={<span>{rank[player(rank)]}</span>} />
-          </List.Item>
-        )}
-      />
-    </Card>
-  );
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      ellipsis: true,
+    },
+    {
+      title: 'Coins',
+      dataIndex: 'coins',
+      key: 'coins',
+      ellipsis: true,
+    },
+    {
+      title: 'Contrib.',
+      dataIndex: 'contribution',
+      key: 'contribution',
+      ellipsis: true,
+    },
+  ];
+
+  function fetchResult(contributions: Contribution[], matchPlayers: Player[]) {
+    const total = _(contributions)
+      .groupBy('playerId')
+      .map((objs, key) => {
+        const playerDetails = _.find(matchPlayers, function(player) {
+          return player.docId === objs[0].playerId;
+        });
+        return {
+          key,
+          name: playerDetails?.name || key,
+          coins: playerDetails?.coins || 0,
+          contribution: _.sumBy(objs, 'amount'),
+        };
+      })
+      .orderBy('coins', 'desc')
+      .value();
+    return total;
+  }
+
+  useEffect(() => {
+    if (!contributions || !players) {
+      return;
+    }
+    setMatchResults(fetchResult(contributions, players));
+    setIsLoading(false);
+  }, [contributions, players]);
+
+  let Page = <LoadingPage />;
+
+  if (!contributions || isLoading) {
+    Page = <LoadingPage />;
+  } else {
+    Page = <Table columns={columns} dataSource={matchResults} />;
+  }
+  return Page;
 };
