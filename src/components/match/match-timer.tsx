@@ -19,7 +19,7 @@ const { Text } = Typography;
 export const MatchTimer: FunctionComponent = () => {
   const { updatePlayer } = playerAPI;
   const [timer, setTimer] = useState<number>(3);
-  const { useContributions, addContribution } = contributionAPI;
+  const { useContributions } = contributionAPI;
   const { updateCoins, coins, playerId, channelId } = useContext(PlayerContext);
   const { contributions } = useContributions(channelId);
 
@@ -29,20 +29,9 @@ export const MatchTimer: FunctionComponent = () => {
     setIsFinished,
     setRound,
     round,
-    selfContribution,
-    setSelfContribution,
   } = useContext(MatchContext);
 
   const nextRound = async () => {
-    await addContribution({
-      round,
-      channelId,
-      playerId,
-      amount: selfContribution,
-    }).then(() => {
-      setSelfContribution(0);
-    });
-
     await updatePlayer({
       docId: playerId,
       coins: coins + roundReward,

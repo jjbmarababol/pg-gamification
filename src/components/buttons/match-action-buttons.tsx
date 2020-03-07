@@ -3,20 +3,28 @@ import { Button, Col, Icon, Row } from 'antd';
 import React, { FunctionComponent, useContext, useState } from 'react';
 
 import { MatchContext, PlayerContext } from '../../contexts';
+import { contributionAPI } from '../../hooks';
 
 export const MatchActionButtons: FunctionComponent = () => {
+  const { addContribution } = contributionAPI;
   const [hasSelected, setHasSelected] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<number>(0);
-  const { setSelfContribution } = useContext(MatchContext);
-  const { updateCoins } = useContext(PlayerContext);
+  const { round } = useContext(MatchContext);
+  const { updateCoins, channelId, playerId } = useContext(PlayerContext);
 
   const selectContribution = async (contrib: number) => {
     await Promise.all([
       setSelectedOption(contrib),
       setHasSelected(true),
       updateCoins(-contrib),
-      setSelfContribution(contrib),
     ]);
+
+    await addContribution({
+      round,
+      channelId,
+      playerId,
+      amount: contrib,
+    });
   };
 
   return (

@@ -32,7 +32,6 @@ export const MatchPage: FunctionComponent = () => {
     round,
     setRound,
     hasStarted,
-    randomizeContribution,
   } = useContext(MatchContext);
   const {
     playerId,
@@ -57,7 +56,6 @@ export const MatchPage: FunctionComponent = () => {
       coins: coins + 10,
     });
     updateCoins(10);
-    randomizeContribution();
     setIsReady(true);
   };
 

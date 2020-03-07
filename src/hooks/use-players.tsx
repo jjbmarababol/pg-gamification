@@ -134,9 +134,6 @@ const updatePlayer = async ({ ...data }) => {
     ...data,
   };
 
-  console.log('player: ', player.coins, player.isReady);
-  console.log('data: ', data.coins, data.isReady);
-  console.log('input: ', coins, isReady);
   return await playerRef.update({
     coins,
     isReady,
