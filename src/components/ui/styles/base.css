@@ -24,6 +24,10 @@ body {
   margin-bottom: 15px;
 }
 
+.no-padding {
+  padding: 10px 0 0 0 !important;
+}
+
 .centered {
   text-align: center;
 }
@@ -57,4 +61,24 @@ body {
   100% {
     background-position: 0% 0%;
   }
+}
+
+
+.ant-lg-btn {
+  height: 60px;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.ant-btn-primary {
+  background: #2856ff;
+  border: none !important;
+  background: linear-gradient(45deg,#2856ff,#18aaff);
+}
+.ant-btn-danger {
+  background: #2856ff;
+  border: none !important;
+  background: linear-gradient(45deg,#ce0000,#ff853e);
 }

@@ -1,36 +1,64 @@
-import { Typography, Row, Col, Button } from "antd";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Col, Row, Typography } from 'antd';
 import React, {
   FunctionComponent,
+  useContext,
   useEffect,
   useState,
-  useContext
-} from "react";
-import { MatchContext, PlayerContext, IContribution } from "../../contexts";
-import { MatchActionButtons } from "../buttons";
-import { RoundReward } from "./round-reward";
-import { RoundResults } from "./round-results";
-import _ from "lodash";
+} from 'react';
 
-interface IMatchTimer {}
+import { defaultMaxRounds, defaultResultTimeout } from '../../constants';
+import { MatchContext, PlayerContext } from '../../contexts';
+import { contributionAPI, playerAPI } from '../../hooks';
+import { MatchActionButtons } from '../buttons';
+import { RoundResults } from './round-results';
+import { RoundReward } from './round-reward';
 
 const { Text } = Typography;
 
-export const MatchTimer: FunctionComponent<IMatchTimer> = props => {
-  const [timer, setTimer] = useState<number>(10);
-  const [roundContributions, setRoundCountributions] = useState<
-    IContribution[]
-  >([]);
-  const { updateCoins } = useContext(PlayerContext);
+export const MatchTimer: FunctionComponent = () => {
+  const { updatePlayer } = playerAPI;
+  const [timer, setTimer] = useState<number>(3);
+  const { useContributions, addContribution } = contributionAPI;
+  const { updateCoins, coins, playerId, channelId } = useContext(PlayerContext);
+  const { contributions } = useContributions(channelId);
+
   const {
     roundReward,
     setHasStarted,
     setIsFinished,
     setRound,
     round,
-    contributions,
-    matchContributions,
-    setMatchContributions
+    selfContribution,
+    setSelfContribution,
   } = useContext(MatchContext);
+
+  const nextRound = async () => {
+    await addContribution({
+      round,
+      channelId,
+      playerId,
+      amount: selfContribution,
+    }).then(() => {
+      setSelfContribution(0);
+    });
+
+    await updatePlayer({
+      docId: playerId,
+      coins: coins + roundReward,
+      isReady: false,
+    });
+
+    // await addtochannel for total contributions
+    console.log(contributions);
+
+    if (round < defaultMaxRounds) {
+      setHasStarted(false);
+      setRound(round + 1);
+    } else if (round === defaultMaxRounds) {
+      setIsFinished(true);
+    }
+  };
 
   useEffect(() => {
     if (timer > 0) {
@@ -41,23 +69,11 @@ export const MatchTimer: FunctionComponent<IMatchTimer> = props => {
 
     if (timer === 0) {
       updateCoins(roundReward);
+      setTimeout(() => {
+        nextRound();
+      }, defaultResultTimeout);
     }
-    // eslint-disable-next-line
   }, [timer, roundReward]);
-
-  useEffect(() => {
-    setRoundCountributions(contributions);
-  }, [contributions]);
-
-  const nextRound = () => {
-    setMatchContributions(_.concat(matchContributions, roundContributions));
-    if (round < 6) {
-      setHasStarted(false);
-      setRound(round + 1);
-    } else if (round === 6) {
-      setIsFinished(true);
-    }
-  };
 
   return (
     <>
@@ -75,20 +91,7 @@ export const MatchTimer: FunctionComponent<IMatchTimer> = props => {
         </Col>
       </Row>
       {timer !== 0 && <MatchActionButtons />}
-      {timer === 0 && (
-        <>
-          <Button
-            className="button--match-action"
-            type="primary"
-            size="large"
-            block
-            onClick={() => nextRound()}
-          >
-            Next Round
-          </Button>
-          <RoundResults />
-        </>
-      )}
+      {timer === 0 && <RoundResults />}
     </>
   );
 };

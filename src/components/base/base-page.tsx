@@ -1,27 +1,27 @@
-import React, { FunctionComponent } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { FunctionComponent } from 'react';
+import { Route, Switch } from 'react-router-dom';
+
 import {
   ChannelsPage,
-  StartMenuPage,
+  MatchPage,
   PlayerNamePage,
-  MatchPage
-} from "../pages";
-import homeBackground from "../ui/images/bg.jpg";
+  StartMenuPage,
+  WaitingPage,
+} from '../pages';
+import homeBackground from '../ui/images/bg.jpg';
 
-interface IBasePage {}
-
-export const BasePage: FunctionComponent<IBasePage> = props => {
+export const BasePage: FunctionComponent = () => {
   return (
     <div
       className="row--moving-background"
       style={{ backgroundImage: `url(${homeBackground})` }}
     >
-      {/* return (<div className='row--moving-background'> */}
       <Switch>
         <Route exact path="/" component={StartMenuPage} />
         <Route exact path="/player-name" component={PlayerNamePage} />
         <Route exact path="/channels" component={ChannelsPage} />
-        <Route exact path="/match" component={MatchPage} />
+        <Route path="/match/:channelId" component={MatchPage} />
+        <Route path="/room/:channelId" component={WaitingPage} />
       </Switch>
     </div>
   );

@@ -1,42 +1,30 @@
-import React, {
-  FunctionComponent,
-  useState,
-  useContext,
-  useEffect
-} from "react";
-import { Button, Icon, Row, Col } from "antd";
-import { MatchContext, PlayerContext } from "../../contexts";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Button, Col, Icon, Row } from 'antd';
+import React, { FunctionComponent, useContext, useState } from 'react';
 
-interface IMatchActionButtons {}
+import { MatchContext, PlayerContext } from '../../contexts';
 
-export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = props => {
+export const MatchActionButtons: FunctionComponent = () => {
   const [hasSelected, setHasSelected] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<number>(0);
-  const { contributions, setContributions } = useContext(MatchContext);
-  const { playerName, updateCoins } = useContext(PlayerContext);
-  const setSelectedContribution = (contribution: number) => {
-    setHasSelected(true);
-    setSelectedOption(contribution);
-  };
+  const { setSelfContribution } = useContext(MatchContext);
+  const { updateCoins } = useContext(PlayerContext);
 
-  useEffect(() => {
-    const requestContributions = contributions.filter(
-      contribution => Object.keys(contribution)[0] !== playerName
-    );
-    setContributions([
-      ...requestContributions,
-      { [playerName]: selectedOption }
+  const selectContribution = async (contrib: number) => {
+    await Promise.all([
+      setSelectedOption(contrib),
+      setHasSelected(true),
+      updateCoins(-contrib),
+      setSelfContribution(contrib),
     ]);
-    updateCoins(-selectedOption);
-    // eslint-disable-next-line
-  }, [selectedOption, playerName]);
+  };
 
   return (
     <Row
       gutter={[20, 0]}
       justify="center"
       align="middle"
-      style={{ marginTop: "15px" }}
+      style={{ marginTop: '15px' }}
     >
       <Col xs={24} sm={12}>
         <Button
@@ -44,11 +32,11 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = props 
           type="primary"
           size="large"
           block
-          onClick={() => setSelectedContribution(10)}
+          onClick={() => selectContribution(10)}
           disabled={hasSelected && selectedOption === 0}
         >
-          <Icon type="check" /> Yes. (&nbsp; -10
-          <Icon type="dollar" />)
+          <Icon type="check" /> Yes.&nbsp;-10
+          <Icon type="copyright" className="icon--gold-coin" />
         </Button>
       </Col>
       <Col xs={24} sm={12}>
@@ -57,10 +45,10 @@ export const MatchActionButtons: FunctionComponent<IMatchActionButtons> = props 
           type="danger"
           size="large"
           block
-          onClick={() => setSelectedContribution(0)}
+          onClick={() => selectContribution(0)}
           disabled={hasSelected && selectedOption === 10}
         >
-          <Icon type="close" /> No, I won't.
+          <Icon type="close" /> No, I won&apos;t.
         </Button>
       </Col>
     </Row>

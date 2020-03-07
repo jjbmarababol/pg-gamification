@@ -1,38 +1,86 @@
-import React, { FunctionComponent, useContext } from "react";
-import { List, Card, Typography } from "antd";
-import { MatchContext, IContribution } from "../../contexts";
+import { Table } from 'antd';
+import _ from 'lodash';
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-const { Text } = Typography;
+import { PlayerContext } from '../../contexts';
+import { Contribution, contributionAPI, Player, playerAPI } from '../../hooks';
+import { LoadingPage } from '../pages';
 
-interface IMatchResults {}
+interface MatchResult {
+  key: string;
+  name: string;
+  contribution: number;
+  coins: number;
+}
+export const MatchResults: FunctionComponent = () => {
+  const { useContributions } = contributionAPI;
+  const { usePlayers } = playerAPI;
+  const { channelId } = useContext(PlayerContext);
+  const { contributions } = useContributions(channelId);
+  const { players } = usePlayers(channelId);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-export const MatchResults: FunctionComponent<IMatchResults> = props => {
-  const { ranking } = useContext(MatchContext);
+  const [matchResults, setMatchResults] = useState<MatchResult[]>([]);
 
-  const player = (object: IContribution) => {
-    return Object.keys(object)[0];
-  };
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      ellipsis: true,
+    },
+    {
+      title: 'Coins',
+      dataIndex: 'coins',
+      key: 'coins',
+      ellipsis: true,
+    },
+    {
+      title: 'Contrib.',
+      dataIndex: 'contribution',
+      key: 'contribution',
+      ellipsis: true,
+    },
+  ];
 
-  return (
-    <Card
-      bordered={false}
-      title="Total Contributions"
-      style={{ marginBottom: "15px" }}
-      className="card--transluscent"
-    >
-      <List
-        itemLayout="horizontal"
-        dataSource={ranking}
-        renderItem={rank => (
-          <List.Item
-            actions={[
-              <Text style={{ fontWeight: "bolder" }}>{player(rank)}</Text>
-            ]}
-          >
-            <List.Item.Meta title={<span>{rank[player(rank)]}</span>} />
-          </List.Item>
-        )}
-      />
-    </Card>
-  );
+  function fetchResult(contributions: Contribution[], matchPlayers: Player[]) {
+    const total = _(contributions)
+      .groupBy('playerId')
+      .map((objs, key) => {
+        const playerDetails = _.find(matchPlayers, function(player) {
+          return player.docId === objs[0].playerId;
+        });
+        return {
+          key,
+          name: playerDetails?.name || key,
+          coins: playerDetails?.coins || 0,
+          contribution: _.sumBy(objs, 'amount'),
+        };
+      })
+      .orderBy('coins', 'desc')
+      .value();
+    return total;
+  }
+
+  useEffect(() => {
+    if (!contributions || !players) {
+      return;
+    }
+    setMatchResults(fetchResult(contributions, players));
+    setIsLoading(false);
+  }, [contributions, players]);
+
+  let Page = <LoadingPage />;
+
+  if (!contributions || isLoading) {
+    Page = <LoadingPage />;
+  } else {
+    Page = <Table columns={columns} dataSource={matchResults} />;
+  }
+  return Page;
 };
