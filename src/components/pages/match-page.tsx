@@ -38,7 +38,7 @@ export const MatchPage: FunctionComponent = () => {
     updateCoins,
     coins,
     setIsReady,
-    isReady,
+    isReady = false,
     setCoins,
   } = useContext(PlayerContext);
   const [players, setPlayers] = useState<Player[]>();
@@ -50,48 +50,57 @@ export const MatchPage: FunctionComponent = () => {
   };
 
   const readyAndStarted = async (): Promise<void> => {
+    setIsReady(true);
     await updatePlayer({
       docId: playerId,
       isReady: true,
       coins: coins + 10,
+    }).then(() => {
+      updateCoins(10);
     });
-    updateCoins(10);
-    setIsReady(true);
   };
 
   useEffect(() => {
-    if (!playerId || !channelId) {
+    if (!playerId) {
       return;
     }
 
     (async (): Promise<void> => {
       const playerData = await getPlayer(playerId);
-      const channelData = await getChannel(channelId);
 
-      if (!playerData || !channelData) {
+      if (!playerData) {
         return;
       }
 
       const { coins, isReady: ready } = playerData;
-      const { hasStarted: starting, currentRound } = channelData;
 
       setCoins(coins);
       setIsReady(ready);
-      setHasStarted(starting);
-      setRound(currentRound);
+    })();
+  }, [isReady, hasStarted]);
 
-      // Promise.all([
-      //   setCoins(coins),
-      //   setIsReady(ready),
-      //   setHasStarted(starting),
-      //   setRound(currentRound),
-      // ]);
+  useEffect(() => {
+    (async () => {
+      if (!channelId) {
+        return;
+      }
+
+      const channelData = await getChannel(channelId);
+
+      if (!channelData) {
+        return;
+      }
+
+      const { hasStarted: starting, currentRound } = channelData;
+
+      setRound(currentRound);
+      setHasStarted(starting);
 
       if (currentRound > defaultMaxRounds) {
         setIsFinished(true);
       }
     })();
-  }, [isReady, hasStarted]);
+  }, [hasStarted]);
 
   useEffect(() => {
     if (!channelPlayers) {

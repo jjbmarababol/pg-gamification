@@ -1,7 +1,6 @@
-import _ from 'lodash';
 import React, { createContext, useEffect, useState } from 'react';
 
-import { defaultMaxPlayers, defaultPoolMultiplier } from '../constants';
+import { defaultMaxPlayers } from '../constants';
 
 export interface MatchState {
   round: number;
@@ -24,16 +23,14 @@ interface MatchContextAPI extends MatchState {
   setHasStarted: (hasStarted: boolean) => void;
   setIsFinished: (isFinished: boolean) => void;
   setPoolAmount: (amount: number) => void;
+  setRoundReward: (amount: number) => void;
+  setTotalAmount: (amount: number) => void;
   setContributions: (contributions: Contribution[]) => void;
   setMatchContributions: (contributions: Contribution[]) => void;
 }
 
 interface MatchContextProps {
   children: React.ReactNode;
-}
-
-interface RoundContribution {
-  [key: number]: number;
 }
 
 export const MatchContext = createContext<MatchContextAPI>({
@@ -51,6 +48,8 @@ export const MatchContext = createContext<MatchContextAPI>({
   setHasStarted: (hasStarted) => ({ hasStarted }),
   setIsFinished: (isFinished) => ({ isFinished }),
   setPoolAmount: (poolAmount) => ({ poolAmount }),
+  setRoundReward: (roundReward) => ({ roundReward }),
+  setTotalAmount: (totalAmount) => ({ totalAmount }),
   setContributions: (contributions) => ({ contributions }),
   setMatchContributions: (matchContributions) => ({ matchContributions }),
 });
@@ -69,33 +68,10 @@ export const Match = (props: MatchContextProps) => {
   const [players] = useState<number>(defaultMaxPlayers);
 
   useEffect(() => {
-    const totalContributions = (contributions: Contribution[]) => {
-      let totalContributions = 0;
-      contributions.forEach((contribution) => {
-        totalContributions += contribution[Object.keys(contribution)[0]];
-      });
-      setPoolAmount(totalContributions);
-    };
-
-    totalContributions(contributions);
-  }, [contributions]);
-
-  useEffect(() => {
     setPoolAmount(0);
     setTotalAmount(0);
     setRoundReward(0);
   }, [round]);
-
-  useEffect(() => {
-    const calcRoundRewards = () => {
-      const totalAmount = poolAmount * defaultPoolMultiplier;
-      const roundReward = _.round(totalAmount / defaultMaxPlayers, 2);
-      setTotalAmount(totalAmount);
-      setRoundReward(roundReward);
-    };
-
-    calcRoundRewards();
-  }, [poolAmount, players]);
 
   const MatchContextAPI: MatchContextAPI = {
     round,
@@ -111,7 +87,9 @@ export const Match = (props: MatchContextProps) => {
     setHasStarted,
     setIsFinished,
     setPoolAmount,
+    setTotalAmount,
     setContributions,
+    setRoundReward,
     setMatchContributions,
   };
 

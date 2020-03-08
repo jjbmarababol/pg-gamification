@@ -21,6 +21,41 @@ const defaultPlayerValues: RawPlayer = {
   profileImage: 'fish-1.svg',
 };
 
+const useReadyPlayers = (id?: string) => {
+  const channelId = id ? id : '';
+  const [players, setPlayers] = useState<number>(0);
+
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection('players')
+      .where('channelId', '==', channelId)
+      .where('isReady', '==', true)
+      .orderBy('name')
+      .onSnapshot((snapshot) => {
+        const allPlayers = snapshot.docs.map((player) => {
+          const { name, channelId } = player.data();
+          return {
+            ...defaultPlayerValues,
+            name,
+            channelId,
+            docId: player.id,
+          };
+        });
+
+        if (JSON.stringify(allPlayers) !== JSON.stringify(players)) {
+          setPlayers(allPlayers.length);
+        }
+      });
+
+    return () => {
+      unsubscribe();
+    };
+  });
+
+  return players;
+};
+
 const usePlayers = (id?: string) => {
   const channelId = id ? id : '';
   const [players, setPlayers] = useState<Player[]>();
@@ -143,6 +178,7 @@ const updatePlayer = async ({ ...data }) => {
 export const playerAPI = {
   usePlayers,
   deletePlayer,
+  useReadyPlayers,
   updatePlayer,
   addPlayer,
   getPlayer,
