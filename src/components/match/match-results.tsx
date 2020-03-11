@@ -58,7 +58,7 @@ export const MatchResults: FunctionComponent = () => {
         return {
           key,
           name: playerDetails?.name || key,
-          coins: playerDetails?.coins || 0,
+          coins: _.round(playerDetails?.coins || 0, 2),
           contribution: _.sumBy(objs, 'amount'),
         };
       })

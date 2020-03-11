@@ -26,7 +26,7 @@ export const RoundResults: FunctionComponent = () => {
     },
     {
       description: 'You received',
-      value: roundReward,
+      value: _.round(roundReward, 2),
     },
   ];
 

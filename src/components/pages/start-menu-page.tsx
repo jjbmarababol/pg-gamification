@@ -2,7 +2,7 @@ import { Button, Col, Icon, Row, Typography } from 'antd';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
-import companyLogo from '../ui/images/money.png';
+import companyLogo from '../ui/images/logo.png';
 
 const { Title } = Typography;
 

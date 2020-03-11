@@ -166,7 +166,7 @@ export const MatchPage: FunctionComponent = () => {
                             marginTop: 0,
                           }}
                         >
-                          {coins}{' '}
+                          {_.round(coins, 2)}{' '}
                           <Avatar
                             icon="copyright"
                             size="large"
