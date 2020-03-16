@@ -6,7 +6,6 @@ const defaultChannelValues: Channel = {
   hasStarted: false,
   currentRound: 1,
   players: [],
-  totalPooledAmount: [],
 };
 
 export const defaultChannels: Channel[] = [
@@ -20,49 +19,49 @@ export const defaultChannels: Channel[] = [
     name: 'Blue Shark',
     docId: 'blue-shark',
   },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Crab',
-  //   docId: 'crab'
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Dolphin',
-  //   docId: 'dolphin',
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Eel',
-  //   docId: 'eel',
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Flounder',
-  //   docId: 'flounder',
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Great White Shark',
-  //   docId: 'great-white-shark'
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Humpback Whale',
-  //   docId: 'humpback-whale'
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Isopod',
-  //   docId: 'isopod',
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Jellyfish',
-  //   docId: 'jellyfish'
-  // },
-  // {
-  //   ...defaultChannelValues,
-  //   name: 'Killer Whaile',
-  //   docId: 'killer-whale'
-  // },
+  {
+    ...defaultChannelValues,
+    name: 'Crab',
+    docId: 'crab',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Dolphin',
+    docId: 'dolphin',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Eel',
+    docId: 'eel',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Flounder',
+    docId: 'flounder',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Great White Shark',
+    docId: 'great-white-shark',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Humpback Whale',
+    docId: 'humpback-whale',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Isopod',
+    docId: 'isopod',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Jellyfish',
+    docId: 'jellyfish',
+  },
+  {
+    ...defaultChannelValues,
+    name: 'Killer Whaile',
+    docId: 'killer-whale',
+  },
 ];

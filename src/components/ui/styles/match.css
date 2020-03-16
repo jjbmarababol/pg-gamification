@@ -11,7 +11,7 @@
   display: block;
   text-align: center;
   font-weight: lighter;
-  line-height: 70px;
+  line-height: 35px;
   font-size: 50px;
   padding: 20px 0;
 }
@@ -59,4 +59,40 @@
 
 .ant-table-pagination.ant-pagination {
   padding-right: 20px;
+}
+
+/* NEXT ROUND */
+.round--counter.text--timer{
+  line-height: 35px;
+  letter-spacing: -5px;
+}
+
+.round--current-money {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.round--instructions {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+
+}
+
+/* CONCLUSION */
+.conclusion-circle {
+  display: inline-flex;
+  font-size: 15px;
+  line-height: 24px;
+  color: white;
+  background-color: cornflowerblue;
+  min-height: 250px;
+  /* margin: 0 5px; */
+  max-width: 235px;
+  text-align: center;
+  border-radius: 360px;
+  padding: 40px;
 }

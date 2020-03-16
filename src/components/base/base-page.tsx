@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import {
   ChannelsPage,
+  ConcludingPage,
   MatchPage,
   PlayerNamePage,
   StartMenuPage,
@@ -20,6 +21,7 @@ export const BasePage: FunctionComponent = () => {
         <Route exact path="/" component={StartMenuPage} />
         <Route exact path="/player-name" component={PlayerNamePage} />
         <Route exact path="/channels" component={ChannelsPage} />
+        <Route exact path="/lesson" component={ConcludingPage} />
         <Route path="/match/:channelId" component={MatchPage} />
         <Route path="/room/:channelId" component={WaitingPage} />
       </Switch>

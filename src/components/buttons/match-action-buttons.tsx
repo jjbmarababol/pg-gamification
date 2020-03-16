@@ -3,20 +3,23 @@ import { Button, Col, Icon, Row } from 'antd';
 import React, { FunctionComponent, useContext, useState } from 'react';
 
 import { MatchContext, PlayerContext } from '../../contexts';
+import { contributionAPI } from '../../hooks';
 
 export const MatchActionButtons: FunctionComponent = () => {
+  const { addContribution } = contributionAPI;
   const [hasSelected, setHasSelected] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<number>(0);
-  const { setSelfContribution } = useContext(MatchContext);
-  const { updateCoins } = useContext(PlayerContext);
+  const { round } = useContext(MatchContext);
+  const { updateCoins, channelId, playerId } = useContext(PlayerContext);
 
   const selectContribution = async (contrib: number) => {
-    await Promise.all([
-      setSelectedOption(contrib),
-      setHasSelected(true),
-      updateCoins(-contrib),
-      setSelfContribution(contrib),
-    ]);
+    setHasSelected(true);
+    updateCoins(-contrib);
+    await addContribution({
+      round,
+      channelId,
+      playerId,
+      amount: contrib,
+    });
   };
 
   return (
@@ -33,7 +36,7 @@ export const MatchActionButtons: FunctionComponent = () => {
           size="large"
           block
           onClick={() => selectContribution(10)}
-          disabled={hasSelected && selectedOption === 0}
+          disabled={hasSelected}
         >
           <Icon type="check" /> Yes.&nbsp;-10
           <Icon type="copyright" className="icon--gold-coin" />
@@ -46,7 +49,7 @@ export const MatchActionButtons: FunctionComponent = () => {
           size="large"
           block
           onClick={() => selectContribution(0)}
-          disabled={hasSelected && selectedOption === 10}
+          disabled={hasSelected}
         >
           <Icon type="close" /> No, I won&apos;t.
         </Button>

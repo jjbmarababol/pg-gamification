@@ -9,7 +9,11 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { defaultMaxPlayers, defaultMaxRounds } from '../../constants';
+import {
+  defaultMaxPlayers,
+  defaultMaxRounds,
+  roundInstructions,
+} from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
 import { channelAPI, Player, playerAPI } from '../../hooks';
 import { MatchResults, MatchTimer } from '../match';
@@ -32,14 +36,13 @@ export const MatchPage: FunctionComponent = () => {
     round,
     setRound,
     hasStarted,
-    randomizeContribution,
   } = useContext(MatchContext);
   const {
     playerId,
     updateCoins,
     coins,
     setIsReady,
-    isReady,
+    isReady = false,
     setCoins,
   } = useContext(PlayerContext);
   const [players, setPlayers] = useState<Player[]>();
@@ -51,49 +54,57 @@ export const MatchPage: FunctionComponent = () => {
   };
 
   const readyAndStarted = async (): Promise<void> => {
+    setIsReady(true);
     await updatePlayer({
       docId: playerId,
       isReady: true,
       coins: coins + 10,
+    }).then(() => {
+      updateCoins(10);
     });
-    updateCoins(10);
-    randomizeContribution();
-    setIsReady(true);
   };
 
   useEffect(() => {
-    if (!playerId || !channelId) {
+    if (!playerId) {
       return;
     }
 
     (async (): Promise<void> => {
       const playerData = await getPlayer(playerId);
-      const channelData = await getChannel(channelId);
 
-      if (!playerData || !channelData) {
+      if (!playerData) {
         return;
       }
 
       const { coins, isReady: ready } = playerData;
-      const { hasStarted: starting, currentRound } = channelData;
 
       setCoins(coins);
       setIsReady(ready);
-      setHasStarted(starting);
-      setRound(currentRound);
+    })();
+  }, [isReady, hasStarted]);
 
-      // Promise.all([
-      //   setCoins(coins),
-      //   setIsReady(ready),
-      //   setHasStarted(starting),
-      //   setRound(currentRound),
-      // ]);
+  useEffect(() => {
+    (async () => {
+      if (!channelId) {
+        return;
+      }
+
+      const channelData = await getChannel(channelId);
+
+      if (!channelData) {
+        return;
+      }
+
+      const { hasStarted: starting, currentRound } = channelData;
+
+      setRound(currentRound);
+      setHasStarted(starting);
 
       if (currentRound > defaultMaxRounds) {
         setIsFinished(true);
       }
     })();
-  }, [isReady, hasStarted]);
+  }, [hasStarted]);
 
   useEffect(() => {
     if (!channelPlayers) {
@@ -143,13 +154,10 @@ export const MatchPage: FunctionComponent = () => {
                   <Col span={20} lg={12}>
                     <Row type="flex" justify="center" align="middle">
                       <Col xs={22} md={16} className="card--transluscent">
-                        <Text
-                          className="text--timer"
-                          style={{ letterSpacing: '-5px' }}
-                        >
+                        <Text className="round--counter text--timer">
                           Round {round}
                         </Text>
-                        <Text style={{ display: 'block', textAlign: 'center' }}>
+                        <Text className="round--current-money">
                           You currently have
                         </Text>
                         <Title
@@ -159,7 +167,7 @@ export const MatchPage: FunctionComponent = () => {
                             marginTop: 0,
                           }}
                         >
-                          {coins}{' '}
+                          {_.round(coins, 2)}{' '}
                           <Avatar
                             icon="copyright"
                             size="large"
@@ -183,6 +191,17 @@ export const MatchPage: FunctionComponent = () => {
                         </Button>
                       </Col>
                     </Row>
+                    {roundInstructions[round - 1] && (
+                      <Row type="flex" justify="center" align="middle">
+                        <Col
+                          xs={22}
+                          md={16}
+                          className="card--transluscent round--instructions"
+                        >
+                          {roundInstructions[round - 1].text}
+                        </Col>
+                      </Row>
+                    )}
                   </Col>
                 </>
               )}

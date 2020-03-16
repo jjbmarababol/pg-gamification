@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Col, Row, Typography } from 'antd';
+import _ from 'lodash';
 import React, {
   FunctionComponent,
   useContext,
@@ -7,9 +8,14 @@ import React, {
   useState,
 } from 'react';
 
-import { defaultMaxRounds, defaultResultTimeout } from '../../constants';
+import {
+  defaultMaxPlayers,
+  defaultMaxRounds,
+  defaultPoolMultiplier,
+  defaultResultTimeout,
+} from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
-import { contributionAPI, playerAPI } from '../../hooks';
+import { Contribution, contributionAPI, playerAPI } from '../../hooks';
 import { MatchActionButtons } from '../buttons';
 import { RoundResults } from './round-results';
 import { RoundReward } from './round-reward';
@@ -18,39 +24,40 @@ const { Text } = Typography;
 
 export const MatchTimer: FunctionComponent = () => {
   const { updatePlayer } = playerAPI;
-  const [timer, setTimer] = useState<number>(3);
-  const { useContributions, addContribution } = contributionAPI;
+  const [timer, setTimer] = useState<number>(10);
+  const { useContributions } = contributionAPI;
   const { updateCoins, coins, playerId, channelId } = useContext(PlayerContext);
-  const { contributions } = useContributions(channelId);
-
   const {
     roundReward,
     setHasStarted,
     setIsFinished,
     setRound,
+    setPoolAmount,
+    setTotalAmount,
+    setRoundReward,
     round,
-    selfContribution,
-    setSelfContribution,
   } = useContext(MatchContext);
+  const { contributions } = useContributions(channelId, round);
+
+  const computeRewards = (contributions: Contribution[]) => {
+    const poolAmount = _.sumBy(contributions, 'amount');
+    setPoolAmount(poolAmount);
+
+    const totalAmount = poolAmount * defaultPoolMultiplier;
+    setTotalAmount(totalAmount);
+
+    const roundReward = totalAmount / defaultMaxPlayers;
+    setRoundReward(roundReward);
+  };
 
   const nextRound = async () => {
-    await addContribution({
-      round,
-      channelId,
-      playerId,
-      amount: selfContribution,
-    }).then(() => {
-      setSelfContribution(0);
-    });
-
     await updatePlayer({
       docId: playerId,
       coins: coins + roundReward,
       isReady: false,
+    }).then(() => {
+      updateCoins(roundReward);
     });
-
-    // await addtochannel for total contributions
-    console.log(contributions);
 
     if (round < defaultMaxRounds) {
       setHasStarted(false);
@@ -68,12 +75,17 @@ export const MatchTimer: FunctionComponent = () => {
     }
 
     if (timer === 0) {
-      updateCoins(roundReward);
+      if (!contributions) {
+        return;
+      }
+
+      computeRewards(contributions);
+
       setTimeout(() => {
         nextRound();
       }, defaultResultTimeout);
     }
-  }, [timer, roundReward]);
+  }, [timer, roundReward, contributions]);
 
   return (
     <>

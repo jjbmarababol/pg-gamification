@@ -12,7 +12,6 @@ export interface RawChannel {
   name: string;
   currentRound: number;
   hasStarted: boolean;
-  totalPooledAmount: PooledAmount[];
   players: string[];
 }
 
@@ -24,7 +23,6 @@ const defaultChannelValues: RawChannel = {
   name: '',
   currentRound: 1,
   hasStarted: false,
-  totalPooledAmount: [],
   players: [],
 };
 
@@ -37,20 +35,11 @@ const useChannels = () => {
       .orderBy('name')
       .onSnapshot((snapshot) => {
         const allChannels = snapshot.docs.map((channel) => {
-          const {
-            name,
-            currentRound,
-            hasStarted,
-            players,
-            totalPooledAmount,
-          } = channel.data();
+          const { name, players } = channel.data();
           return {
             ...defaultChannelValues,
             name,
-            currentRound,
-            hasStarted,
             players,
-            totalPooledAmount,
             docId: channel.id,
           };
         });
@@ -112,7 +101,7 @@ const updateChannel = async ({ ...data }) => {
     return;
   }
 
-  const { currentRound, hasStarted, totalPooledAmount } = {
+  const { currentRound, hasStarted } = {
     ...defaultChannelValues,
     ...channel,
     ...data,
@@ -121,7 +110,6 @@ const updateChannel = async ({ ...data }) => {
   return await channelRef.update({
     currentRound,
     hasStarted,
-    totalPooledAmount,
   });
 };
 

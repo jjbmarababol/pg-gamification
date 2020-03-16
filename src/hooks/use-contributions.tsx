@@ -20,35 +20,36 @@ const defaultContributionValues: RawContribution = {
   playerId: '',
 };
 
-const useContributions = (id?: string) => {
+const useContributions = (id?: string, round?: number) => {
   const channelId = id ? id : '';
   const [contributions, setContributions] = useState<Contribution[]>();
 
   useEffect(() => {
-    const unsubscribe = firebase
+    const base = firebase
       .firestore()
       .collection('contributions')
-      .where('channelId', '==', channelId)
-      .orderBy('round')
-      .onSnapshot((snapshot) => {
-        const allContributions = snapshot.docs.map((contribution) => {
-          const { round, channelId, playerId, amount } = contribution.data();
-          return {
-            ...defaultContributionValues,
-            round,
-            amount,
-            channelId,
-            playerId,
-            docId: contribution.id,
-          };
-        });
+      .where('channelId', '==', channelId);
 
-        if (
-          JSON.stringify(allContributions) !== JSON.stringify(contributions)
-        ) {
-          setContributions(allContributions);
-        }
+    const unsubscribe = (round
+      ? base.where('round', '==', round)
+      : base
+    ).onSnapshot((snapshot) => {
+      const allContributions = snapshot.docs.map((contribution) => {
+        const { round, channelId, playerId, amount } = contribution.data();
+        return {
+          ...defaultContributionValues,
+          round,
+          amount,
+          channelId,
+          playerId,
+          docId: contribution.id,
+        };
       });
+
+      if (JSON.stringify(allContributions) !== JSON.stringify(contributions)) {
+        setContributions(allContributions);
+      }
+    });
 
     return () => {
       unsubscribe();

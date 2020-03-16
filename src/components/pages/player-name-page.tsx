@@ -1,4 +1,4 @@
-import { Button, Col, Icon, Input, notification, Row, Typography } from 'antd';
+import { Button, Col, Icon, Input, Row, Typography } from 'antd';
 import _ from 'lodash';
 import React, {
   ChangeEvent,
@@ -18,14 +18,13 @@ type PlayerNamePage = RouteComponentProps;
 
 export const PlayerNamePage: FunctionComponent<PlayerNamePage> = (props) => {
   const { history } = props;
-  const { addPlayer, usePlayers } = playerAPI;
+  const { addPlayer } = playerAPI;
   const {
     playerName,
     setPlayerName,
     setPlayerId,
     setProfileImage,
   } = useContext(PlayerContext);
-  const { players } = usePlayers();
   const [player, setPlayer] = useState<string>(playerName);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -34,20 +33,11 @@ export const PlayerNamePage: FunctionComponent<PlayerNamePage> = (props) => {
   };
 
   const savePlayer = (playerName: string) => {
-    if (!players || !playerName.length) {
+    if (!playerName.length) {
       return;
     }
     setIsLoading(true);
     const profileImage = `fish-${_.random(1, 6)}.svg`;
-
-    const existingPlayers = players.map((player) => player.name);
-    if (existingPlayers.includes(playerName)) {
-      setIsLoading(false);
-      return notification.error({
-        message: 'Player Creation Failed',
-        description: 'Name already exists, please try another name instead.',
-      });
-    }
 
     setPlayerName(playerName);
     setProfileImage(profileImage);
@@ -59,10 +49,10 @@ export const PlayerNamePage: FunctionComponent<PlayerNamePage> = (props) => {
     });
   };
 
-  let Page: JSX.Element = <></>;
-
-  if (players) {
-    Page = (
+  if (isLoading) {
+    return <LoadingPage />;
+  } else {
+    return (
       <Row
         className="row--moving-background"
         type="flex"
@@ -110,9 +100,4 @@ export const PlayerNamePage: FunctionComponent<PlayerNamePage> = (props) => {
       </Row>
     );
   }
-  if (!players || isLoading) {
-    Page = <LoadingPage />;
-  }
-
-  return Page;
 };

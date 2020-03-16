@@ -1,4 +1,5 @@
 import { Avatar, Col, Row, Typography } from 'antd';
+import _ from 'lodash';
 import React, { FunctionComponent, useContext } from 'react';
 
 import { PlayerContext } from '../../contexts';
@@ -18,10 +19,18 @@ export const Navbar: FunctionComponent = () => {
           justify="center"
         >
           <Col span={12}>
-            <Avatar src={require(`../ui/images/profile/${profileImage}`)} />
+            <Avatar
+              src={require(`../ui/images/profile/${profileImage}`)}
+              style={{ position: 'relative', top: -10 }}
+            />
             <Text
               className="navbar--player-name text--ellipses"
-              style={{ lineHeight: '26px', position: 'relative', top: 6 }}
+              style={{
+                fontSize: 20,
+                lineHeight: '45px',
+                position: 'relative',
+                top: 5,
+              }}
             >
               {playerName}
             </Text>
@@ -34,9 +43,15 @@ export const Navbar: FunctionComponent = () => {
             />
             <Text
               className="navbar--player-name text--ellipses"
-              style={{ lineHeight: '26px', position: 'relative', top: 6 }}
+              style={{
+                lineHeight: '32px',
+                position: 'relative',
+                top: 9,
+                fontWeight: 'bolder',
+                color: '#ffd500',
+              }}
             >
-              {coins}
+              {_.round(coins, 2)}
             </Text>
           </Col>
         </Row>
