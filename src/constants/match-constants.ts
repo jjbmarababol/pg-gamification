@@ -1,9 +1,8 @@
-export const defaultMaxPlayers = 1;
+export const defaultMaxPlayers = 3;
 
 export const defaultMaxRounds = 6;
 
-export const defaultResultTimeout = 4000;
-// export const defaultResultTimeout = 40000;
+export const defaultResultTimeout = 40000;
 
 export const defaultPoolMultiplier = 2;
 

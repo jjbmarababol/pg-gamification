@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import _ from 'lodash';
 import React, {
   FunctionComponent,
@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { Link } from 'react-router-dom';
 
 import { PlayerContext } from '../../contexts';
 import { Contribution, contributionAPI, Player, playerAPI } from '../../hooks';
@@ -80,7 +81,16 @@ export const MatchResults: FunctionComponent = () => {
   if (!contributions || isLoading) {
     Page = <LoadingPage />;
   } else {
-    Page = <Table columns={columns} dataSource={matchResults} />;
+    Page = (
+      <>
+        <Table columns={columns} dataSource={matchResults} />
+        <Link to="/lesson">
+          <Button type="primary" size="large" block>
+            See lesson of the game
+          </Button>
+        </Link>
+      </>
+    );
   }
   return Page;
 };
