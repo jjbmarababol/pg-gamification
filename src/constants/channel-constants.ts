@@ -6,7 +6,6 @@ const defaultChannelValues: Channel = {
   hasStarted: false,
   currentRound: 1,
   players: [],
-  totalPooledAmount: [],
 };
 
 export const defaultChannels: Channel[] = [

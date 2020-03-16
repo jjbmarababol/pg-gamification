@@ -9,7 +9,11 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { defaultMaxPlayers, defaultMaxRounds } from '../../constants';
+import {
+  defaultMaxPlayers,
+  defaultMaxRounds,
+  roundInstructions,
+} from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
 import { channelAPI, Player, playerAPI } from '../../hooks';
 import { MatchResults, MatchTimer } from '../match';
@@ -150,13 +154,10 @@ export const MatchPage: FunctionComponent = () => {
                   <Col span={20} lg={12}>
                     <Row type="flex" justify="center" align="middle">
                       <Col xs={22} md={16} className="card--transluscent">
-                        <Text
-                          className="text--timer"
-                          style={{ letterSpacing: '-5px' }}
-                        >
+                        <Text className="round--counter text--timer">
                           Round {round}
                         </Text>
-                        <Text style={{ display: 'block', textAlign: 'center' }}>
+                        <Text className="round--current-money">
                           You currently have
                         </Text>
                         <Title
@@ -190,6 +191,17 @@ export const MatchPage: FunctionComponent = () => {
                         </Button>
                       </Col>
                     </Row>
+                    {roundInstructions[round - 1] && (
+                      <Row type="flex" justify="center" align="middle">
+                        <Col
+                          xs={22}
+                          md={16}
+                          className="card--transluscent round--instructions"
+                        >
+                          {roundInstructions[round - 1].text}
+                        </Col>
+                      </Row>
+                    )}
                   </Col>
                 </>
               )}
