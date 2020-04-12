@@ -13,19 +13,19 @@ export const RoundResults: FunctionComponent = () => {
 
   const data = [
     {
-      description: 'Round',
+      description: 'Round #',
       value: round,
     },
     {
-      description: 'Pool Amount',
+      description: 'Pool Amount (Total contributions x 2)',
       value: poolAmount,
     },
     {
-      description: 'Total Amount',
+      description: 'Share-out Received (Pool amount  / # of players)',
       value: totalAmount,
     },
     {
-      description: 'You received',
+      description: 'Total Earnings',
       value: _.round(roundReward, 2),
     },
   ];
