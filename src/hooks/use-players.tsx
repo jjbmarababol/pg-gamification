@@ -175,9 +175,25 @@ const updatePlayer = async ({ ...data }) => {
   });
 };
 
+const clearChannelPlayers = async (channelId: string) => {
+  const batch = firebase.firestore().batch();
+  const contributions = await firebase
+    .firestore()
+    .collection('players')
+    .where('channelId', '==', channelId)
+    .get();
+
+  contributions.forEach((doc) => {
+    batch.delete(doc.ref);
+  });
+
+  return await batch.commit();
+};
+
 export const playerAPI = {
   usePlayers,
   deletePlayer,
+  clearChannelPlayers,
   useReadyPlayers,
   updatePlayer,
   addPlayer,

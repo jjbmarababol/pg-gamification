@@ -12,6 +12,7 @@ export interface RawChannel {
   name: string;
   currentRound: number;
   hasStarted: boolean;
+  population: number;
   players: string[];
 }
 
@@ -23,6 +24,7 @@ const defaultChannelValues: RawChannel = {
   name: '',
   currentRound: 1,
   hasStarted: false,
+  population: 1,
   players: [],
 };
 
@@ -35,11 +37,12 @@ const useChannels = () => {
       .orderBy('name')
       .onSnapshot((snapshot) => {
         const allChannels = snapshot.docs.map((channel) => {
-          const { name, players } = channel.data();
+          const { name, players, population } = channel.data();
           return {
             ...defaultChannelValues,
             name,
             players,
+            population,
             docId: channel.id,
           };
         });
@@ -61,9 +64,13 @@ const addChannels = async () => {
   const batch = db.batch();
 
   defaultChannels.forEach((channel) => {
-    const { name, docId, hasStarted, currentRound } = channel;
+    const { name, docId, hasStarted, currentRound, population } = channel;
     const docRef = db.collection('channels').doc(docId);
-    batch.set(docRef, { name, hasStarted, currentRound }, { merge: true });
+    batch.set(
+      docRef,
+      { name, hasStarted, currentRound, population },
+      { merge: true },
+    );
   });
 
   return await batch.commit();
@@ -101,15 +108,33 @@ const updateChannel = async ({ ...data }) => {
     return;
   }
 
-  const { currentRound, hasStarted } = {
+  const { currentRound, hasStarted, population, players } = {
     ...defaultChannelValues,
     ...channel,
     ...data,
   };
 
+  console.log(players);
   return await channelRef.update({
     currentRound,
     hasStarted,
+    players,
+    population,
+  });
+};
+
+const resetChannel = async (docId: string) => {
+  updateChannel({
+    docId,
+    player: [''],
+    hasStarted: false,
+  });
+  const channelRef = firebase
+    .firestore()
+    .collection('channels')
+    .doc(docId);
+  await channelRef.update({
+    players: [],
   });
 };
 
@@ -131,6 +156,7 @@ export const channelAPI = {
   useChannels,
   getChannel,
   addChannels,
+  resetChannel,
   updateChannel,
   leaveChannel,
   joinChannel,

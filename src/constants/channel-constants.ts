@@ -5,6 +5,7 @@ const defaultChannelValues: Channel = {
   docId: '',
   hasStarted: false,
   currentRound: 1,
+  population: 1,
   players: [],
 };
 
