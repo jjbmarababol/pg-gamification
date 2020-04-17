@@ -108,9 +108,25 @@ const deleteContribution = async (contributionId: string) => {
     });
 };
 
+const clearChannelContributions = async (channelId: string) => {
+  const batch = firebase.firestore().batch();
+  const contributions = await firebase
+    .firestore()
+    .collection('contributions')
+    .where('channelId', '==', channelId)
+    .get();
+
+  contributions.forEach((doc) => {
+    batch.delete(doc.ref);
+  });
+
+  return await batch.commit();
+};
+
 export const contributionAPI = {
   useContributions,
   addContribution,
   getContributionsByPlayer,
+  clearChannelContributions,
   deleteContribution,
 };
