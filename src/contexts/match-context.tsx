@@ -1,12 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { defaultMaxPlayers } from '../constants';
-
 export interface MatchState {
   round: number;
   hasStarted: boolean;
   isFinished: boolean;
-  players: number;
+  population: number;
   poolAmount: number;
   totalAmount: number;
   roundReward: number;
@@ -23,6 +21,7 @@ interface MatchContextAPI extends MatchState {
   setHasStarted: (hasStarted: boolean) => void;
   setIsFinished: (isFinished: boolean) => void;
   setPoolAmount: (amount: number) => void;
+  setPopulation: (population: number) => void;
   setRoundReward: (amount: number) => void;
   setTotalAmount: (amount: number) => void;
   setContributions: (contributions: Contribution[]) => void;
@@ -37,7 +36,7 @@ export const MatchContext = createContext<MatchContextAPI>({
   round: 0,
   hasStarted: false,
   isFinished: false,
-  players: defaultMaxPlayers,
+  population: 2,
   poolAmount: 0,
   totalAmount: 0,
   roundReward: 0,
@@ -48,6 +47,7 @@ export const MatchContext = createContext<MatchContextAPI>({
   setHasStarted: (hasStarted) => ({ hasStarted }),
   setIsFinished: (isFinished) => ({ isFinished }),
   setPoolAmount: (poolAmount) => ({ poolAmount }),
+  setPopulation: (population) => ({ population }),
   setRoundReward: (roundReward) => ({ roundReward }),
   setTotalAmount: (totalAmount) => ({ totalAmount }),
   setContributions: (contributions) => ({ contributions }),
@@ -65,7 +65,7 @@ export const Match = (props: MatchContextProps) => {
   );
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [roundReward, setRoundReward] = useState<number>(0);
-  const [players] = useState<number>(defaultMaxPlayers);
+  const [population, setPopulation] = useState<number>(2);
 
   useEffect(() => {
     setPoolAmount(0);
@@ -77,7 +77,7 @@ export const Match = (props: MatchContextProps) => {
     round,
     hasStarted,
     isFinished,
-    players,
+    population,
     poolAmount,
     totalAmount,
     roundReward,
@@ -87,6 +87,7 @@ export const Match = (props: MatchContextProps) => {
     setHasStarted,
     setIsFinished,
     setPoolAmount,
+    setPopulation,
     setTotalAmount,
     setContributions,
     setRoundReward,

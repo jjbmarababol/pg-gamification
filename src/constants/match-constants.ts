@@ -1,4 +1,4 @@
-export const defaultMaxPlayers = 3;
+export const defaultMaxPlayers = 2;
 
 export const defaultMaxRounds = 6;
 

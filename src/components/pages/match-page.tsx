@@ -9,11 +9,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import {
-  defaultMaxPlayers,
-  defaultMaxRounds,
-  roundInstructions,
-} from '../../constants';
+import { defaultMaxRounds, roundInstructions } from '../../constants';
 import { MatchContext, PlayerContext } from '../../contexts';
 import { channelAPI, Player, playerAPI } from '../../hooks';
 import { MatchResults, MatchTimer } from '../match';
@@ -36,6 +32,7 @@ export const MatchPage: FunctionComponent = () => {
     round,
     setRound,
     hasStarted,
+    population,
   } = useContext(MatchContext);
   const {
     playerId,
@@ -113,7 +110,7 @@ export const MatchPage: FunctionComponent = () => {
     setPlayers(channelPlayers);
     const readyPlayers = countReady(channelPlayers);
 
-    if (readyPlayers === defaultMaxPlayers) {
+    if (readyPlayers === population) {
       (async () => {
         await updateChannel({ docId: channelId, hasStarted: true });
         setHasStarted(true);
@@ -186,7 +183,7 @@ export const MatchPage: FunctionComponent = () => {
                           {isReady
                             ? `${countReady(
                                 players,
-                              )}/${defaultMaxPlayers} players are ready`
+                              )}/${population} players are ready`
                             : 'Ready'}
                         </Button>
                       </Col>

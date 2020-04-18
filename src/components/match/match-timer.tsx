@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 
 import {
-  defaultMaxPlayers,
   defaultMaxRounds,
   defaultPoolMultiplier,
   defaultResultTimeout,
@@ -29,6 +28,7 @@ export const MatchTimer: FunctionComponent = () => {
   const { updateCoins, coins, playerId, channelId } = useContext(PlayerContext);
   const {
     roundReward,
+    population,
     setHasStarted,
     setIsFinished,
     setRound,
@@ -46,7 +46,7 @@ export const MatchTimer: FunctionComponent = () => {
     const totalAmount = poolAmount * defaultPoolMultiplier;
     setTotalAmount(totalAmount);
 
-    const roundReward = totalAmount / defaultMaxPlayers;
+    const roundReward = totalAmount / population;
     setRoundReward(roundReward);
   };
 
