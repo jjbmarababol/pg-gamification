@@ -1,14 +1,8 @@
 import { Button, Card, Col, List, Row } from 'antd';
 import _ from 'lodash';
-import React, {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { defaultMaxPlayers } from '../../constants';
 import { PlayerContext } from '../../contexts';
 import { channelAPI } from '../../hooks';
 import { LoadingPage } from '../pages';
@@ -17,19 +11,10 @@ type MatchResults = RouteComponentProps;
 
 export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
   const { history } = props;
-  const { addChannels, joinChannel, useChannels } = channelAPI;
+  const { joinChannel, useChannels } = channelAPI;
   const { channels } = useChannels();
   const { playerId, setChannelId } = useContext(PlayerContext);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      await addChannels();
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    })();
-  }, [addChannels]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const selectChannel = async (channelId: string) => {
     if (!channels || playerId.length === 0) {
@@ -72,10 +57,10 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
                         {_.isUndefined(channel.players)
                           ? 0
                           : channel.players.length}
-                        / {defaultMaxPlayers}
+                        / {channel.population}
                       </div>
                       {(channel.players ? channel.players.length : 0) <
-                        defaultMaxPlayers && (
+                        channel.population && (
                         <Button
                           type="primary"
                           onClick={() => selectChannel(channel.docId)}

@@ -128,6 +128,7 @@ const resetChannel = async (docId: string) => {
     docId,
     player: [''],
     hasStarted: false,
+    currentRound: 1,
   });
   const channelRef = firebase
     .firestore()

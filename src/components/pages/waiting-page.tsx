@@ -8,9 +8,8 @@ import React, {
 } from 'react';
 import { Link, RouteComponentProps, useParams } from 'react-router-dom';
 
-import { defaultMaxPlayers } from '../../constants';
-import { PlayerContext } from '../../contexts';
-import { playerAPI } from '../../hooks';
+import { MatchContext, PlayerContext } from '../../contexts';
+import { channelAPI, playerAPI } from '../../hooks';
 import { LoadingPage } from './loading-page';
 
 type WaitingPageProps = RouteComponentProps;
@@ -18,20 +17,38 @@ type WaitingPageProps = RouteComponentProps;
 export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
   const { channelId } = useParams();
   const { usePlayers } = playerAPI;
+  const { population, setPopulation } = useContext(MatchContext);
   const { players } = usePlayers(channelId);
 
   const { playerId } = useContext(PlayerContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const { getChannel } = channelAPI;
+
+  useEffect(() => {
+    if (!channelId) {
+      return;
+    }
+
+    (async () => {
+      const channelData = await getChannel(channelId);
+
+      if (!channelData) {
+        return;
+      }
+      const { population: channelPopulation } = channelData;
+
+      setPopulation(channelPopulation);
+    })();
+  }, [channelId, setPopulation, getChannel]);
+
   const createTitle = (): string => {
     const status =
-      players?.length === defaultMaxPlayers
-        ? 'Game Ready!'
-        : 'Waiting for players..';
+      players?.length === population ? 'Game Ready!' : 'Waiting for players..';
 
     const playerCount = `${
       _.isUndefined(players) ? 0 : players.length
-    }/${defaultMaxPlayers}`;
+    }/${population}`;
 
     return `${playerCount} ${status} `;
   };
@@ -91,7 +108,7 @@ export const WaitingPage: FunctionComponent<WaitingPageProps> = () => {
               )}
             />
           </Card>
-          {players.length === defaultMaxPlayers && (
+          {players.length === population && (
             <Link to={`/match/${channelId}`}>
               <Button type="primary" size="large" icon="heart" block>
                 Enter
