@@ -65,16 +65,6 @@ export const ChannelForm: FunctionComponent<ChannelFormProps> = (props) => {
         </div>
       </div>
       <Button
-        type="primary"
-        icon="enter"
-        size="large"
-        // onClick={async () => await resetChannelValues(channel.name)}
-        style={{ marginBottom: '15px' }}
-        block
-      >
-        Next Round
-      </Button>
-      <Button
         type="danger"
         icon="trash"
         size="large"

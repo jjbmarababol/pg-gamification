@@ -2,14 +2,13 @@ import { Card, List, Typography } from 'antd';
 import _ from 'lodash';
 import React, { FunctionComponent, useContext } from 'react';
 
-import { MatchContext } from '../../contexts';
+import { MatchContext, PlayerContext } from '../../contexts';
 
 const { Text } = Typography;
 
 export const RoundResults: FunctionComponent = () => {
-  const { round, poolAmount, totalAmount, roundReward } = useContext(
-    MatchContext,
-  );
+  const { coins } = useContext(PlayerContext);
+  const { round, totalAmount, roundReward } = useContext(MatchContext);
 
   const data = [
     {
@@ -18,15 +17,15 @@ export const RoundResults: FunctionComponent = () => {
     },
     {
       description: 'Pool Amount (Total contributions x 2)',
-      value: poolAmount,
-    },
-    {
-      description: 'Share-out Received (Pool amount  / # of players)',
       value: totalAmount,
     },
     {
-      description: 'Total Earnings',
+      description: 'Share-out Received (Pool amount  / # of players)',
       value: _.round(roundReward, 2),
+    },
+    {
+      description: 'Total Earnings',
+      value: _.round(roundReward + coins, 2),
     },
   ];
 
