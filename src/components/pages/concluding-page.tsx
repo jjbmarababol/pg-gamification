@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Typography } from 'antd';
+import { Button, Card, Col, Icon, Row, Typography } from 'antd';
 import React, { FunctionComponent, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -25,9 +25,7 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
         <>
           <Col xs={20} md={10}>
             <Card style={{ margin: '35px 0 15px' }}>
-              <Title level={4}>
-                Let’s look at the math and see which works best
-              </Title>
+              <Title level={4}>Therefore:</Title>
               {conclustionDescription.map((description, idx) => (
                 <SummaryList
                   key={idx}
@@ -52,16 +50,179 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
         <>
           <Col xs={20} md={10}>
             <Card style={{ margin: '35px 0 15px' }}>
-              <Title level={4}>
-                Let’s look at the math and see which works best
+              <Title level={3} style={{ textAlign: 'center' }}>
+                Imagine if 8 out of 10 contribute
               </Title>
-              {summaryDescription.map((description, idx) => (
-                <SummaryList
-                  key={idx}
-                  header={description.header}
-                  items={description.items}
+              <div style={{ display: 'flex' }}>
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
                 />
-              ))}
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+              </div>
+              <div style={{ display: 'flex' }}>
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#F44336' }}
+                  type="user-delete"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#F44336' }}
+                  type="user-delete"
+                />
+              </div>
+              <div>
+                <Title
+                  level={4}
+                  style={{ textAlign: 'center', marginTop: '15px' }}
+                >
+                  = 80 x 2 = 160/ 10 players = 16 + whatever amount they have
+                  kept{' '}
+                </Title>
+              </div>
+              <div>
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user"
+                />{' '}
+                <span style={{ fontSize: '25px' }}>only has 16 coins</span>
+                <br />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#F44336' }}
+                  type="user"
+                />{' '}
+                <span style={{ fontSize: '25px' }}>has 26 coins</span>
+              </div>
+              <div>
+                <Title
+                  level={3}
+                  style={{
+                    textAlign: 'center',
+                    marginTop: '15px',
+                    color: '#F44336',
+                  }}
+                >
+                  Cooperators get less than the free-riders
+                </Title>
+              </div>
+            </Card>
+
+            <Card style={{ margin: '35px 0 15px' }}>
+              <Title level={3} style={{ textAlign: 'center' }}>
+                Imagine if everyone contributes
+              </Title>
+              <div style={{ display: 'flex' }}>
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+              </div>
+              <div style={{ display: 'flex' }}>
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+                <Icon
+                  theme="outlined"
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  type="user-add"
+                />
+              </div>
+              <div>
+                <Title
+                  level={4}
+                  style={{ textAlign: 'center', marginTop: '15px' }}
+                >
+                  = 100 x 2 = 200/ 10 players = 20 Payoff{' '}
+                </Title>
+              </div>
+              <div>
+                <Title
+                  level={3}
+                  style={{
+                    textAlign: 'center',
+                    marginTop: '15px',
+                    color: '#52c41a',
+                  }}
+                >
+                  PAYOFF = 20
+                </Title>
+              </div>
             </Card>
 
             <Button
