@@ -32,9 +32,20 @@ export const StartMenuPage: FunctionComponent = () => {
             Public Goods Game
           </Title>
           <Link to="player-name">
-            <Button type="primary" size="large" block>
+            <Button
+              type="primary"
+              size="large"
+              block
+              style={{ marginBottom: '15px' }}
+            >
               <Icon type="heart" />
               Game Start
+            </Button>
+          </Link>
+          <Link to="admin">
+            <Button type="default" size="large" block>
+              <Icon type="user" />
+              Enter as Administrator
             </Button>
           </Link>
         </div>
