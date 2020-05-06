@@ -7,6 +7,7 @@ const defaultChannelValues: Channel = {
   currentRound: 1,
   population: 2,
   players: [],
+  status: false,
 };
 
 export const defaultChannels: Channel[] = [

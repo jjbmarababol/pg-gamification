@@ -1,5 +1,5 @@
-import { Button, InputNumber, notification } from 'antd';
-import React, { FunctionComponent, useState } from 'react';
+import { Button, InputNumber, notification, Switch } from 'antd';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { Channel, channelAPI, contributionAPI, playerAPI } from '../../hooks';
 
@@ -15,10 +15,17 @@ function getBaseNumber(e: string | number): string {
 
 export const ChannelForm: FunctionComponent<ChannelFormProps> = (props) => {
   const { channel } = props;
-  const { updateChannel, resetChannel } = channelAPI;
+  const { updateChannel, resetChannel, updateChannelStatus } = channelAPI;
   const { clearChannelContributions } = contributionAPI;
   const { clearChannelPlayers } = playerAPI;
   const [population, setPopulation] = useState<number>(channel.population || 1);
+  const [status, setStatus] = useState<boolean>(channel.status);
+
+  useEffect(() => {
+    (async () => {
+      setStatus(channel.status);
+    })();
+  }, [channel.status]);
 
   const resetChannelValues = async (docId: string, channelName: string) => {
     await Promise.all([
@@ -31,6 +38,13 @@ export const ChannelForm: FunctionComponent<ChannelFormProps> = (props) => {
         description: `The channel ${channelName} has been reset successfully.`,
       });
     });
+  };
+
+  const changeChannelStatus = async (checked: boolean) => {
+    if (checked !== channel.status) {
+      setStatus(checked);
+      await updateChannelStatus(channel.docId, checked);
+    }
   };
 
   return (
@@ -75,6 +89,15 @@ export const ChannelForm: FunctionComponent<ChannelFormProps> = (props) => {
       >
         Reset Channel
       </Button>
+      <div style={{ margin: '20px 0 5px' }}>
+        <label>Channel Status: </label>
+        <Switch
+          checked={status}
+          checkedChildren="Active"
+          unCheckedChildren="Inactive"
+          onChange={changeChannelStatus}
+        />
+      </div>
     </>
   );
 };

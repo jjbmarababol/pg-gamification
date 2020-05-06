@@ -49,37 +49,41 @@ export const ChannelsPage: FunctionComponent<MatchResults> = (props) => {
             <List
               itemLayout="horizontal"
               dataSource={channels}
-              renderItem={(channel) => (
-                <List.Item
-                  actions={[
-                    <>
-                      <div className="channel__members">
-                        {_.isUndefined(channel.players)
-                          ? 0
-                          : channel.players.length}
-                        / {channel.population}
-                      </div>
-                      {(channel.players ? channel.players.length : 0) <
-                        channel.population && (
-                        <Button
-                          type="primary"
-                          onClick={() => selectChannel(channel.docId)}
-                        >
-                          Enter
-                        </Button>
-                      )}
-                    </>,
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={
-                      <span style={{ fontWeight: 'bolder' }}>
-                        {channel.name}
-                      </span>
-                    }
-                  />
-                </List.Item>
-              )}
+              renderItem={(channel) => {
+                if (channel.status === true) {
+                  return (
+                    <List.Item
+                      actions={[
+                        <>
+                          <div className="channel__members">
+                            {_.isUndefined(channel.players)
+                              ? 0
+                              : channel.players.length}
+                            / {channel.population}
+                          </div>
+                          {(channel.players ? channel.players.length : 0) <
+                            channel.population && (
+                            <Button
+                              type="primary"
+                              onClick={() => selectChannel(channel.docId)}
+                            >
+                              Enter
+                            </Button>
+                          )}
+                        </>,
+                      ]}
+                    >
+                      <List.Item.Meta
+                        title={
+                          <span style={{ fontWeight: 'bolder' }}>
+                            {channel.name}
+                          </span>
+                        }
+                      />
+                    </List.Item>
+                  );
+                } else return <></>;
+              }}
             />
           </Card>
         </Col>
