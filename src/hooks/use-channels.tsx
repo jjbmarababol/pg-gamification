@@ -14,6 +14,7 @@ export interface RawChannel {
   hasStarted: boolean;
   population: number;
   players: string[];
+  status: boolean;
 }
 
 export interface Channel extends RawChannel {
@@ -26,6 +27,7 @@ const defaultChannelValues: RawChannel = {
   hasStarted: false,
   population: 1,
   players: [],
+  status: false,
 };
 
 const useChannels = () => {
@@ -37,13 +39,14 @@ const useChannels = () => {
       .orderBy('name')
       .onSnapshot((snapshot) => {
         const allChannels = snapshot.docs.map((channel) => {
-          const { name, players, population } = channel.data();
+          const { name, players, population, status } = channel.data();
           return {
             ...defaultChannelValues,
             name,
             players,
             population,
             docId: channel.id,
+            status,
           };
         });
         if (JSON.stringify(allChannels) !== JSON.stringify(channels)) {
@@ -64,11 +67,18 @@ const addChannels = async () => {
   const batch = db.batch();
 
   defaultChannels.forEach((channel) => {
-    const { name, docId, hasStarted, currentRound, population } = channel;
+    const {
+      name,
+      docId,
+      hasStarted,
+      currentRound,
+      population,
+      status,
+    } = channel;
     const docRef = db.collection('channels').doc(docId);
     batch.set(
       docRef,
-      { name, hasStarted, currentRound, population },
+      { name, hasStarted, currentRound, population, status },
       { merge: true },
     );
   });
@@ -114,7 +124,6 @@ const updateChannel = async ({ ...data }) => {
     ...data,
   };
 
-  console.log(players);
   return await channelRef.update({
     currentRound,
     hasStarted,
@@ -124,18 +133,24 @@ const updateChannel = async ({ ...data }) => {
 };
 
 const resetChannel = async (docId: string) => {
-  updateChannel({
-    docId,
-    player: [''],
-    hasStarted: false,
-    currentRound: 1,
-  });
   const channelRef = firebase
     .firestore()
     .collection('channels')
     .doc(docId);
   await channelRef.update({
+    currentRound: 1,
     players: [],
+    hasStarted: false,
+  });
+};
+
+const updateChannelStatus = async (docId: string, status: boolean) => {
+  const channelRef = firebase
+    .firestore()
+    .collection('channels')
+    .doc(docId);
+  await channelRef.update({
+    status,
   });
 };
 
@@ -161,4 +176,5 @@ export const channelAPI = {
   updateChannel,
   leaveChannel,
   joinChannel,
+  updateChannelStatus,
 };
