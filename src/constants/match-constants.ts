@@ -12,7 +12,7 @@ export const roundInstructions = [
   { round: 3, text: 'For this round, no talking is allowed.' },
   {
     round: 4,
-    text: 'In this round, the team will have 2 minutes to talk and strategize',
+    text: 'In this round, the group will have 2 minutes to talk and strategize',
   },
   {
     round: 5,
@@ -22,6 +22,6 @@ export const roundInstructions = [
   {
     round: 6,
     text:
-      'In this round, 2 members of each team will publicly declare how much their contribution will be for this round.',
+      'In this round, 2 members of each group will say how much their contribution will be for this round.',
   },
 ];

@@ -56,54 +56,54 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
               <div style={{ display: 'flex' }}>
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
               </div>
               <div style={{ display: 'flex' }}>
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#F44336' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#F58233' }}
                   type="user-delete"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#F44336' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#F58233' }}
                   type="user-delete"
                 />
               </div>
@@ -119,14 +119,14 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
               <div>
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user"
                 />{' '}
                 <span style={{ fontSize: '25px' }}>only has 16 coins</span>
                 <br />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#F44336' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#F58233' }}
                   type="user"
                 />{' '}
                 <span style={{ fontSize: '25px' }}>has 26 coins</span>
@@ -137,7 +137,7 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
                   style={{
                     textAlign: 'center',
                     marginTop: '15px',
-                    color: '#F44336',
+                    color: '#F58233',
                   }}
                 >
                   Cooperators get less than the free-riders
@@ -152,54 +152,54 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
               <div style={{ display: 'flex' }}>
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
               </div>
               <div style={{ display: 'flex' }}>
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
                 <Icon
                   theme="outlined"
-                  style={{ fontSize: '40px', flexGrow: 1, color: '#52c41a' }}
+                  style={{ fontSize: '40px', flexGrow: 1, color: '#005BBB' }}
                   type="user-add"
                 />
               </div>
@@ -217,7 +217,7 @@ export const ConcludingPage: FunctionComponent<RouteComponentProps> = (
                   style={{
                     textAlign: 'center',
                     marginTop: '15px',
-                    color: '#52c41a',
+                    color: '#005BBB',
                   }}
                 >
                   PAYOFF = 20
